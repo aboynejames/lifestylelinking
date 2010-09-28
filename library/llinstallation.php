@@ -1,3 +1,9 @@
 <?php
 
+class llinstallation
+{
+	
+	
+}
+
 ?>

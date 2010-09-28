@@ -1,29 +1,24 @@
 <?php
+	class LLDisplay 
+	{
+
+	// handles connection between context
 
 
-class display 
-{
+	// build menus and navigition
 
-// handles connection between context
+	// presentation templates
 
-
-// build menus and navigition
-
-// presentation templates
-
-// themes
+	// themes
 
 
-
-
-
-
-
-
-}  // closes class
+	// context ll, definitions, time, media, display, device, portability
 
 
 
 
 
+
+
+	}  // closes class
 ?>
