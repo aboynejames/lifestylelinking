@@ -68,19 +68,15 @@
 		// average of averages
 		public function calculateLLAvgOfAvg()
 		{
-		
+			// Take code from old core/logic/melife.php
+			// Use arrays instead of database
 		}
 
 		// calc melife
 		public function calculateLLNormalisation()
 		{
-		
-		}
-
-		// peergroups (maybe a different class for variations)
-		public function buildLLGroups()
-		{
-		
+			// Take code from old core/logic/melife.php
+			// Use arrays instead of database
 		}
 	}  // closes llcore class
 
