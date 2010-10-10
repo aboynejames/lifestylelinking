@@ -1,61 +1,78 @@
 <?php
-	require_once 'lldatacleanser.php';
-
+	
 	class LLCore {
 	
-		protected $postWords; // array of words from content
+		protected $cleanContent; // array of words from content
 		protected $cleanDefinition; // cleaned version of Wiki definiton
-		protected $cleanContent; // cleand version of content (e.g. blogposts)
-	
-		// populate the index array from a string of text
-		// TODO: Define to the world the format of the postWords array
-		public function populateArray($arrayOfWords)
+    
+    
+   public function __construct($dataDefinition, $dataContent)
 		{
-			// TODO: Check that postWords is in the correct format
+			$this->cleanDefinition = $dataDefinition;
+      $this->cleanContent = $dataContent;
+		} 
+    
 		
-			$this->postWords = $arrayOfWords;
-		}
+    public function LLcoremanager()
+    {
+    // utility function to 
+    // has information to tag data with so the right combintation of path through core is captured and recorded.
+   // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
+    
+    
+    } // closes function
 
-		// build the definitions from the wikipedia description
-		// defintions and those to be scored
-		public function buildDefinitions($subject)
+
+	public function createDefinitions()
 		{
 			// Note: use arrays and not database
 			
 			// Call the Wikipedia API for URL for $subject
 			
 			// Create a LLDataCleanser object
-			$dataCleaner = new LLDataCleanser($wikipediaDefinition);
+      $dataWisdom = new LLwordWisdom($this->cleanDefinition);
 			
 			// Clean the data
-			$dataCleaner->clean();
+			$dataWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->cleanDefinition = $dataCleaner->cleanedData();
+			$this->wiseDefinition = $dataWisdom->wiseWords();
 		}
 	
+
+		
+
 		// tidy data, excluded words (need to crowd source these via confusion )
-		public function cleanseData()
+		public function createContent()
 		{
 			// Note: use arrays and not database
 			
 			// Create a LLDataCleanser object
-			$dataCleaner = new LLDataCleanser($this->postWords);
+			$dataContentWisdom = new LLwordWisdom($this->cleanContent);
 			
 			// Clean the data
-			$dataCleaner->clean();
+			$dataContentWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->cleanContent = $dataCleaner->cleanedData();
+			$this->wiseContent = $dataContentWisdom->wiseWords();
 		}
 	
-		public function createLLMatrix()
+
+    public function createLLMatrix()
 		{
 			// score matrix
 			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
 			
 			// Take code from old core/logic/scorematrix.php
 			// Use arrays instead of database
+      
+      $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent); 
+      
+      // start matrix
+      $newmatrix->startLLmatrix();
+      $this->matrix = $newmatrix->matrixComplete();
+      //print_r($this->matrix);
+
 		}
 
 		// cal stats
@@ -63,6 +80,11 @@
 		{
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
+    
+      
+      $newstats = new LLstatistics($this->matrix);
+      
+      
 		}
 	
 		// average of averages
@@ -70,6 +92,8 @@
 		{
 			// Take code from old core/logic/melife.php
 			// Use arrays instead of database
+      
+      
 		}
 
 		// calc melife
@@ -77,7 +101,26 @@
 		{
 			// Take code from old core/logic/melife.php
 			// Use arrays instead of database
+      
+      
 		}
+
+
+		// calc melife
+		public function calculateLLgroups()
+		{
+			// Take code from old core/logic/social.php and pre ie social folder two files
+			// Use arrays instead of database
+      // order list of identities by LLorder based on each definition
+      
+      
+		}
+
+// all ingredients formed.  data (array in right form) should be handed over to LLresults-> LLdisplay
+
+
+
+    
 	}  // closes llcore class
 
 ?>

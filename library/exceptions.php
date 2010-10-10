@@ -1,7 +1,7 @@
 <?php
 
 
-class expectionhandling 
+class LLexception extends Exception
 {
   
   
