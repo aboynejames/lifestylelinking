@@ -35,6 +35,26 @@ require_once "library/logic/llmatrix.php";
  */
 require_once "library/logic/llstatistics.php";
 
+/**
+ * @see LLcore class
+ */
+require_once "library/logic/llavgofavg.php";
+
+/**
+ * @see LLcore class
+ */
+require_once "library/logic/llnormalization.php";
+
+/**
+ * @see LLcore class
+ */
+require_once "library/logic/llgroups.php";
+
+/**
+ * @see LLcore class
+ */
+require_once "library/logic/llresults.php";
+
 
 /**
  * @see LLcore class

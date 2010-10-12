@@ -83,7 +83,7 @@ class LLwordWisdom
   	public function wiseWords()
 		{
       // loadup exlcluded works if not alreadyloaded
-      print_r($this->wiseData);
+      //print_r($this->wiseData);
       return $this->wiseData;
   
     } 

@@ -41,12 +41,12 @@
 
 
                   $lifewordsarrays = array_slice($lifewordsarray, 0, $seg);
-                  print_r($lifewordsarrays);
+                  //print_r($lifewordsarrays);
 
-                  echo "<br />newwww<br />";
-                  print_r($this->wordsarray[1]);
+                  //echo "<br />newwww<br />";
+                  //print_r($this->wordsarray[1]);
                   $aa3 = array_intersect_key( $lifewordsarrays, $this->wordsarray[1]);
-                  print_r($aa3);
+                  //print_r($aa3);
 
                               if (count($aa3) > 0 )
                               {

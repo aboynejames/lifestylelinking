@@ -53,12 +53,58 @@ $llnew->createLLMatrix();
 echo '<br /><br />';
 $llnew->calculateLLStats();
 
+// Perform Normalization (first create average of average ->per definition)
+// first establish average of averages for the definitions
+$llnew->calculateLLAvgOfAvg();
 
-// LL display designs
+// normalize distances each identity is from a avgofavg for a definition
+$llnew->calculateLLNormalisation();
+
+// Self form LL groups
+$llnew->calculateLLgroups();
+
+// results time-context
+$llnew->calculateLLresults();
+
+
+echo '<br /><br />';
+print_r($llnew);
+
+/*
+echo '<br /><br />';
+echo "Class: " . get_class($llnew);
+echo '<br /><br />';
+echo "Parent class: " . get_parent_class(get_class($llnew)); 
+echo '<br /><br />';
+// get class name
+$className = get_class($llnew);
+echo '<br /><br />';
+
+// get class properties
+echo "Class properties: ";
+print_r(get_class_vars($className));
+echo '<br /><br />';
+
+// get class methods
+echo " Class methods: ";
+print_r(get_class_methods($className));
+echo '<br /><br />';
+
+// get this instance's properties
+echo " Instance properties: ";
+//print_r(get_object_vars($llnew)); 
+echo '<br /><br />';
+*/
+
+
+// LL display design
+
 
 // user interacts -> feedback loop (what is feedback mechnism, outcomes?
 
+
 // all the LLdiscovery engine finding new collective intelligence for the world.
+
 
 }  // closes try
 
