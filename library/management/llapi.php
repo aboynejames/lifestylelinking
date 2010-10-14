@@ -9,11 +9,11 @@ class apimanagement
 // for each api, offer a plugin ie with basic framework code or as a service e.g..third party website/service e.g. janrainIDlogin, FBconnect, pubhubsub, superfeedr, firehose of data etc.
 
 		protected $apiStart; // array of api status ie. whic api and whether install or third party
-    
+    protected $apiSetup;
     
    public function __construct($apiSetup)
 		{
-			$this->apiStart = $apiSteup;
+			$this->apiStart = $apiSetup;
 		} 
     
 

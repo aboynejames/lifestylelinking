@@ -64,6 +64,12 @@ require_once "library/logic/llresults.php";
 /**
  * @see LLcore class
  */
+require_once "library/management/llapi.php";
+
+
+/**
+ * @see LLcore class
+ */
 require_once "library/management/lldatacleanser.php";
 
 

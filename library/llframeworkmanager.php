@@ -8,11 +8,14 @@ class LLframeworkmanager
   //  we need to know 1. data state, string, array, tidy undity. 2. is it definition or post words 3.  how many of each 10 blog posts and 3 wikipedia definition
   
 		protected $frameworkSetup; // install or default settings for framework
+    protected $definitionStart;  // input from individual
+    protected $defSet;
+    protected $contSet;
     
-    
-   public function __construct($inputSetup)
+   public function __construct($inputSetup, $definitionwords)
 		{
 			$this->frameworkSetup = $inputSetup;
+      $this->definitionStart = $definitionwords;
  		} 
     
 
@@ -42,7 +45,7 @@ class LLframeworkmanager
       // to be used by definition and indentity content
       // pair up e.g. wikipedia api to definition id (where possible RDF URI dpedia in this case
       // pair content to api in e.g. feedreader, that will produce id but will be unique to each installation, need convert to RFD or identity service or build parser to match same identity
-
+    }
  
   
       // or special case  starting defintions from wikipedia,  built in api or  as a service (from somewhere, mepath might provide)
@@ -50,50 +53,69 @@ class LLframeworkmanager
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
-      $newdef = new LLdefinitions;
-      //$newdef->defwikiword = 'skiing';
-      
-     // one or more defintions?
-     foreach (   as $indef)
-     {
-      // identifies definition, assign identity, first time or update  
+      $newdef = new LLdefinitions();
+      $newdef->definitionWord($this->definitionStart);
       $newdef->definitionManager();
-      
-      $newdef->definitionWord($indef);
-      $newdef->buildDefinitions();
-      //print_r($newdef);
-      //echo '<br /><br />';
-      } // closes foreach loop
-
-
-
+      $newdef->startNewdefinition();
+      $this->defSet = $newdef->cleanedDefinition();
+      //print_r($this->defSet);
      }
    
-  
-    
-   
+     
       public function contentControl()
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
-
-      // 2nd core data - extract input content   api manager identifies type e.g. rss blog -> feedreader -> raw data obtained.
-      $inputdata[] = file_get_contents('C:\apache\htdocs\llcore\text\skiing.txt');
-      //echo $inputdata;
       
       $newdata = new LLcontent(); 
       // new content to be processed?
-      foreach($inputdata as $indata)
-      {
-      
       $newdata->contentData($indata);
-      $newdata->buildContent();
-      
-      }
-      //print_r($newdata);
+      $newdata->contentManager();
+      $newdata->startNewcontent();
+      $this->contSet = $newdata->cleanedContent();
+      //print_r($newdata->cleanContent);
     }
 
-    // start LLcore from here?
+    // LLcore goes to play
+      public function controlCore()
+		{
+    
+    $llnew = new LLCore($this->defSet, $this->contSet);
+    //$llnew->populateArray; 
+    //print_r($llnew);
+    
+    $llnew->LLcoremanager();
+    print_r($llnew);
+      
+    }
+
+      /*
+      //  time to enter the matrix
+      echo '<br /><br />';
+      $llnew->createLLMatrix();
+
+      // calculate statistics
+      echo '<br /><br />';
+      $llnew->calculateLLStats();
+
+      // Perform Normalization (first create average of average ->per definition)
+      // first establish average of averages for the definitions
+      $llnew->calculateLLAvgOfAvg();
+
+      // normalize distances each identity is from a avgofavg for a definition
+      $llnew->calculateLLNormalisation();
+
+      // Self form LL groups
+      $llnew->calculateLLgroups();
+
+      // results time-context
+      $llnew->calculateLLresults();
+
+
+      echo '<br /><br />';
+      print_r($llnew);
+      */
+
 
  
 }  // closes class

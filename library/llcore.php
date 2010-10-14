@@ -22,44 +22,57 @@
     {
     // utility function to 
     // has information to tag data with so the right combintation of path through core is captured and recorded.
-   // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
+    // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
+   
+    // make wise Definitions
+    foreach ($this->cleanDefinition as $defid=>$defWords) 
+    {
     
+    $this->createDefinitions($defid, $defWords);
+    
+    }
+    
+    // made wise Content
+    foreach ($this->cleanContent as $contid=>$contWords)
+    {
+   
+    $this->createContent($contid, $contWords);
+    
+    }
     
     } // closes function
 
 
-	public function createDefinitions()
+	public function createDefinitions($defid, $defWords)
 		{
 			// Note: use arrays and not database
 			
 			// Call the Wikipedia API for URL for $subject
 			
 			// Create a LLDataCleanser object
-      $dataWisdom = new LLwordWisdom($this->cleanDefinition);
+      $dataWisdom = new LLwordWisdom($defWords);
 			
 			// Clean the data
 			$dataWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->wiseDefinition = $dataWisdom->wiseWords();
+			$this->wiseDefinition[$defid] = $dataWisdom->wiseWords();
 		}
 	
-
-		
-
+  
 		// tidy data, excluded words (need to crowd source these via confusion )
-		public function createContent()
+		public function createContent($contid, $contWords)
 		{
 			// Note: use arrays and not database
 			
 			// Create a LLDataCleanser object
-			$dataContentWisdom = new LLwordWisdom($this->cleanContent);
+			$dataContentWisdom = new LLwordWisdom($contWords);
 			
 			// Clean the data
 			$dataContentWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->wiseContent = $dataContentWisdom->wiseWords();
+			$this->wiseContent[$contid] = $dataContentWisdom->wiseWords();
 		}
 	
 
