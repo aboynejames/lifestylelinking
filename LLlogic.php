@@ -8,6 +8,11 @@ require_once "library/exceptions.php";
 /**
  * @see LLcore class
  */
+require_once "library/llframeworkmanager.php";
+
+/**
+ * @see LLcore class
+ */
 require_once "library/llcore.php";
 
 /**

@@ -74,7 +74,7 @@ class LLwordWisdom
 		public function loadExcludewords()
 		{
       // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
-     $sourcelist = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/excludewords.txt');
+     $sourcelist = file_get_contents('C:\apache\htdocs\llcore\text\excludewords.txt');
      $this->excludewords = explode(",", $sourcelist);
       
     }   

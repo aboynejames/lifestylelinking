@@ -28,7 +28,7 @@ $newdef->buildDefinitions();
 //echo '<br /><br />';
 
 // 2nd core data - extract input content   api manager identifies type e.g. rss blog -> feedreader -> raw data obtained.
-$inputdata = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiing.txt');
+$inputdata = file_get_contents('C:\apache\htdocs\llcore\text\skiing.txt');
 //echo $inputdata;
 $newdata = new LLcontent();
 $newdata->contentData($inputdata);

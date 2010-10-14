@@ -4,9 +4,21 @@ class LLdefinitions
 {
 
      protected $defwikiword;  // the unique word for a page on wikipedia 
+
+
+    public function definitionManager()
+		{
+			// If a new definition is being added then attach a new definition identity to it (no.1 + linked data url e.g. dpedia
+      //  also someday, defintions will be update i.e. crowd sourced from LL community rather than wikipedia, or no. of words in list today 50 eventually all words ever used online.
+		
+			  
+      
+		}
+
+
+
      
-     
-     		public function definitionWord($defstart)
+    public function definitionWord($defstart)
 		{
 			// TODO: Check that postWords is in the correct format
 		
@@ -25,7 +37,7 @@ class LLdefinitions
       // use the wikipedia class
 			//$lifeobj = new Wikipedia();
       //$lifeobj->getpage($this->$defwikiword, $revid=null);
-      $lifeobj = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiingwikip.txt');
+      $lifeobj = file_get_contents('C:\apache\htdocs\llcore\text\skiingwikip.txt');
       //print_r($lifeobj);
       
       
