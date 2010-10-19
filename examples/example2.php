@@ -10,33 +10,38 @@ require_once 'llcore/library/'.$className.'.php';
 
 } */
 
-// EXAMPLE 2.  Introduced 2 different identities of content and 2 definitions
+// EXAMPLE 2.  Introduced 1 individual with 2 different content posts content and 2 definitions
 
 try{
 
 // settings from install or defaults in controlpanel
+$individual = array('0'=>'1');
 $startSetup = array('0' => 'wikipedia', '1' => 'rssFeedreader');
 // input from UI, installation or control panel defaults
 $definitionsSet = array('0' => 'skiing', '1' => 'swimming');
+$contentSet = array('0' => '1', '1' => '2');
 
 // 1. LLframeworkmanager set to life inputs, identity content & definitions
-$newframework = new LLframeworkmanager($startSetup, $definitionsSet);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
+$newframework = new LLframeworkmanager($individual, $startSetup, $definitionsSet, $contentSet);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
 
 // capture settings from install or current defaults
 $newframework->apiStatus();
 
 // Defintions, first time add, update, identity
 $newframework->definitionControl($definitionsSet);
+//$newframework->definitionWord($definitionsSet)
 
 // content from the universe
 // input from rssfeeders or third party api service
-$contentSet = array('0' => '1', '1' => '2');
 $newframework->contentControl($contentSet);
 
-//print_r($newframework);
 
 // 2-- transfer data to core
 $newframework->controlCore();
+
+echo 'FrameWork';
+print_r($newframework);
+
 
 /*
 

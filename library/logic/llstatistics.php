@@ -16,23 +16,74 @@ class LLstatistics
     public function __construct($matrix)
 		{
     // new data 
-      // temporary hack to add identity
-      $addidentity[1] = $matrix;
-      $this->statsarray = $addidentity;
-      //print_r($this->statsarray);
-     // need to pull in existing matrix for this identity-def combition 
+      $this->statsarray = $matrix;
+      print_r($this->statsarray);
+  	}
+
+
+    public function statisticsManager() 
+    {
+    // feeds startLLmatrix with input arrays per definition
+   
+    // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions, this should be smarter to save un-nessary scoring.
+    // data should be picked up from framework object
+    $indid = 1; 
+    $defids = array('0'=>'1', '1'=>'2');
+    $conSet = array('0' => '1', '1' => '2');
+          
+          $votes = $this->formScorearray ($indid, $defids, $conSet);
+          
+          //foreach($indid as $inid)
+          //{
+
+                foreach ($defids as $did)
+                {
+                //echo 'defid='.$did.'andcid='.$cid;
+                $this->statcalulator($indid, $did, $votes);
+                
+                }
+            
+          //}
+    }
+
+
+    public function formScorearray ($indid, $defids, $conSet)
+    {
+//echo 'form';
+//print_r($this->statsarray[1][1][1][scoring][50]);
+          foreach($conSet as $pid)
+          {
+          
+                foreach($defids as $did)
+                {
+                //echo 'pid'.$pid;
+                //echo 'difid'.$did;
+                //echo 'indiv'.$indid;
+                //print_r($this->statsarray[$indid][$pid][$did][scoring][50]);
+                $top50[$indid][$did][$pid] = $this->statsarray[$indid][$pid][$did][scoring][50];
+                $topmatch[$indid][$did][$pid] = $this->statsarray[$indid][$pid][$did][matched][1];
+                //print_r($top50);
+                }
+                
+          }
+//print_r($top50);
+//print_r($topmatch);
       
-      $this->statcalulator($this->statsarray);
-		}
+     $statinput[0] = $top50;
+     $statinput[1] = $topmatch;
+     //print_r($statinput);
+      return $statinput;
+
+    }
 
 
 
-    public function  statcalulator ($startstats)
+    public function  statcalulator ($inid, $did, $votes)
     {
 
     $gotdata = '';
 
-    $gotdata = count($startstats[1]);
+    $gotdata = count($this->statsarray[$inid]);
    
               if ($gotdata  > 0 )  {
 
@@ -44,22 +95,18 @@ class LLstatistics
                         $scavg = '';
 
                         // total number of post for this identity
-                        $meavcount = count($startstats[1]);
+                        $meavcount = count($votes[0][$inid]);
                         //echo $meavcount.'count';
                         
-                        // accumulated scoring votes for all content from a source identity   
-                        $meavsum = array_sum($startstats[1][1][scoring][50]);
-                        // need to pickout all scoring50 foreach content entry-> form array and count that
-                        //print_r($startstats[1][1][scoring][50]);
-                        $meavsum = $startstats[1][1][scoring][50];
+                        //print_r($this->statsarray[$indid][$did][scoring][50]);
+                        // accumulated scoring votes for all content from a source identity  
+                        // first need to form array of just the top50 votes for an individual id ie. all the content posts for this source
+                        $meavsum = array_sum($votes[0][$inid][$did]);
                         //echo $meavsum.'sum';
                         
                         // calculate number of posts that have scored for a defintion
-                        //$meavscpos = array();
+                        $meavscposcou = count($votes[0][$inid]);
                         // user array above to count no. of content posts that have scored.
-
-                        $meavscposcou = count($startstats[1][1][scoring][50]);
-                        $meavscposcou = 1;
                         //echo $meavscposcou.'scocount';
 
                                   if ($meavscposcou > 0 )  {
@@ -77,7 +124,7 @@ class LLstatistics
                                   }
 
                                 // calculate the content posts that have the top words scored.
-                                $meavtpm = array();
+                                $meavtpm = array_sum($votes[1][$inid][$did]);
                                 // find no. topmatches
                                 //  to do form array of topmatches and count from it
                                 
@@ -98,7 +145,6 @@ class LLstatistics
                               $topmat = -1;
                               }
 
-
                   }  // closes if no array to score
 
         else  {
@@ -115,12 +161,12 @@ class LLstatistics
             // build to create insert sql string.
             //$this->statsSummary[] .= 1;
             //$this->statsSummary[] .= 1; 
-            $this->statsSummary[] .= $meavcount; 
-            $this->statsSummary[] .= $meavsum;
-            $this->statsSummary[] .= $meavscposcou;
-            $this->statsSummary[] .= $avgscore;
-            $this->statsSummary[] .= $scavg;
-            $this->statsSummary[] .= $topmat;            
+            $this->statsSummary[$inid][$did][] .= $meavcount; 
+            $this->statsSummary[$inid][$did][] .= $meavsum;
+            $this->statsSummary[$inid][$did][] .= $meavscposcou;
+            $this->statsSummary[$inid][$did][] .= $avgscore;
+            $this->statsSummary[$inid][$did][] .= $scavg;
+            $this->statsSummary[$inid][$did][] .= $topmat;            
             //$this->statsSummary[] .= $scoredate;
              
  

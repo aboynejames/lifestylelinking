@@ -32,8 +32,10 @@
     
     }
     
+    // need some function to manage the source content identity and match source(s) to the owner of this framework
+    
     // made wise Content
-    foreach ($this->cleanContent as $contid=>$contWords)
+    foreach ($this->cleanContent[1] as $contid=>$contWords)
     {
    
     $this->createContent($contid, $contWords);
@@ -80,14 +82,12 @@
 		{
 			// score matrix
 			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
-			
-			// Take code from old core/logic/scorematrix.php
 			// Use arrays instead of database
       
       $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent); 
-      
       // start matrix
-      $newmatrix->startLLmatrix();
+      //$newmatrix->startLLmatrix();
+      $newmatrix->matrixManager();
       $this->matrix = $newmatrix->matrixComplete();
       //print_r($this->matrix);
 
@@ -99,8 +99,9 @@
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
       $newstats = new LLstatistics($this->matrix);
-      $this->matrix[1][averages] = $newstats->statisticsComplete();
-      //print_r($this->statistics);
+      $newstats->statisticsManager();
+      $this->matrix[avg] = $newstats->statisticsComplete();
+      //print_r($this->matrix);
       
 		}
 	
@@ -108,9 +109,10 @@
 		public function calculateLLAvgOfAvg()
 		{
 			// Establish average of averages for each definition(s)
-      $newavgs = new LLavgOfavg($this->matrix[1][averages]);
+      $newavgs = new LLavgOfavg($this->matrix[avg]);
+      $newavgs->AvgofAvgManager();
       $this->avgofavgs = $newavgs->avgOFavgsComplete();
-      
+      //print_r($this->avgofavgs);
       
 		}
 
@@ -118,8 +120,10 @@
 		public function calculateLLNormalisation()
 		{
 			//  turns averages to percentages to allow comparison of apples with oranges.
-      $newNormalization = new LLnormalization();
-      $this->matrix[1][meLife] = $newNormalization->normalizeComplete();
+      $newNormalization = new LLnormalization($this->avgofavgs, $this->matrix[avg]);
+      $newNormalization->normalizationManager();
+      $this->matrix[normdata] = $newNormalization->normalizeComplete();
+      print_r($this->matrix);      
       
 		}
 
@@ -130,8 +134,11 @@
 			// Take code from old core/logic/social.php and pre ie social folder two files
 			// Use arrays instead of database
       // order list of identities by LLorder based on each definition
-      $newGroups = new LLgroups;
-      $this->lifeGroup = $newGroups->groupsComplete(); 
+      $newGroups = new LLgroups();
+      //$newGroups->groupManager();
+      //$this->lifeGroup = $newGroups->groupsComplete(); 
+
+      print_r($this->matrix);      
       
       
 		}

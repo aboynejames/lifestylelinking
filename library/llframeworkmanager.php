@@ -11,11 +11,17 @@ class LLframeworkmanager
     protected $definitionStart;  // input from individual
     protected $defSet;
     protected $contSet;
+    protected $individual;
+    protected $lifestyle;
+    protected $source;
     
-   public function __construct($inputSetup, $definitionwords)
+   public function __construct($individual, $inputSetup, $lifestyle, $sources)
 		{
-			$this->frameworkSetup = $inputSetup;
-      $this->definitionStart = $definitionwords;
+			$this->individual = $individual;
+      $this->frameworkSetup = $inputSetup;
+      $this->lifestyle = $lifestyle;
+      $this->source = $sources;
+      //$this->definitionStart = $definitionwords;
  		} 
     
 
@@ -49,12 +55,12 @@ class LLframeworkmanager
  
   
       // or special case  starting defintions from wikipedia,  built in api or  as a service (from somewhere, mepath might provide)
-      public function definitionControl()
+      public function definitionControl($defin)
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
       $newdef = new LLdefinitions();
-      $newdef->definitionWord($this->definitionStart);
+      $newdef->definitionWord($defin);
       $newdef->definitionManager();
       $newdef->startNewdefinition();
       $this->defSet = $newdef->cleanedDefinition();
@@ -62,7 +68,7 @@ class LLframeworkmanager
      }
    
      
-      public function contentControl()
+      public function contentControl($indata)
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
@@ -72,8 +78,8 @@ class LLframeworkmanager
       $newdata->contentData($indata);
       $newdata->contentManager();
       $newdata->startNewcontent();
-      $this->contSet = $newdata->cleanedContent();
-      //print_r($newdata->cleanContent);
+      $this->contSet[1] = $newdata->cleanedContent();
+      //print_r($newdata);
     }
 
     // LLcore goes to play
@@ -83,37 +89,23 @@ class LLframeworkmanager
     $llnew = new LLCore($this->defSet, $this->contSet);
     //$llnew->populateArray; 
     //print_r($llnew);
-    
+    //  time to enter the matrix
     $llnew->LLcoremanager();
-    print_r($llnew);
+    $llnew->createLLMatrix();
+    $llnew->calculateLLStats();
+    $llnew->calculateLLAvgOfAvg();
+    $llnew->calculateLLNormalisation();
+    // Self form LL groups
+    //$llnew->calculateLLgroups(); 
+    //print_r($llnew);
       
     }
 
       /*
-      //  time to enter the matrix
-      echo '<br /><br />';
-      $llnew->createLLMatrix();
-
-      // calculate statistics
-      echo '<br /><br />';
-      $llnew->calculateLLStats();
-
-      // Perform Normalization (first create average of average ->per definition)
-      // first establish average of averages for the definitions
-      $llnew->calculateLLAvgOfAvg();
-
-      // normalize distances each identity is from a avgofavg for a definition
-      $llnew->calculateLLNormalisation();
-
-      // Self form LL groups
-      $llnew->calculateLLgroups();
 
       // results time-context
       $llnew->calculateLLresults();
 
-
-      echo '<br /><br />';
-      print_r($llnew);
       */
 
 
