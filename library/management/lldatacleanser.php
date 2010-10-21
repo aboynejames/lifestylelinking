@@ -27,7 +27,7 @@
          
      $this->wlen = strlen($rawcontentd);      
      //echo $wlen;
-
+      //should be done in wise words,  also html  could be in text not just as mark up.
                 if ($this->wlen > 0)
                 {
 

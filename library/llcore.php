@@ -18,40 +18,41 @@
 		} 
     
 		
-    public function LLcoremanager()
+    public function LLcoremanager($source)
     {
     // utility function to 
     // has information to tag data with so the right combintation of path through core is captured and recorded.
     // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
    
-    // make wise Definitions
-    foreach ($this->cleanDefinition as $defid=>$defWords) 
-    {
-    
-    $this->createDefinitions($defid, $defWords);
-    
-    }
-    
-    // need some function to manage the source content identity and match source(s) to the owner of this framework
-    
-    // made wise Content
-    foreach ($this->cleanContent[1] as $contid=>$contWords)
-    {
-   
-    $this->createContent($contid, $contWords);
-    
-    }
-    
+        // make wise Definitions
+        foreach ($this->cleanDefinition as $defid=>$defWords) 
+        {
+        
+        $this->createDefinitions($defid, $defWords);
+        
+        }
+        
+        // need some function to manage the source content identity and match source(s) to the owner of this framework
+        
+        // make wise Content
+        // do on a per sourceid basis (but maybe others ie. total flexibility on input ordering
+       foreach($source as $sid)
+        {
+                foreach ($this->cleanContent[$sid] as $contid=>$contWords)
+                {
+               
+                $this->createContent($sid, $contid, $contWords);
+                
+                }
+        }        
     } // closes function
-
+    
 
 	public function createDefinitions($defid, $defWords)
 		{
 			// Note: use arrays and not database
 			
-			// Call the Wikipedia API for URL for $subject
-			
-			// Create a LLDataCleanser object
+   		// Create a LLDataCleanser object
       $dataWisdom = new LLwordWisdom($defWords);
 			
 			// Clean the data
@@ -63,7 +64,7 @@
 	
   
 		// tidy data, excluded words (need to crowd source these via confusion )
-		public function createContent($contid, $contWords)
+		public function createContent($sid, $contid, $contWords)
 		{
 			// Note: use arrays and not database
 			
@@ -74,11 +75,11 @@
 			$dataContentWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->wiseContent[$contid] = $dataContentWisdom->wiseWords();
+			$this->wiseContent[$sid][$contid] = $dataContentWisdom->wiseWords();
 		}
 	
 
-    public function createLLMatrix()
+    public function createLLMatrix($contidsource)
 		{
 			// score matrix
 			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
@@ -87,7 +88,7 @@
       $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent); 
       // start matrix
       //$newmatrix->startLLmatrix();
-      $newmatrix->matrixManager();
+      $newmatrix->matrixManager($contidsource);
       $this->matrix = $newmatrix->matrixComplete();
       //print_r($this->matrix);
 
@@ -99,7 +100,7 @@
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
       $newstats = new LLstatistics($this->matrix);
-      $newstats->statisticsManager();
+      $newstats->statisticsManager($contidsource);
       $this->matrix[avg] = $newstats->statisticsComplete();
       //print_r($this->matrix);
       
@@ -137,8 +138,7 @@
       $newGroups = new LLgroups();
       //$newGroups->groupManager();
       //$this->lifeGroup = $newGroups->groupsComplete(); 
-
-      print_r($this->matrix);      
+      //print_r($this->lifeGroup);      
       
       
 		}
@@ -147,8 +147,9 @@
     public function calculateLLresults()
     {
     // produce data to be passed to display
-    $newResults = new LLresults;
-    $this->results = $newResults->resultsComplete(); 
+    $newResults = new LLresults();
+    //$newResults->resultsManager();
+    //$this->results = $newResults->resultsComplete(); 
     
     }
     

@@ -10,17 +10,21 @@ class LLcontent
      		public function contentData($contentraw)
 		{
 			// TODO: Check that postWords is in the correct format
-        $inputdata[1] = file_get_contents('C:\apache\htdocs\llcore\text\skiing.txt');  // temporary data
-        $inputdata[2] = file_get_contents('C:\apache\htdocs\llcore\text\swimming.txt');  // temporary data
+      
+        $inputdata[1][1] = file_get_contents('C:\apache\htdocs\llcore\text\skiing.txt');  // temporary data
+        $inputdata[1][2] = file_get_contents('C:\apache\htdocs\llcore\text\swimming.txt');  // temporary data
+        $inputdata[2][3] = file_get_contents('C:\apache\htdocs\llcore\text\skiings2.txt');
+        $inputdata[2][4] = file_get_contents('C:\apache\htdocs\llcore\text\swimmings2.txt');
         
 			  $this->contentin = $inputdata;
+        //print_r($this->contentin);
             
 		}
      
      
   
 
-    public function contentManager()
+    public function contentManager($source)
 		{
 			// If a new content is being added then attach a new content identity to it (no.1 + linked data url e.g. dpedia
       //  also someday, the source content maybe 'rescored 'ie used based on a 'new' science
@@ -33,16 +37,29 @@ class LLcontent
       
       $this->contentStart = $this->contentin;
       
+      //$source = array('0'=>'1', '1'=>'2');
+     // feed in new content on a per sourceid
+      foreach($source as $sid)
+      {
+      
+      $this->startNewcontent($sid);
+      
+      }
+      
+      
 		} 
    
 
-    public function startNewcontent()
+    public function startNewcontent($sid)
 		{
 			// starts methods to add new definition(s)
 			      // one or more defintions?
-           foreach ($this->contentStart as $contid=>$incont)
+           // echo 'new content';
+            
+           foreach ($this->contentStart[$sid] as $contid=>$incont)
            {
-             $this->buildContent($contid, $incont);
+            
+            $this->buildContent($sid, $contid, $incont);
             
             } // closes foreach loop
 
@@ -50,8 +67,8 @@ class LLcontent
 		}
 
      
-    // call wikipedia api to retrive source definition content 
-		public function buildContent($contid, $incont)
+    // clean the new content data 
+		public function buildContent($sid, $contid, $incont)
 		{
 			// Note: use arrays and not database
 
@@ -62,13 +79,14 @@ class LLcontent
 			$dataCleaner->clean();
 			
 			// Get the cleaned data
-			$this->cleanContent[$contid] = $dataCleaner->cleanedData();
-      //print_r($this->cleanContent);  
-    
-		}
+			$this->cleanContent[$sid][$contid] = $dataCleaner->cleanedData();
+        
+      }
+
 
 		public function cleanedContent()
     {
+    //print_r($this->cleanContent);
       return $this->cleanContent;
 		}
 

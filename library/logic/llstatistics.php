@@ -21,17 +21,17 @@ class LLstatistics
   	}
 
 
-    public function statisticsManager() 
+    public function statisticsManager($contidarray) 
     {
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions, this should be smarter to save un-nessary scoring.
     // data should be picked up from framework object
-    $indid = 1; 
+     
     $defids = array('0'=>'1', '1'=>'2');
-    $conSet = array('0' => '1', '1' => '2');
+    $conSet = $contidarray; // include sid and cid ie source and it content data ids for that source
           
-          $votes = $this->formScorearray ($indid, $defids, $conSet);
+          $votes = $this->formScorearray ($defids, $conSet);
           
           //foreach($indid as $inid)
           //{
@@ -47,7 +47,7 @@ class LLstatistics
     }
 
 
-    public function formScorearray ($indid, $defids, $conSet)
+    public function formScorearray ($defids, $conSet)
     {
 //echo 'form';
 //print_r($this->statsarray[1][1][1][scoring][50]);

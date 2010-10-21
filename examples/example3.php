@@ -21,22 +21,22 @@ $startSetup = array('0' => 'wikipedia', '1' => 'rssFeedreader');
 // input from UI, installation or control panel defaults
 $definitionsSet = array('0' => 'skiing', '1' => 'swimming');
 $contentSet[1] = array('0' => '1', '1' => '2');
-$contentSet[2] = array('0' => '1', '1' => '2');
+$contentSet[2] = array('0' => '3', '1' => '4');
 //print_r($contentSet);
 
 // 1. LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
 $newframework = new LLframeworkmanager($individual, $identitysource, $startSetup, $definitionsSet, $contentSet);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
-/*
+
 // capture settings from install or current defaults
 $newframework->apiStatus();
 
 // Defintions, first time add, update, identity
-$newframework->definitionControl($definitionsSet);
+$newframework->definitionControl();
 //$newframework->definitionWord($definitionsSet)
 
 // content from the universe
 // input from rssfeeders or third party api service
-$newframework->contentControl($contentSet);
+$newframework->contentControl();
 
 
 // 2-- transfer data to core
@@ -45,8 +45,6 @@ $newframework->controlCore();
 echo 'FrameWork';
 print_r($newframework);
 
-
-/*
 
 /*
 echo '<br /><br />';

@@ -14,6 +14,17 @@
      
 		}
 		
+    
+    public function resultsManager() 
+		{
+     // what context to output results eg. personalization  lifestyle, time period, logic of LL ie added blog or assume average
+     
+     
+		}
+		   
+
+
+    
 		// Use average ll science
 		public function averageResults()
 		{

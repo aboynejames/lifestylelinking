@@ -7,21 +7,24 @@ class LLframeworkmanager
   // forms inputs order into LLcore and identifies inputs
   //  we need to know 1. data state, string, array, tidy undity. 2. is it definition or post words 3.  how many of each 10 blog posts and 3 wikipedia definition
   
-		protected $frameworkSetup; // install or default settings for framework
-    protected $definitionStart;  // input from individual
+		
+    protected $individual;
+    protected $identitysource;
+    protected $frameworkSetup; // install or default settings for framework
+    protected $lifestyle;  // input from individual
+    protected $contentid;
     protected $defSet;
     protected $contSet;
-    protected $individual;
-    protected $lifestyle;
     protected $source;
     
-   public function __construct($individual, $inputSetup, $lifestyle, $sources)
+   public function __construct($individual, $idsources, $inputSetup, $lifestyle, $contentdata)
 		{
 			$this->individual = $individual;
+      $this->identitysource = $idsources;
       $this->frameworkSetup = $inputSetup;
       $this->lifestyle = $lifestyle;
-      $this->source = $sources;
-      //$this->definitionStart = $definitionwords;
+      $this->contentid = $contentdata;
+
  		} 
     
 
@@ -55,12 +58,12 @@ class LLframeworkmanager
  
   
       // or special case  starting defintions from wikipedia,  built in api or  as a service (from somewhere, mepath might provide)
-      public function definitionControl($defin)
+      public function definitionControl()
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
       $newdef = new LLdefinitions();
-      $newdef->definitionWord($defin);
+      $newdef->definitionWord($this->lifestyle);
       $newdef->definitionManager();
       $newdef->startNewdefinition();
       $this->defSet = $newdef->cleanedDefinition();
@@ -68,18 +71,18 @@ class LLframeworkmanager
      }
    
      
-      public function contentControl($indata)
+      public function contentControl()
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
       
       $newdata = new LLcontent(); 
       // new content to be processed?
-      $newdata->contentData($indata);
-      $newdata->contentManager();
-      $newdata->startNewcontent();
-      $this->contSet[1] = $newdata->cleanedContent();
-      //print_r($newdata);
+      $newdata->contentData($this->contentid);
+      $newdata->contentManager($this->identitysource);
+      //$newdata->startNewcontent();
+      $this->contSet = $newdata->cleanedContent();
+      print_r($contSet);
     }
 
     // LLcore goes to play
@@ -90,14 +93,15 @@ class LLframeworkmanager
     //$llnew->populateArray; 
     //print_r($llnew);
     //  time to enter the matrix
-    $llnew->LLcoremanager();
-    $llnew->createLLMatrix();
+    $llnew->LLcoremanager($this->identitysource);
+    $llnew->createLLMatrix($this->contentid);
     $llnew->calculateLLStats();
-    $llnew->calculateLLAvgOfAvg();
-    $llnew->calculateLLNormalisation();
+    //$llnew->calculateLLAvgOfAvg();
+    //$llnew->calculateLLNormalisation();
     // Self form LL groups
     //$llnew->calculateLLgroups(); 
-    //print_r($llnew);
+    //$llnew->calculateLLresults();
+   // print_r($llnew);
       
     }
 

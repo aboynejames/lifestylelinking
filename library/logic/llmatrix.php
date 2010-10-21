@@ -17,13 +17,11 @@
            
       //  need to set segmentation (need to allow future flexibility on this e.g. sentence structure, NLP
       $this->wordseg = array ( 1, 2, 3, 4, 5, 10, 20, 50 );
- // print_r($this->definitionarray);
- // print_r($this->wordsarray);
   
     }
 
 
-    public function matrixManager() 
+    public function matrixManager($contidarray) 
     {
     // feeds startLLmatrix with input arrays per definition
    
@@ -31,31 +29,34 @@
     // should pick up this data from framework object.
     $defids = array('0'=>'1', '1'=>'2');
     
-    $conids = array('0'=>'1', '1'=>'2');
+    $conids = $contidarray;
     
-        foreach ($defids as $did)
-        {
-        
-              foreach($conids as $cid)
-              {
-              //echo 'defid='.$did.'andcid='.$cid;
-              $this->startLLmatrix($did, $cid);
-              
-              }
-          
-        }
+                  foreach ($defids as $did)
+                  {
+                  
+                        foreach($conids as $sid=>$cid)
+                        {
+                            foreach($cid as $ccid)
+                            {
+                                //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
+                                $this->startLLmatrix($did, $sid, $ccid);
+                            }
+                        
+                        }
+                    
+                  }
     
     }
 
 
-    public function startLLmatrix($did, $cid) 
+    public function startLLmatrix($did, $sid, $cid) 
     {
       //print_r($this->definitionarray);
       //print_r($this->definitionarray[$did]);
       //print_r($this->wordsarray);
       //print_r($this->wordsarray[$cid]);
       // if word and definition data not in arrays, then need to make them (either input nosql or query database}.
-      if ( (isset($this->definitionarray[$did]) == 1)  &&  (isset($this->wordsarray[$cid]) == 1)  )
+      if ( (isset($this->definitionarray[$did]) == 1)  &&  (isset($this->wordsarray[$sid][$cid][1]) == 1)  )
       {
   
       // this required if more than one definition in core
@@ -74,7 +75,7 @@
 
                   //echo "<br />newwww<br />";
                   //print_r($this->wordsarray[1]);
-                  $aa3 = array_intersect_key( $lifewordsarrays, $this->wordsarray[$cid][1]);
+                  $aa3 = array_intersect_key( $lifewordsarrays, $this->wordsarray[$sid][$cid][1]);
                   //print_r($aa3);
 
                               if (count($aa3) > 0 )
@@ -86,16 +87,16 @@
                               $postscore = array_sum($aa3);
                               //echo $postscore;
                                
-                              $this->matrix[$cid][$did][matched][$seg] = $wordsmatched;
-                              $this->matrix[$cid][$did][scoring][$seg] = $postscore;
+                              $this->matrix[$sid][$cid][$did]['matched'][$seg] = $wordsmatched;
+                              $this->matrix[$sid][$cid][$did]['scoring'][$seg] = $postscore;
 
                               }
 
                               else
                               {
 
-                              $this->matrix[$cid][$did][matched][$seg] = 0;
-                              $this->matrix[$cid][$did][scoring][$seg] = 0;
+                              $this->matrix[$sid][$cid][$did]['matched'][$seg] = 0;
+                              $this->matrix[$sid][$cid][$did]['scoring'][$seg] = 0;
                               }
 
                 }  // closes slice foreachloop
@@ -111,8 +112,7 @@
       //echo 'matrix match';
       //print_r($this->matrix);
       // need to add source identity from frawework object/core manager
-      $this->idmatrix[1] = $this->matrix; 
-      return $this->idmatrix;
+      return $this->matrix;
   
     } 
 
