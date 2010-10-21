@@ -82,7 +82,7 @@ class LLframeworkmanager
       $newdata->contentManager($this->identitysource);
       //$newdata->startNewcontent();
       $this->contSet = $newdata->cleanedContent();
-      print_r($contSet);
+      //print_r($contSet);
     }
 
     // LLcore goes to play
@@ -95,8 +95,8 @@ class LLframeworkmanager
     //  time to enter the matrix
     $llnew->LLcoremanager($this->identitysource);
     $llnew->createLLMatrix($this->contentid);
-    $llnew->calculateLLStats();
-    //$llnew->calculateLLAvgOfAvg();
+    $llnew->calculateLLStats($this->contentid);
+    $llnew->calculateLLAvgOfAvg($this->contentid);
     //$llnew->calculateLLNormalisation();
     // Self form LL groups
     //$llnew->calculateLLgroups(); 

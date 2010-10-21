@@ -17,7 +17,7 @@ class LLstatistics
 		{
     // new data 
       $this->statsarray = $matrix;
-      print_r($this->statsarray);
+      //print_r($this->statsarray);
   	}
 
 
@@ -25,52 +25,61 @@ class LLstatistics
     {
     // feeds startLLmatrix with input arrays per definition
    
-    // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions, this should be smarter to save un-nessary scoring.
-    // data should be picked up from framework object
+    // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions,
      
     $defids = array('0'=>'1', '1'=>'2');
-    $conSet = $contidarray; // include sid and cid ie source and it content data ids for that source
-          
-          $votes = $this->formScorearray ($defids, $conSet);
-          
-          //foreach($indid as $inid)
-          //{
+    $conSet = $contidarray; // include sid and cid ie source and its content data ids for that source
+   // print_r($conSet);
+                  
+                  $votes = $this->formScorearray ($defids, $conSet);
+                  
+                  foreach ($defids as $did)
+                  {
+                        foreach($conSet as $sid=>$cid)
+                        {
+                               
+                               //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
+                               $this->statcalulator($sid, $did, $votes);                        
+                        }
+                    
+                  }  
+        
 
-                foreach ($defids as $did)
-                {
-                //echo 'defid='.$did.'andcid='.$cid;
-                $this->statcalulator($indid, $did, $votes);
-                
-                }
-            
-          //}
+
+
+          
     }
 
 
     public function formScorearray ($defids, $conSet)
     {
 //echo 'form';
-//print_r($this->statsarray[1][1][1][scoring][50]);
-          foreach($conSet as $pid)
+//print_r($this->statsarray[1][1][1]['scoring'][50]);
+         foreach($conSet as $sid=>$cid)
           {
           
                 foreach($defids as $did)
                 {
-                //echo 'pid'.$pid;
-                //echo 'difid'.$did;
-                //echo 'indiv'.$indid;
-                //print_r($this->statsarray[$indid][$pid][$did][scoring][50]);
-                $top50[$indid][$did][$pid] = $this->statsarray[$indid][$pid][$did][scoring][50];
-                $topmatch[$indid][$did][$pid] = $this->statsarray[$indid][$pid][$did][matched][1];
-                //print_r($top50);
+                
+                        foreach($cid as $ccid)
+                        {
+                        //echo 'sid'.$sid;
+                        //echo 'cid'.$ccid;
+                        //echo 'did'.$did;
+                        //print_r($this->statsarray[$sid][$ccid][$did]['scoring'][50]);
+                        //print_r($this->statsarray[$sid][$ccid][$did]['scoring'][1]);
+                        $top50[$sid][$did][$ccid] = $this->statsarray[$sid][$ccid][$did]['scoring'][50];
+                        $topmatch[$sid][$did][$ccid] = $this->statsarray[$sid][$ccid][$did]['matched'][1];
+                        //print_r($top50);
+                        }
                 }
                 
-          }
+           }
 //print_r($top50);
 //print_r($topmatch);
       
-     $statinput[0] = $top50;
-     $statinput[1] = $topmatch;
+     $statinput['0'] = $top50;
+     $statinput['1'] = $topmatch;
      //print_r($statinput);
       return $statinput;
 
@@ -78,12 +87,12 @@ class LLstatistics
 
 
 
-    public function  statcalulator ($inid, $did, $votes)
+    public function  statcalulator ($sid, $did, $votes)
     {
 
     $gotdata = '';
 
-    $gotdata = count($this->statsarray[$inid]);
+    $gotdata = count($this->statsarray[$sid]);
    
               if ($gotdata  > 0 )  {
 
@@ -95,17 +104,17 @@ class LLstatistics
                         $scavg = '';
 
                         // total number of post for this identity
-                        $meavcount = count($votes[0][$inid]);
+                        $meavcount = count($votes['0'][$sid]);
                         //echo $meavcount.'count';
                         
                         //print_r($this->statsarray[$indid][$did][scoring][50]);
                         // accumulated scoring votes for all content from a source identity  
                         // first need to form array of just the top50 votes for an individual id ie. all the content posts for this source
-                        $meavsum = array_sum($votes[0][$inid][$did]);
+                        $meavsum = array_sum($votes['0'][$sid][$did]);
                         //echo $meavsum.'sum';
                         
                         // calculate number of posts that have scored for a defintion
-                        $meavscposcou = count($votes[0][$inid]);
+                        $meavscposcou = count($votes['0'][$sid]);
                         // user array above to count no. of content posts that have scored.
                         //echo $meavscposcou.'scocount';
 
@@ -124,7 +133,7 @@ class LLstatistics
                                   }
 
                                 // calculate the content posts that have the top words scored.
-                                $meavtpm = array_sum($votes[1][$inid][$did]);
+                                $meavtpm = array_sum($votes['1'][$sid][$did]);
                                 // find no. topmatches
                                 //  to do form array of topmatches and count from it
                                 
@@ -161,12 +170,12 @@ class LLstatistics
             // build to create insert sql string.
             //$this->statsSummary[] .= 1;
             //$this->statsSummary[] .= 1; 
-            $this->statsSummary[$inid][$did][] .= $meavcount; 
-            $this->statsSummary[$inid][$did][] .= $meavsum;
-            $this->statsSummary[$inid][$did][] .= $meavscposcou;
-            $this->statsSummary[$inid][$did][] .= $avgscore;
-            $this->statsSummary[$inid][$did][] .= $scavg;
-            $this->statsSummary[$inid][$did][] .= $topmat;            
+            $this->statsSummary[$sid][$did][] .= $meavcount; 
+            $this->statsSummary[$sid][$did][] .= $meavsum;
+            $this->statsSummary[$sid][$did][] .= $meavscposcou;
+            $this->statsSummary[$sid][$did][] .= $avgscore;
+            $this->statsSummary[$sid][$did][] .= $scavg;
+            $this->statsSummary[$sid][$did][] .= $topmat;            
             //$this->statsSummary[] .= $scoredate;
              
  

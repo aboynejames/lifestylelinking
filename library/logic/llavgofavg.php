@@ -18,41 +18,47 @@ class LLavgOfavg
      }
 	
     
-   public function AvgofAvgManager ()
+   public function AvgofAvgManager ($contidarray)
 		{
       // how many individual sourceids? How many definitions  (should pick this up from framework manager)
-    $indid = 1; 
+  
+    $sources = $contidarray;
+    print_r($sources);
     $defids = array('0'=>'1', '1'=>'2');
    
-    $avgstart = $this->buildAvgofAvg($indid, $defids);
+    $avgstart = $this->buildAvgofAvg($sources, $defids);
           
           foreach($defids as $did)
           {
           
-          $this->calculateAvgofAvg($did, $avgstart);
+           $this->calculateAvgofAvg($did, $avgstart);
           
           }
       
     }
      
      
-  	public function buildAvgofAvg ($indid, $defids)
+  	public function buildAvgofAvg ($sources, $defids)
 		{
         // find out latest avg avg data, extra from existing array data held in core or will this be done before entering this class? need to think
         // already done and inputted correctly above
           //echo 'build';
-         // print_r($this->avgraw);
-          $avgtotal = count($this->avgraw);
-                foreach($defids as $did)
-                {
-                  //print_r($this->avgraw[$indid][$did]);
-                  $aggscore[$did]= $this->avgraw[$indid][$did][3];
-                }
-                
-            
-       $avgavginput[0] = $avgtotal;
-       $avgavginput[1] = $aggscore;
-      // print_r($avgavginput);
+           foreach($sources as $sid=>$cid)
+          {
+          
+               // print_r($this->avgraw);
+                $avgtotal = count($this->avgraw);
+                      foreach($defids as $did)
+                      {
+                        //print_r($this->avgraw[$sid][$did]);
+                        $aggscore[$did][$sid]= $this->avgraw[$sid][$did]['3'];
+                      }
+                      
+           }
+           
+       $avgavginput['0'] = $avgtotal;
+       $avgavginput['1'] = $aggscore;
+     print_r($avgavginput);
        return $avgavginput;
 
     } 
@@ -63,8 +69,8 @@ class LLavgOfavg
       // takes above array and performs average calculation ie. sum of no. averages / no. of averages per a definition
      //  sum averages
      //print_r($avgstart); 
-     $noavgs = $avgstart[0];
-     $avgavgsum = $avgstart[1][$did];
+     $noavgs = $avgstart['0'];
+     $avgavgsum = array_sum($avgstart['1'][$did]);
 
       // divide by total no. of averages
       $this->averageofaverages[$did] = ($avgavgsum/$noavgs);
@@ -75,7 +81,7 @@ class LLavgOfavg
      	public function avgOFavgsComplete()
 		{
       // loadup exlcluded works if not alreadyloaded
-      //print_r($this->averageofaverages);
+      print_r($this->averageofaverages);
       return $this->averageofaverages;
   
     }  

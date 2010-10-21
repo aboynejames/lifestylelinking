@@ -95,23 +95,23 @@
 		}
 
 		// cal stats
-		public function calculateLLStats()
+		public function calculateLLStats($contidsource)
 		{
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
       $newstats = new LLstatistics($this->matrix);
       $newstats->statisticsManager($contidsource);
-      $this->matrix[avg] = $newstats->statisticsComplete();
-      //print_r($this->matrix);
+      $this->matrix['avg'] = $newstats->statisticsComplete();
+      //print_r($this->matrix['avg']);
       
 		}
 	
 		// average of averages
-		public function calculateLLAvgOfAvg()
+		public function calculateLLAvgOfAvg($contidsource)
 		{
 			// Establish average of averages for each definition(s)
-      $newavgs = new LLavgOfavg($this->matrix[avg]);
-      $newavgs->AvgofAvgManager();
+      $newavgs = new LLavgOfavg($this->matrix['avg']);
+      $newavgs->AvgofAvgManager($contidsource);
       $this->avgofavgs = $newavgs->avgOFavgsComplete();
       //print_r($this->avgofavgs);
       
