@@ -14,7 +14,7 @@ class LLavgOfavg
 		{
       
       $this->avgraw = $avgrawarray;
-      print_r($this->avgraw);
+      //print_r($this->avgraw);
      }
 	
     
@@ -23,7 +23,7 @@ class LLavgOfavg
       // how many individual sourceids? How many definitions  (should pick this up from framework manager)
   
     $sources = $contidarray;
-    print_r($sources);
+    //print_r($sources);
     $defids = array('0'=>'1', '1'=>'2');
    
     $avgstart = $this->buildAvgofAvg($sources, $defids);
@@ -58,7 +58,7 @@ class LLavgOfavg
            
        $avgavginput['0'] = $avgtotal;
        $avgavginput['1'] = $aggscore;
-     print_r($avgavginput);
+     //print_r($avgavginput);
        return $avgavginput;
 
     } 
@@ -81,7 +81,7 @@ class LLavgOfavg
      	public function avgOFavgsComplete()
 		{
       // loadup exlcluded works if not alreadyloaded
-      print_r($this->averageofaverages);
+     // print_r($this->averageofaverages);
       return $this->averageofaverages;
   
     }  

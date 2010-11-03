@@ -97,11 +97,11 @@ class LLframeworkmanager
     $llnew->createLLMatrix($this->contentid);
     $llnew->calculateLLStats($this->contentid);
     $llnew->calculateLLAvgOfAvg($this->contentid);
-    //$llnew->calculateLLNormalisation();
+    $llnew->calculateLLNormalisation($this->contentid);
     // Self form LL groups
-    //$llnew->calculateLLgroups(); 
-    //$llnew->calculateLLresults();
-   // print_r($llnew);
+    $llnew->calculateLLgroups($this->contentid); 
+    $llnew->calculateLLresults($this->contentid);
+    //print_r($llnew);
       
     }
 

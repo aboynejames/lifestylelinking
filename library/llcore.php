@@ -118,38 +118,37 @@
 		}
 
 		// calc avg. of averages
-		public function calculateLLNormalisation()
+		public function calculateLLNormalisation($contidsource)
 		{
 			//  turns averages to percentages to allow comparison of apples with oranges.
-      $newNormalization = new LLnormalization($this->avgofavgs, $this->matrix[avg]);
-      $newNormalization->normalizationManager();
-      $this->matrix[normdata] = $newNormalization->normalizeComplete();
-      print_r($this->matrix);      
+      $newNormalization = new LLnormalization($this->avgofavgs, $this->matrix['avg']);
+      $newNormalization->normalizationManager($contidsource);
+      $this->matrix['normdata'] = $newNormalization->normalizeComplete();
+      //print_r($this->matrix['normdata']);      
       
 		}
 
 
 		// calc melife
-		public function calculateLLgroups()
+		public function calculateLLgroups($contidsource)
 		{
 			// Take code from old core/logic/social.php and pre ie social folder two files
 			// Use arrays instead of database
       // order list of identities by LLorder based on each definition
-      $newGroups = new LLgroups();
-      //$newGroups->groupManager();
-      //$this->lifeGroup = $newGroups->groupsComplete(); 
+      $newGroups = new LLgroups($this->matrix['normdata']);
+      $newGroups->groupManager($contidsource);
+      $this->lifeGroup = $newGroups->groupsComplete(); 
       //print_r($this->lifeGroup);      
-      
-      
+        
 		}
 
     // calculat results
-    public function calculateLLresults()
+    public function calculateLLresults($contidsource)
     {
     // produce data to be passed to display
-    $newResults = new LLresults();
-    //$newResults->resultsManager();
-    //$this->results = $newResults->resultsComplete(); 
+    $newResults = new LLresults($this->matrix);
+    $newResults->resultsManager($contidsource);
+    $this->results = $newResults->resultsComplete(); 
     
     }
     

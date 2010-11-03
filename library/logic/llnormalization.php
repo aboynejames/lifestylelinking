@@ -21,10 +21,10 @@ class LLnormalization
     }
 
 
-   public function normalizationManager ()
+   public function normalizationManager ($contidarray)
 		{
       // need to take each individual definition average and 
-      $indid = 1; 
+      $conids = $contidarray;
       $defids = array('0'=>'1', '1'=>'2');
         
        // need to add a loop foreach individual identity source 
@@ -32,23 +32,29 @@ class LLnormalization
         foreach($defids as $did)
           {
           
-          $this->normalizeDistances($indid, $did, $avgavgcomm[$did]);
-          
+                foreach($conids as $sid=>$cid)
+                {
+                  $this->normalizeDistances($sid, $did, $this->avgavgcomm[$did]);
+                }
+        
           }
+          
       
     }
 
 
-    public function normalizeDistances($inid, $did, $avgDef)
+    public function normalizeDistances($sid, $did, $avgDef)
     {
     // need to build arrays to perform calculations on
     // sum is   each identity average / average value for a whole defintion
+    //echo $avgDef;
     //echo 'norm number';
-    //print_r($this->indivavg[$inid][$did]);
-    $indivavg = $this->indivavg[$inid][$did][3];
+    //print_r($this->indivavg[$sid][$did]['3']);
+    $indivavg = $this->indivavg[$sid][$did]['3'];
     $diffsum = (($indivavg-$avgDef)/$avgDef)*100;
     $diffpercent = round($diffsum, 2);
-    $this->normalMe[$inid][$did] = $diffpercent;
+    //echo 'percent'.$diffpercent;
+    $this->normalMe[$sid][$did] = $diffpercent;
     
     }
 

@@ -139,7 +139,7 @@ class LLstatistics
                                 
                                 
                               $meavscpotpm = count($meavtpm);
-                              $meavscpotpm = 1;
+                              //$meavscpotpm = 1;
                               //echo $$meavscpotpm.'scocount';
 
                                 if ($meavscpotpm > 0 )

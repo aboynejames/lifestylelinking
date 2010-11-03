@@ -43,7 +43,7 @@ $newframework->contentControl();
 $newframework->controlCore();
 
 echo 'FrameWork';
-print_r($newframework);
+//print_r($newframework);
 
 
 /*
