@@ -12,9 +12,8 @@ class LLdefinitions
 		{
 			// TODO: Check that postWords is in the correct format
       // need to add regex to make sure 
-		  $demodef[1] = file_get_contents('C:\apache\htdocs\llcore\text\skiingwikip.txt');  // temporary test data
-      $demodef[2] = file_get_contents('C:\apache\htdocs\llcore\text\swimmingwikip.txt');  // temporary test data
-      $this->defwikiword = $demodef;   // temporary test data
+
+      $this->defwikiword = $defstart;   // temporary test data
             
 		}
 
@@ -26,11 +25,17 @@ class LLdefinitions
       // also what api will be use installed or 'as a service' to wikipedia
       
      // check if new, if so attached definition id to it ie a number for this framework and dpedia uri if already entered attach that defintition id to it.
+     // first call and get list of all defintition stored in the framework (could also use PeertoPeer RDF to get most update def ie. post first time use via wikipedia)
+     // to be built
+     //check to see if first time enter lifestyle definition words (for this example yes
+     // array to compare input definitions with existing defs. already in framework
 
-      // first call and get list of all defintition stored in the framework (could also use PeertoPeer RDF to get most update def ie. post first time use via wikipedia)
-      // to be built
+     // call wikipedia API  (this examples limited two pre pared source files)
+		  $demodef[1] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiingwikip.txt');  // temporary test data
+      $demodef[2] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimmingwikip.txt');  // temporary test data     
       
-      $this->definitionPrep = $this->defwikiword;
+      
+      $this->definitionPrep = $demodef;
       
 		}
 

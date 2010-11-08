@@ -7,7 +7,7 @@ class LLframeworkmanager
   // forms inputs order into LLcore and identifies inputs
   //  we need to know 1. data state, string, array, tidy undity. 2. is it definition or post words 3.  how many of each 10 blog posts and 3 wikipedia definition
   
-		
+		public $llnew;
     protected $individual;
     protected $identitysource;
     protected $frameworkSetup; // install or default settings for framework
@@ -88,6 +88,7 @@ class LLframeworkmanager
     // LLcore goes to play
       public function controlCore()
 		{
+    global $llnew;
     
     $llnew = new LLCore($this->defSet, $this->contSet);
     //$llnew->populateArray; 

@@ -13,6 +13,8 @@
 			$this->data = $dataToBeCleaned;
 		}
 		
+   //  also want to collect basic stats on input content and to extract html links to video, photos links etc. 
+    
 		public function clean()
 		{
 			//   removes markup,  goal is to produce the actual input content the author expressed and non of the markup or code to display or make portible etc.
@@ -28,7 +30,7 @@
      $this->wlen = strlen($rawcontentd);      
      //echo $wlen;
       //should be done in wise words,  also html  could be in text not just as mark up.
-                if ($this->wlen > 0)
+                if ($this->wlen > 1)
                 {
 
                  $this->postcontent = explode(" ", $rawcontentd);

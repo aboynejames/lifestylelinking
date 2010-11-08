@@ -11,10 +11,10 @@ class LLcontent
 		{
 			// TODO: Check that postWords is in the correct format
       
-        $inputdata[1][1] = file_get_contents('C:\apache\htdocs\llcore\text\skiing.txt');  // temporary data
-        $inputdata[1][2] = file_get_contents('C:\apache\htdocs\llcore\text\swimming.txt');  // temporary data
-        $inputdata[2][3] = file_get_contents('C:\apache\htdocs\llcore\text\skiings2.txt');
-        $inputdata[2][4] = file_get_contents('C:\apache\htdocs\llcore\text\swimmings2.txt');
+        $inputdata[1][1] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiing.txt');  // temporary data
+        $inputdata[1][2] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimming.txt');  // temporary data
+        $inputdata[2][3] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiings2.txt');
+        $inputdata[2][4] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimmings2.txt');
         
 			  $this->contentin = $inputdata;
         //print_r($this->contentin);

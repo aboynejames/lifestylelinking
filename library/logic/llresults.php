@@ -15,7 +15,7 @@
 		{
     // new data 
       $this->resultsarray = $matrix;
-      print_r($this->resultsarray);
+      //print_r($this->resultsarray);
   	}
 
     
@@ -33,29 +33,31 @@
 		{
      // what context to output results eg. personalization  lifestyle, time period, logic of LL ie added blog or assume average
      // for example three score results per lifestyle definition and gather data on a per source basis, then aggregate all 'qualifying' source content items and order (weighted ranking) 
-     $defids = array('0'=>'1');//, '1'=>'2');
-     print_r($contidarray);
+     $defids = array('0'=>'1', '1'=>'2');
+     //print_r($contidarray);
       
         foreach($defids as $did)
          {
-               echo '<br /><br />START DEFid'.$did;
+               //echo '<br /><br />START DEFid'.$did;
                foreach($contidarray as $sid=>$cid)
                {
-               echo '<br /><br />start source id'.$sid.'and contentid'.$cid;
+               //echo '<br /><br />start source'.$sid;
                 $this->resultperdef = '';
                 $this->resultperdef = $this->buildresultsarray($did, $this->window, $sid, $contidarray);  
-                $forresults[$did] = $this->resultcalc($did, $sid, $this->resultperdef);
+                $forresults[$did][$sid] = $this->resultcalc($did, $sid, $this->resultperdef);
+               //echo '<br /><br />results after all calculations'; 
                 //print_r($this->resultperdef);
                 
-               echo $sid.'END each source<br /><br />';
+               //echo $sid.'END each source<br /><br />';
                 }
          // got all qualifying contentitems, what order do they get presented, weighted avges of top and diffavg
-        echo 'before weighting function'; 
+        //echo 'before weighting function'; 
         //print_r($forresults);
          // $this->weightingresults($forresults);
-         echo $did.'END each definition<br /><br />';
+         //echo $did.'END each definition<br /><br />';
          }
-         
+     $this->meresults = $forresults;   
+     return $this->meresults;
      
 		}
    
@@ -64,19 +66,23 @@
       {
        // will need to pick out the list of content ids /info. universe that are incluced in results.
        // pickout for each source the content for this results window per lifestyle definition
-          echo '<br /><br />start build array'.$did.'and source'.$sid;
+          //echo '<br /><br />start build for defid'.$did.'and source'.$sid;
                 $this->resultconids = '';
+                $this->scontids = '';                
+                
                 foreach($contidarray[$sid] as $ccid)
                      {
 
                       $this->resultconids[$sid][$ccid] = $this->resultsarray[$sid][$ccid][$did];
-                      $this->scontids[$sid][$ccid] = '';
+                      $this->scontids[] = $ccid;
                       }
+        
+        $dataids['data'] = $this->resultconids;
+        $dataids['ids'] = $this->scontids;
+        //print_r($dataids);
+        //echo 'end build array<br /><br />';
 
-        echo 'reduced array for source'.$sid; 
-        print_r($this->resultconids);
-        echo 'end build array<br /><br />';
-        return $this->resultconids;
+        return $dataids;
       }
 
 
@@ -84,118 +90,85 @@
         {
 
               // Does any content post contain top lifestyle definition word?  (this is pretty primitive, with CQ in use could select top unqiue words needs testing)
-              echo '<br /><br />START OF CALC'.$did.'and source'.$sid;
+              //echo '<br /><br />START OF CALC'.$did.'and source'.$sid.'<br /><br />';
               //  need to sort this loop array.
-                    foreach($indsource[$sid] as $ccid)
+                    foreach($indsource['ids'] as $ccid)
                      {
-                     echo 'source'.$sid.'contentitem'.$ccid.'<br /><br />';
+                     //echo '<br /><br />CALCsource'.$sid.'contentitem'.$ccid.'<br /><br />';
                      // go through each content items for this source and see if they make it to results
-                     echo '<br /><br />START FOREACH SID CONIDS'.$ccid;
-                      //echo 'matched'.$sid.'conteid'.$ccid.'matchedno';
-                      //print_r($this->resultperdef[$sid][$ccid]['matched']['1']);
-                      //$topmm = $this->resultperdef[$sid][$ccid]['matched']['1'];
+                     //echo '<br /><br />START TWO RULES'.$ccid.'<br /><br />';
+                     
+                    $topmm = $indsource['data'][$sid][$ccid]['matched']['1'];
 
                             if ($topmm  >= 1 )
                             {
                               // should also try and qualify the positive context with  sourceTopfive and requencyScore why?  positive qualification(down side risk one off post from in context)
-                            
-                              $wordtopm[$sid][$ccid] = $topmm;
+                            //echo 'topmatch??? <br /><br />';
+                              //$wordtopm[$sid][$ccid] = $topmm;
                               $aftercalc[$sid][$ccid]['in'] = 1;
+                              //print_r($aftercalc);
+                              //echo 'one for topmatch';
                             }
                             else
                             {
-                                  echo '<br /><br /> start two tests ';
-                                    // topfive  need to call topfive function
-                                 // $fivematch = $this->sourceTopfive($sid, $ccid, $this->resultperdef[$sid][$ccid]);
-                                  //echo 'fivematch'.$fivematch;
-                                  
-                                  // frequency over 75%
-                                  //$freqmatch = $this->frequencyScore($sid, $did);
-                                  //echo 'frequencyhigh'.$freqmatch;
-                                  echo 'END two tests <br /><br />';
-                            
-                                       // now need to form array of the sources with their contentids that will make it to results
-                                       if(($fivematch == 1)  && ($freqmatch == 1))
-                                       {
-                                        $aftercalc[$sid][$ccid]['in'] = 1;
-                                        //print_r($aftercalc);
-                                       }
-                               
- 
-                            }
-                  }
-                       echo 'end of calculation run<br /><br />';
-print_r($aftercalc);
-     
-                            /*
-                            $wordtopm = null ;
-                            }
-                          
-                             // echo 'matched top';
-                              //print_r($wordtopm);
-                                
-                                  if (count($wordtopm) > 0)
-                                  {
-                                  //$unsurep = (array_diff_assoc($this->resultperdef[$sid], $wordtopm));
-                                  $unsurep = null;
+                            //echo 'does it have some context at all???????';
+                            //print_r($indsource['data'][$sid][$ccid]['scoring']['50']);
+                                 if ($indsource['data'][$sid][$ccid]['scoring']['50'] > 0)  //  has to have some context to qualify for two results 
+                                {
+                                          //echo '<br /><br /> start two tests <br /><br />';
+                                            // topfive  need to call topfive function
+                                          $fivematch = $this->sourceTopfive($did, $sid, $ccid, $indsource['data'][$sid][$ccid]);
+                                          //echo 'fivematch'.$fivematch;
+                                          
+                                          // frequency over 75%
+                                          $freqmatch = $this->frequencyScore($sid, $did);
+                                          //echo 'frequencyhigh'.$freqmatch;
+                                          //echo 'END two tests <br /><br />';
+                                    
+                                               // now need to form array of the sources with their contentids that will make it to results
+                                               if(($fivematch == 1)  && ($freqmatch == 1))
+                                               {
+                                                $aftercalc[$sid][$ccid]['in'] = 1;
+                                                //print_r($aftercalc);
+                                                //echo 'two none context test met, allow to be included for results';
+                                               }
+                                              else 
+                                              {
+                                              //echo 'failed two test';  //  note this and does this mean this post is on diff. def. not scored? probably or we got it wrong!
+                                              }
+                                               
                                   }
-                                  
+
                                   else
                                   {
-                                  $unsurep= $this->resultperdef[$sid][$ccid];
+                                  //echo 'fails as has no top50 context at all';
                                   }
-
-                                   //echo 'diffkey';
-                                   //print_r($unsurep);
-
-                                  // what about post that have context but not top word, include those if a. feed me top5  or b. score avg. > 0.75 lifestlyes includes that lifestyle definition being processed.
-                                            if (count($unsurep) > 0) 
-                                            {
-                                              // if a content id has some context score ie top50 is greater than zero
-                                           
-                                              // then find for this source the definition the results are for is in the top5 for this source and this source score with a freqency over .75 
-                                                    foreach ($unsurep as $cid=>$msc)
-                                                    {
-                                                    echo '<br /><br /> start two tests ';
-                                                      // topfive  need to call topfive function
-                                                    $fivematch = $this->sourceTopfive($sid, $msc, $unsurep);
-                                                    //echo 'fivematch'.$fivematch;
-                                                    
-                                                    // frequency over 75%
-                                                    $freqmatch = $this->frequencyScore($sid, $did);
-                                                    //echo 'frequencyhigh'.$freqmatch;
-                                                    echo 'END two tests <br /><br />';
-                                                    }
-                                                    
-                                                     // now need to form array of the sources with their contentids that will make it to results
-                                                       if(($fivematch == 1)  && ($freqmatch == 1))
-                                                       {
-                                                        $aftercalc[$sid][$msc]['in'] = 1;
-                                                        //print_r($aftercalc);
-                                                        }
-                               
-                                             }
-                                             print_r($aftercalc);
-
-                                */
-      
+                            }
+                  }
+                      //echo 'before aftercalc';
+//print_r($aftercalc);
+//echo 'end of calculation run<br /><br />';     
+                        
        return $aftercalc;
        
     }  // closes function
 
 
 		// looks at a source orders lifestyle definitions highest to lowest
-		public function sourceTopfive($sid, $cid, $unsurep)
+		public function sourceTopfive($did, $sid, $cid, $unsurep)
 		{
 			// order per source, definitions and limits the list to 5  (need to develop a smart way to cut off the length of the list ie. what are the lifestyle definition that really are this source?)
+    // echo '<br /><br />START topfive<br /><br />';
 		//print_r($this->resultsarray['normdata'][$sid]);
+   //echo 'source DEF id being used in this context'.$did.'source id'.$sid;
     $siddiff =	$this->resultsarray['normdata'][$sid];
     arsort($siddiff);
-    echo 'diff avg order';
-    print_r($siddiff);  
-    array_splice($siddiff, 5);
-    $intop = array_key_exists($sid, $siddiff);
-    //echo $intop;
+    //echo 'diff avg order';
+     
+    array_slice($siddiff, 5, true);
+    //print_r($siddiff); 
+    $intop = array_key_exists($did, $siddiff);
+    //echo 'keylist number one or null??'.$intop;
    
             if ($intop > 0 ) 
             {
@@ -207,8 +180,9 @@ print_r($aftercalc);
             {
             // for this source , this defid is NOT in the top5
             $topfive = null;
+            //echo 'not in top five';
             }
-    //echo 'in top five yes or now come on tell me';
+    //echo 'END TOPFIVE FUNCTION';
     //echo $topfive;
     
     return $topfive;
@@ -218,19 +192,21 @@ print_r($aftercalc);
 
     public function frequencyScore($sid, $did)
     {
+    //echo '<br /><br />START frequencyscore<br /><br />';
           // look at stats to see if this source has scoring average of over 75% for this lifestyle definition)
           if ($this->resultsarray['avg'][$sid][$did]['4'] > 0.75 )
           {
           
             $freqentyes = '1';
-          
+           //echo 'yes frequency over 75%';
           }
           
           else 
           {
           $freqentyes = null;
+          //echo 'no poor frequency score';
           }
-     //echo 'frequency over 75%'.$freqentyes;   
+     //echo 'ENDfrequency over 75%';   
      return $freqentyes;   
      
     }
@@ -313,11 +289,11 @@ print_r($aftercalc);
 
         if (strLen($drposts) > 0 )  {  //  if no posts for that day, no need for query
 
-        $db->query ="INSERT INTO ".RSSDATA.".dailyposts (rank, enddate, lifestyleid, postid) VALUES ";
+        //$db->query ="INSERT INTO ".RSSDATA.".dailyposts (rank, enddate, lifestyleid, postid) VALUES ";
 
-        $db->query .="$drposts";
+        //$db->query .="$drposts";
         //echo $db->query;
-        $resultpostinsert = mysql_query($db->query) or die(mysql_error());
+        //$resultpostinsert = mysql_query($db->query) or die(mysql_error());
 
         }
         }
@@ -428,7 +404,7 @@ print_r($aftercalc);
   	public function resultsComplete()
 		{
       // 
-      $this->meresults = array('1' => '1');
+      //$this->meresults = array('1' => '1');
       //print_r($this->meresults);
       return $this->meresults;
   

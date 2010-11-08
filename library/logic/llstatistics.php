@@ -89,7 +89,8 @@ class LLstatistics
 
     public function  statcalulator ($sid, $did, $votes)
     {
-
+    //echo 'votes array';
+    //print_r($votes);
     $gotdata = '';
 
     $gotdata = count($this->statsarray[$sid]);
@@ -100,8 +101,8 @@ class LLstatistics
                         $meavsum = '';                        
                         $meavscposcou = '';
                         $avgscore = '';
-                        $topmat = '';
                         $scavg = '';
+                        $topmat = '';
 
                         // total number of post for this identity
                         $meavcount = count($votes['0'][$sid]);
@@ -115,7 +116,7 @@ class LLstatistics
                         
                         // calculate number of posts that have scored for a defintion
                         $meavscposcou = count($votes['0'][$sid]);
-                        // user array above to count no. of content posts that have scored.
+                        // user array above to count no. of content posts that have scored.  This needs added logic if contentid score zero do not sum it
                         //echo $meavscposcou.'scocount';
 
                                   if ($meavscposcou > 0 )  {
@@ -133,19 +134,24 @@ class LLstatistics
                                   }
 
                                 // calculate the content posts that have the top words scored.
+                                $meavtpm = '';
+                                //echo 'top match stats';
+                                //print_r($votes['1'][$sid][$did]);
                                 $meavtpm = array_sum($votes['1'][$sid][$did]);
                                 // find no. topmatches
+                                //echo 'sum array topmatch';
+                                //print_r($meavtpm);
                                 //  to do form array of topmatches and count from it
                                 
-                                
-                              $meavscpotpm = count($meavtpm);
+                              //$meavscpotpm = '';  
+                              //$meavscpotpm = count($meavtpm);
                               //$meavscpotpm = 1;
                               //echo $$meavscpotpm.'scocount';
 
-                                if ($meavscpotpm > 0 )
+                                if ($meavtpm > 0 )
                                 {
 
-                                $topmat = $meavscpotpm;
+                                $topmat = $meavtpm;
                                 //echo $topmat.'topcount';
                                 }
 

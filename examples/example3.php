@@ -20,7 +20,9 @@ $identitysource = array('0'=>'1', '1'=>'2');
 $startSetup = array('0' => 'wikipedia', '1' => 'rssFeedreader');
 // input from UI, installation or control panel defaults
 $definitionsSet = array('0' => 'skiing', '1' => 'swimming');
-$contentSet[1] = array('0' => '1', '1' => '2');
+		  $demodef[1] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiingwikip.txt');  // temporary test data
+      $demodef[2] = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimmingwikip.txt');  // temporary test data
+ $contentSet[1] = array('0' => '1', '1' => '2');
 $contentSet[2] = array('0' => '3', '1' => '4');
 //print_r($contentSet);
 
@@ -42,43 +44,17 @@ $newframework->contentControl();
 // 2-- transfer data to core
 $newframework->controlCore();
 
-echo 'FrameWork';
+//echo 'FrameWork';
 //print_r($newframework);
 
 
-/*
-echo '<br /><br />';
-echo "Class: " . get_class($llnew);
-echo '<br /><br />';
-echo "Parent class: " . get_parent_class(get_class($llnew)); 
-echo '<br /><br />';
-// get class name
-$className = get_class($llnew);
-echo '<br /><br />';
 
-// get class properties
-echo "Class properties: ";
-print_r(get_class_vars($className));
-echo '<br /><br />';
-
-// get class methods
-echo " Class methods: ";
-print_r(get_class_methods($className));
-echo '<br /><br />';
-
-// get this instance's properties
-echo " Instance properties: ";
-//print_r(get_object_vars($llnew)); 
-echo '<br /><br />';
-*/
 
 // LL data raw API  json, activitystream, XML, RDF etc.
 
 // LL display design- default or select a theme
 
-
 // user interacts -> feedback loop (what is feedback mechnism, outcomes?
-
 
 // all the LLdiscovery engine finding new collective intelligence for the world.
 
@@ -100,59 +76,45 @@ exit();
   <title>LifestyleLinking - open source example 1</title>
 </head>
 <body>
-
-DEFINITIONS<br/>
+<b>FRAMEWORK - example3.php</b> <br /><br />
+<b>LIFESTYLE DEFINITIONS (wikidpedia raw)</b><br />
 <p>
- Def. split<br />
- <?php
- 
- ?>
+<b>SKIING</b><br />
+<?php  echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiingwikip.txt'); ?>
+</p>
+
+<p>
+<b>SWIMMING</b><br />
+<?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimmingwikip.txt'); ?>
+</p>
+
+
+<b>SOURCE ONE</b>
+<p>
+Text one: <?php echo  file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiing.txt');  // temporary data ?>
+</p>
+<p>
+Text two: <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimming.txt');  // temporary data ?>
+</p>
+<b>SOURCE TWO</b>
+<p>
+Text three: <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/skiings2.txt'); ?>
+</p>
+<p>
+Text four: <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/swimmings2.txt'); ?>
 </p>
 
 
 <p>
- Def split &amp wisdom<br />
- <?php
- 
- ?>
+<b>FRAMWORK OBJECT</b> Description of Framework and Core Object array structure <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/arraystructures.html'); ?><br />
+<?php print_r($newframework);  ?>
 </p>
 
 
 <p>
-Def. Top 50 wisdom<br />
- <?php
- 
- ?>
+<b>LLCORE OBJECT</b> <br />
+<?php print_r($llnew);  ?>
 </p>
-
-
-
-
-POST<br/>
-<p>
- Text split<br />
- <?php
- 
- ?>
-</p>
-
-
-<p>
- Text split &amp tidy<br />
- <?php
- 
- ?>
-</p>
-
-
-<p>
-Top 50 text<br />
- <?php
- 
- ?>
-</p>
-
-
 
 </body>
 </html>
