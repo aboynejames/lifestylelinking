@@ -7,10 +7,17 @@
     protected $wlen;
     protected $postcontent;
     protected $limitlist;
+    public $aset;
 	
 		public function __construct($dataToBeCleaned)
 		{
-			$this->data = $dataToBeCleaned;
+    
+    global $aset;
+    echo 'from within data cleanser assump set up funct';
+      //print_r($aset);
+      $this->charperwordlength = $aset->assumptions['characterperwordmax'];  
+      $this->data = $dataToBeCleaned;
+   echo $this->charperwordlength.'max no characters per world';
 		}
 		
    //  also want to collect basic stats on input content and to extract html links to video, photos links etc. 
@@ -23,14 +30,14 @@
      $rawcontent = html_entity_decode($this->data);
      //echo $row->content;    
      $rawcontentb = strip_tags($rawcontent);
-     $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "html", "http", "–", "com" );
-     $rawcontentc = str_replace($remove," ", $rawcontentb); 
-     $rawcontentd = trim($rawcontentc); 
+    // $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com" );
+     //$rawcontentc = str_replace($remove," ", $rawcontentb); 
+     $rawcontentd = trim($rawcontentb); 
          
      $this->wlen = strlen($rawcontentd);      
      //echo $wlen;
       //should be done in wise words,  also html  could be in text not just as mark up.
-                if ($this->wlen > 1)
+                if ($this->wlen > 0)
                 {
 
                  $this->postcontent = explode(" ", $rawcontentd);
@@ -49,12 +56,12 @@
             // logic only allow words greater than 1 character
             // limit the number of words included in list 50  give flexibilit to change.
             // make sure white space removed
-                if ($this->wlen > 1 )
+                if ($this->wlen > 0 )
                 {
                         while(list($key, $val)=each($this->postcontent))
                         {
                         $val = ereg_replace("(\\\*)+(/*)+('*)", "", $val);
-                        $val = substr($val, 0, 30);
+                        $val = substr($val, 0, $this->charperwordlength);
                         $val = trim($val); 
 
                                    if(strlen($val) > 0 )

@@ -16,6 +16,7 @@ class LLframeworkmanager
     protected $defSet;
     protected $contSet;
     protected $source;
+    public $aset;
     
    public function __construct($individual, $idsources, $inputSetup, $lifestyle, $contentdata)
 		{
@@ -27,6 +28,20 @@ class LLframeworkmanager
 
  		} 
     
+
+      //  load in current experimentation assumptions
+     		public function assumptionsSet()
+		{
+      global $aset;
+			// uses  llapi class include api classes or plug into third party servies 
+      $aset = new LLassumptions();
+      $aset->loadAssumptions();
+      //echo 'assump set up funct';
+      //print_r($aset);
+      //print_r($aset->assumptions['remove']);
+      }
+
+
 
       //  co ordinates apis plugin that feed data in and out of the whole framework  (installed feedreader, wikipedia api or pluged in as a service? will know from install.)
      		public function apiStatus()

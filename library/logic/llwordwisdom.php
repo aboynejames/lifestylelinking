@@ -13,9 +13,12 @@ class LLwordWisdom
     protected $defdata;
 		protected $indivData;
     protected $excludewords;
+    protected $wiselength;
     
     public function __construct($cleanDefinition)
 		{
+      global $aset;
+      $this->wiselength = $aset->assumptions['numberwisewords'];
       $this->defdata = $cleanDefinition;
       $this->wisdomLogic();
 		}
@@ -23,7 +26,7 @@ class LLwordWisdom
 	
   	public function wisdomLogic()
 		{
-      // loadup exlcluded works if not alreadyloaded
+      // loadup exlcluded words if not alreadyloaded
       $this->loadExcludewords();
       $this->wordFrequency();
 //      $this->wiseWords();
@@ -53,8 +56,8 @@ class LLwordWisdom
                       arsort($wordsorder);
                       //print_r($wordsorder);
 
-                      // contains array of words order by frequency they scored, highest first, limited to twenty?
-                      $this->wiseData[1] = array_slice($wordsorder, 0, 50);
+                      // contains array of words order by frequency they scored, highest first, limited to fifty?
+                      $this->wiseData[1] = array_slice($wordsorder, 0, $this->wiselength);
                       
                       }
             }            
@@ -63,18 +66,55 @@ class LLwordWisdom
     } 
   
   
-		public function confusionQuotent()
+
+
+		public function tidyspecialchars()
 		{
+    
+    // before running this function need to make sure none of the remove list are in a definition
+    
       // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
+       $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com" );
+     $rawcontentc = str_replace($remove," ", $rawcontentb); 
       
   
     }   
+
+
+  
+		public function confusionQuotent()
+		{
+      // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
+      //  need to keep words that important to a definition
+      
+      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia
+      
+      // what definitions are 'live'  run CQ over them
+      
+  
+    }   
+  
+  
+		public function frequentWords()
+		{
+      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia ie crowd source the most frequently use words e.g. a and the another also etc.   but all for inclusion of core to definition?
+      
+      
+      
+  
+    }   
+  
+  
+  
   
   
 		public function loadExcludewords()
 		{
       // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
      $sourcelist = file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/excludewords.txt');
+     
+     // are any of the excluded words in definitions if so, do not exclude them
+     
      $this->excludewords = explode(",", $sourcelist);
       
     }   
@@ -82,7 +122,6 @@ class LLwordWisdom
   
   	public function wiseWords()
 		{
-      // loadup exlcluded works if not alreadyloaded
       //print_r($this->wiseData);
       return $this->wiseData;
   
