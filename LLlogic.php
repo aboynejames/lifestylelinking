@@ -33,6 +33,11 @@ require_once "library/logic/lldefinitions.php";
 /**
  * @see LLcore class
  */
+require_once "library/logic/llconfusionquotent.php";
+
+/**
+ * @see LLcore class
+ */
 require_once "library/logic/llwordwisdom.php";
 
 /**

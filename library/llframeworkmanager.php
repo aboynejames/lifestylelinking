@@ -110,13 +110,14 @@ class LLframeworkmanager
     //print_r($llnew);
     //  time to enter the matrix
     $llnew->LLcoremanager($this->identitysource);
-    $llnew->createLLMatrix($this->contentid);
-    $llnew->calculateLLStats($this->contentid);
-    $llnew->calculateLLAvgOfAvg($this->contentid);
-    $llnew->calculateLLNormalisation($this->contentid);
+    $llnew->controlConfusionQuotent($llnew->wiseDefinition);
+    //$llnew->createLLMatrix($this->contentid);
+    //$llnew->calculateLLStats($this->contentid);
+    //$llnew->calculateLLAvgOfAvg($this->contentid);
+    //$llnew->calculateLLNormalisation($this->contentid);
     // Self form LL groups
-    $llnew->calculateLLgroups($this->contentid); 
-    $llnew->calculateLLresults($this->contentid);
+    //$llnew->calculateLLgroups($this->contentid); 
+    //$llnew->calculateLLresults($this->contentid);
     //print_r($llnew);
       
     }

@@ -38,13 +38,14 @@ $newframework->apiStatus();
 // Defintions, first time add, update, identity
 $newframework->definitionControl();
 
+
 // content from the universe
 // input from rssfeeders or third party api service
-//$newframework->contentControl();
+$newframework->contentControl();
 
 
 // 2-- transfer data to core
-//$newframework->controlCore();
+$newframework->controlCore();
 
 //  to be implemented
 // LL data raw API  json, activitystream, XML, RDF etc.
@@ -104,13 +105,13 @@ Text four: <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource
 <?php print_r($aset);  ?>
 <p>
 <b>FRAMWORK OBJECT</b> Description of Framework and Core Object array structure <?php echo file_get_contents('http://www.aboynejames.co.uk/opensource/LL/llcore/text/arraystructures.html'); ?><br />
-<?php print_r($newframework);  ?>
+<?php //print_r($newframework);  ?>
 </p>
 
 
 <p>
 <b>LLCORE OBJECT</b> <br />
-<?php print_r($llnew);  ?>
+<?php //print_r($llnew); ?>
 </p>
 
 </body>

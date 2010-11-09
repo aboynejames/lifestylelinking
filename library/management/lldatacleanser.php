@@ -7,18 +7,20 @@
     protected $wlen;
     protected $postcontent;
     protected $limitlist;
-    public $aset;
+    //public $aset;
+    protected $remove;
+    protected $minlength;
 	
 		public function __construct($dataToBeCleaned)
 		{
     
     global $aset;
-    echo 'from within data cleanser assump set up funct';
-      //print_r($aset);
-      $this->charperwordlength = $aset->assumptions['characterperwordmax'];  
+    
+      $this->remove = $aset->assumptions['remove'];
+      $this->charperwordlength = $aset->assumptions['characterperwordmax']; 
+      $this->minlength = $aset->assumptions['wordlength'];      
       $this->data = $dataToBeCleaned;
-   echo $this->charperwordlength.'max no characters per world';
-		}
+   		}
 		
    //  also want to collect basic stats on input content and to extract html links to video, photos links etc. 
     
@@ -30,9 +32,11 @@
      $rawcontent = html_entity_decode($this->data);
      //echo $row->content;    
      $rawcontentb = strip_tags($rawcontent);
-    // $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com" );
-     //$rawcontentc = str_replace($remove," ", $rawcontentb); 
-     $rawcontentd = trim($rawcontentb); 
+     
+     // this remove is in two places need to think out chicken n egg  untidy v tidy,  e.g. html markup or context of the text authored?
+     $remove = $this->remove;
+     $rawcontentc = str_replace($remove," ", $rawcontentb); 
+     $rawcontentd = trim($rawcontentc); 
          
      $this->wlen = strlen($rawcontentd);      
      //echo $wlen;
@@ -64,7 +68,7 @@
                         $val = substr($val, 0, $this->charperwordlength);
                         $val = trim($val); 
 
-                                   if(strlen($val) > 0 )
+                                   if(strlen($val) > $this->minlength )
                                    {
                                
                                     $this->limitlist[] .= strtolower($val);

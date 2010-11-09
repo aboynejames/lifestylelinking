@@ -13,11 +13,13 @@ class LLwordWisdom
     protected $defdata;
 		protected $indivData;
     protected $excludewords;
+    protected $remove;
     protected $wiselength;
     
     public function __construct($cleanDefinition)
 		{
       global $aset;
+      $this->remove = $aset->assumptions['remove'];
       $this->wiselength = $aset->assumptions['numberwisewords'];
       $this->defdata = $cleanDefinition;
       $this->wisdomLogic();
@@ -68,45 +70,6 @@ class LLwordWisdom
   
 
 
-		public function tidyspecialchars()
-		{
-    
-    // before running this function need to make sure none of the remove list are in a definition
-    
-      // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
-       $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com" );
-     $rawcontentc = str_replace($remove," ", $rawcontentb); 
-      
-  
-    }   
-
-
-  
-		public function confusionQuotent()
-		{
-      // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
-      //  need to keep words that important to a definition
-      
-      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia
-      
-      // what definitions are 'live'  run CQ over them
-      
-  
-    }   
-  
-  
-		public function frequentWords()
-		{
-      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia ie crowd source the most frequently use words e.g. a and the another also etc.   but all for inclusion of core to definition?
-      
-      
-      
-  
-    }   
-  
-  
-  
-  
   
 		public function loadExcludewords()
 		{
@@ -124,10 +87,34 @@ class LLwordWisdom
 		{
       //print_r($this->wiseData);
       return $this->wiseData;
+  } 
   
-    } 
   
   
+  
+		public function tidyspecialchars()
+		{
+    
+    // before running this function need to make sure none of the remove list are in a definition
+    
+      // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
+     $remove = $this->remove;
+     $rawcontentc = str_replace($remove," ", $rawcontentb); 
+      
+  
+    }   
+
+
+
+  
+		public function frequentWords()
+		{
+      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia ie crowd source the most frequently use words e.g. a and the another also etc.   but all for inclusion of core to definition?
+      
+      
+      
+  
+    }   
   
   
 } // closes class

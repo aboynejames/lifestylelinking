@@ -66,7 +66,7 @@ class LLdefinitions
       $lifedefobj = new wikipedia();
 
       $wdefwords = $lifedefobj->getpage($wikiword, $revid=null);     
-      print_r($wdefwords);
+      //print_r($wdefwords);
 			// Create a LLDataCleanser object
 			$dataCleaner = new LLDataCleanser($wdefwords);
 			
