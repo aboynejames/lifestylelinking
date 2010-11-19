@@ -7,20 +7,11 @@
     protected $wlen;
     protected $postcontent;
     protected $limitlist;
-    //public $aset;
-    protected $remove;
-    protected $minlength;
 	
 		public function __construct($dataToBeCleaned)
 		{
-    
-    global $aset;
-    
-      $this->remove = $aset->assumptions['remove'];
-      $this->charperwordlength = $aset->assumptions['characterperwordmax']; 
-      $this->minlength = $aset->assumptions['wordlength'];      
-      $this->data = $dataToBeCleaned;
-   		}
+			$this->data = $dataToBeCleaned;
+		}
 		
    //  also want to collect basic stats on input content and to extract html links to video, photos links etc. 
     
@@ -32,16 +23,14 @@
      $rawcontent = html_entity_decode($this->data);
      //echo $row->content;    
      $rawcontentb = strip_tags($rawcontent);
-     
-     // this remove is in two places need to think out chicken n egg  untidy v tidy,  e.g. html markup or context of the text authored?
-     $remove = $this->remove;
+     $remove = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#",  "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "html", "http", "–", "com" );
      $rawcontentc = str_replace($remove," ", $rawcontentb); 
      $rawcontentd = trim($rawcontentc); 
          
      $this->wlen = strlen($rawcontentd);      
      //echo $wlen;
       //should be done in wise words,  also html  could be in text not just as mark up.
-                if ($this->wlen > 0)
+                if ($this->wlen > 1)
                 {
 
                  $this->postcontent = explode(" ", $rawcontentd);
@@ -60,15 +49,15 @@
             // logic only allow words greater than 1 character
             // limit the number of words included in list 50  give flexibilit to change.
             // make sure white space removed
-                if ($this->wlen > 0 )
+                if ($this->wlen > 1 )
                 {
                         while(list($key, $val)=each($this->postcontent))
                         {
                         $val = ereg_replace("(\\\*)+(/*)+('*)", "", $val);
-                        $val = substr($val, 0, $this->charperwordlength);
+                        $val = substr($val, 0, 30);
                         $val = trim($val); 
 
-                                   if(strlen($val) > $this->minlength )
+                                   if(strlen($val) > 0 )
                                    {
                                
                                     $this->limitlist[] .= strtolower($val);

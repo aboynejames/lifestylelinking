@@ -21,17 +21,17 @@ class LLstatistics
   	}
 
 
-    public function statisticsManager($contidarray) 
+    public function statisticsManager() 
     {
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions,
      
     $defids = array('0'=>'1', '1'=>'2');
-    $conSet = $contidarray; // include sid and cid ie source and its content data ids for that source
+    //$conSet = $contidarray; // include sid and cid ie source and its content data ids for that source
    // print_r($conSet);
                   
-                  $votes = $this->formScorearray ($defids, $conSet);
+                  $votes = $this->formScorearray ($defids, $jamtoreplace);
                   
                   foreach ($defids as $did)
                   {

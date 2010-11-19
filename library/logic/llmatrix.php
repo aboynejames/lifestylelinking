@@ -10,37 +10,37 @@
     protected $matrix;
     protected $idmatrix;
 	
-		public function __construct($definitiontidy, $wordstidy)
+		public function __construct($definitionWise, $contentwordsWise)
 		{
-      $this->definitionarray = $definitiontidy;	
-      $this->wordsarray = $wordstidy;
+      $this->definitionarray = $definitionWise;	
+      $this->wordsarray = $contentwordsWise;
            
       //  need to set segmentation (need to allow future flexibility on this e.g. sentence structure, NLP
       $this->wordseg = array ( 1, 2, 3, 4, 5, 10, 20, 50 );
-  
+  //print_r($this->wordsarray);
     }
 
 
-    public function matrixManager($contidarray) 
+    public function matrixManager() 
     {
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions, this should be smarter to save un-nessary scoring.
     // should pick up this data from framework object.
     $defids = array('0'=>'1', '1'=>'2');
-    
-    $conids = $contidarray;
+    //print_r($this->wordsarray);
+    //$conids = $contidarray;
     
                   foreach ($defids as $did)
                   {
                   
-                        foreach($conids as $sid=>$cid)
+                        foreach($this->wordsarray as $sid=>$cid)
                         {
-                            foreach($cid as $ccid)
-                            {
+                          //  foreach($cid as $ccid)
+                            //{
                                 //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
-                                $this->startLLmatrix($did, $sid, $ccid);
-                            }
+                                $this->startLLmatrix($did, $sid, $cid);
+                            //}
                         
                         }
                     
