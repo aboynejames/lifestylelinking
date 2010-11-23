@@ -10,7 +10,7 @@ require_once 'llcore/library/'.$className.'.php';
 
 } */
 
-// EXAMPLE 3  1 individual owner, and 2 definitions (ie parts of lifestyle) 2 identity sources (one owned by framework individual) each with a unique content source with 2 different content posts content per source 
+// EXAMPLE 4  1 individual owner, and 2 definitions (ie parts of lifestyle) 2 identity sources (one owned by framework individual) each with a unique content source with 2 different content posts content per source 
 
 try{
 
@@ -92,7 +92,7 @@ Text four: <?php //echo file_get_contents('C:\apache\htdocs\llcore\text\swimming
 
 <p>
 <b>LLCORE OBJECT</b> <br />
-<?php print_r($llnew);  ?>
+<?php //print_r($llnew);  ?>
 </p>
 
 </body>

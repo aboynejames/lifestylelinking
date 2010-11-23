@@ -50,15 +50,21 @@
         
        // use this manager function to call other core functions
         // matrix
-          $llnew->createLLMatrix();
+          $this->createLLMatrix();
 
         // statistics
+          $this->calculateLLStats();
         
         // break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports defs?
-        
-        // normalization
+        // break to update Avg of Avg.
+          $this->calculateLLAvgOfAvg();
+       
+       // normalization
+          $this->calculateLLNormalisation();
         
         // peergroups
+        // Self form LL groups
+          $this->calculateLLgroups();
        
        //results  
         
@@ -128,22 +134,22 @@
 		}
 	
 		// average of averages
-		public function calculateLLAvgOfAvg($contidsource)
+		public function calculateLLAvgOfAvg()
 		{
 			// Establish average of averages for each definition(s)
       $newavgs = new LLavgOfavg($this->matrix['avg']);
-      $newavgs->AvgofAvgManager($contidsource);
+      $newavgs->AvgofAvgManager();
       $this->avgofavgs = $newavgs->avgOFavgsComplete();
       //print_r($this->avgofavgs);
       
 		}
 
 		// calc avg. of averages
-		public function calculateLLNormalisation($contidsource)
+		public function calculateLLNormalisation()
 		{
 			//  turns averages to percentages to allow comparison of apples with oranges.
       $newNormalization = new LLnormalization($this->avgofavgs, $this->matrix['avg']);
-      $newNormalization->normalizationManager($contidsource);
+      $newNormalization->normalizationManager();
       $this->matrix['normdata'] = $newNormalization->normalizeComplete();
       //print_r($this->matrix['normdata']);      
       
@@ -151,13 +157,13 @@
 
 
 		// calc melife
-		public function calculateLLgroups($contidsource)
+		public function calculateLLgroups()
 		{
 			// Take code from old core/logic/social.php and pre ie social folder two files
 			// Use arrays instead of database
       // order list of identities by LLorder based on each definition
       $newGroups = new LLgroups($this->matrix['normdata']);
-      $newGroups->groupManager($contidsource);
+      $newGroups->groupManager();
       $this->lifeGroup = $newGroups->groupsComplete(); 
       //print_r($this->lifeGroup);      
         

@@ -30,17 +30,18 @@ class LLstatistics
     $defids = array('0'=>'1', '1'=>'2');
     //$conSet = $contidarray; // include sid and cid ie source and its content data ids for that source
    // print_r($conSet);
+   $sid = 1;
                   
-                  $votes = $this->formScorearray ($defids, $jamtoreplace);
-                  
+                  $votes = $this->formScorearray ($sid, $defids);
+                  //print_r($votes);
                   foreach ($defids as $did)
                   {
-                        foreach($conSet as $sid=>$cid)
-                        {
+                        //foreach($this->statsarray as $sid=>$cid)
+                        //{
                                
                                //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
                                $this->statcalulator($sid, $did, $votes);                        
-                        }
+                        //}
                     
                   }  
         
@@ -51,17 +52,17 @@ class LLstatistics
     }
 
 
-    public function formScorearray ($defids, $conSet)
+    public function formScorearray ($sid, $defids)
     {
 //echo 'form';
 //print_r($this->statsarray[1][1][1]['scoring'][50]);
-         foreach($conSet as $sid=>$cid)
-          {
+         //foreach($conSet as $sid=>$cid)
+          //{
           
                 foreach($defids as $did)
                 {
                 
-                        foreach($cid as $ccid)
+                        foreach($this->statsarray[1] as $ccid=>$ar)
                         {
                         //echo 'sid'.$sid;
                         //echo 'cid'.$ccid;
@@ -74,12 +75,12 @@ class LLstatistics
                         }
                 }
                 
-           }
+           //}
 //print_r($top50);
 //print_r($topmatch);
       
-     $statinput['0'] = $top50;
-     $statinput['1'] = $topmatch;
+     $statinput['sco'] = $top50;
+     $statinput['mat'] = $topmatch;
      //print_r($statinput);
       return $statinput;
 
@@ -105,19 +106,33 @@ class LLstatistics
                         $topmat = '';
 
                         // total number of post for this identity
-                        $meavcount = count($votes['0'][$sid]);
+                        $meavcount = count($votes['sco'][$sid][$did]);
                         //echo $meavcount.'count';
                         
                         //print_r($this->statsarray[$indid][$did][scoring][50]);
                         // accumulated scoring votes for all content from a source identity  
                         // first need to form array of just the top50 votes for an individual id ie. all the content posts for this source
-                        $meavsum = array_sum($votes['0'][$sid][$did]);
+                        $meavsum = array_sum($votes['sco'][$sid][$did]);
                         //echo $meavsum.'sum';
                         
-                        // calculate number of posts that have scored for a defintion
-                        $meavscposcou = count($votes['0'][$sid]);
-                        // user array above to count no. of content posts that have scored.  This needs added logic if contentid score zero do not sum it
-                        //echo $meavscposcou.'scocount';
+                            // calculate number of posts that have scored for a defintion
+                            $scocont = '';
+                            //print_r($votes['sco'][$sid][$did]);
+                            foreach ($votes['sco'][$sid][$did] as $svalue) 
+                            {
+                             
+                                if ($svalue > 0)
+                                {
+                                
+                                $scocont[] = $svalue;
+                                
+                                }
+                           
+                            }
+                             //print_r($scocont);
+                            $meavscposcou = count($scocont);
+                            // user array above to count no. of content posts that have scored.  
+                            //echo $meavscposcou.'scocount';
 
                                   if ($meavscposcou > 0 )  {
                                   // calcuate average score statistic
@@ -137,7 +152,7 @@ class LLstatistics
                                 $meavtpm = '';
                                 //echo 'top match stats';
                                 //print_r($votes['1'][$sid][$did]);
-                                $meavtpm = array_sum($votes['1'][$sid][$did]);
+                                $meavtpm = array_sum($votes['mat'][$sid][$did]);
                                 // find no. topmatches
                                 //echo 'sum array topmatch';
                                 //print_r($meavtpm);

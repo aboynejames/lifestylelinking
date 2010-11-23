@@ -33,12 +33,14 @@
     
                   foreach ($defids as $did)
                   {
-                  
-                        foreach($this->wordsarray as $sid=>$cid)
+                  $sid = 1;
+                  //print_r($this->wordsarray);
+                        foreach($this->wordsarray as $cid=>$ws)
                         {
-                          //  foreach($cid as $ccid)
+                        //print_r($cid);
+                          // foreach($cid as $ccid=>$words)
                             //{
-                                //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
+                                //echo 'defid='.$did.'and sid'.$sid.'andcid='.$cid;
                                 $this->startLLmatrix($did, $sid, $cid);
                             //}
                         
@@ -51,12 +53,13 @@
 
     public function startLLmatrix($did, $sid, $cid) 
     {
+    //echo $cid;
       //print_r($this->definitionarray);
       //print_r($this->definitionarray[$did]);
       //print_r($this->wordsarray);
-      //print_r($this->wordsarray[$cid]);
+      //print_r($this->wordsarray[$sid][$cid]);
       // if word and definition data not in arrays, then need to make them (either input nosql or query database}.
-      if ( (isset($this->definitionarray[$did]) == 1)  &&  (isset($this->wordsarray[$sid][$cid][1]) == 1)  )
+      if ( (isset($this->definitionarray[$did]) == 1)  &&  (isset($this->wordsarray[$cid][1]) == 1)  )
       {
   
       // this required if more than one definition in core
@@ -75,7 +78,7 @@
 
                   //echo "<br />newwww<br />";
                   //print_r($this->wordsarray[1]);
-                  $aa3 = array_intersect_key( $lifewordsarrays, $this->wordsarray[$sid][$cid][1]);
+                  $aa3 = array_intersect_key( $lifewordsarrays, $this->wordsarray[$cid][1]);
                   //print_r($aa3);
 
                               if (count($aa3) > 0 )

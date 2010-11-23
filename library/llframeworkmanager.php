@@ -151,15 +151,7 @@ class LLframeworkmanager
     //  time to enter the matrix
     $llnew->LLcoremanager($sid);
   
-   // $llnew->calculateLLStats();
-   
-   // break to update Avg of Avg.
-   
-    //$llnew->calculateLLAvgOfAvg();
-    
-    //$llnew->calculateLLNormalisation();
-    // Self form LL groups
-    //$llnew->calculateLLgroups();
+
 
     // import input context instance, ie results window  output make the future.
     
