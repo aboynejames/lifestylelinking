@@ -105,6 +105,24 @@
       
 		}
 	
+  
+    public function controlConfusionQuotent($definitionarray)
+    {
+      // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
+      // need to keep words that important to a definition
+      
+      // can we find the most requently used 'joining' words from perform CQ on enough definitions from wikipedia?
+      
+      // what definitions are 'live' run CQ over them
+      // shows total no. words common to two definitions
+      // need to feed function the top50 words for each lifestyle definition
+      $newCQ = new LLconfusionQuotent($definitionarray);
+      $newCQ->defmatseg();
+      $newCQ->defmatsegorder();
+      
+            
+  
+    } 
 
     public function createLLMatrix()
 		{

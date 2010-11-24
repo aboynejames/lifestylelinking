@@ -16,18 +16,33 @@ class LLframeworkmanager
     protected $defSet;
     protected $contSet;
     protected $source;
+    protected $resultswindow;
     
-   public function __construct($individual, $idsources, $inputSetup, $lifestyleDefs)
+   public function __construct($individual, $idsources, $inputSetup, $lifestyleDefs, $resultswindow)
 		{
 			$this->individual = $individual;
       $this->identitysource = $idsources;
       $this->frameworkSetup = $inputSetup;
       $this->lifestyle = $lifestyleDefs;
+      $this->resultswindow = $resultswindow;
 
+      $this->assumptionsSet();
       $this->indentityStatusmanger();
       
  		} 
     
+    
+        // load in current experimentation assumptions
+      public function assumptionsSet()
+      {
+      global $aset;
+      // uses llapi class include api classes or plug into third party servies
+      $aset = new LLassumptions();
+      $aset->loadAssumptions();
+      //echo 'assump set up funct';
+      //print_r($aset);
+      //print_r($aset->assumptions['remove']);
+      }
 
       // Start.  First time use, update use?
         public function indentityStatusmanger()
@@ -61,67 +76,92 @@ class LLframeworkmanager
       
      // check to see if existing framework setting exist  ie data from previous setup ie defs already added, sources of content, results windows?
       $loadstatus = $this->existingSettings();
-     
-     if ($loadstatus)
-     {
-           // for existing defs and sources of contents  see if updates,  ie updated wisewords for each definition or sources of content as new content authored into the universe?  (possible rescore of existing content with updated defintions and notify user of changes to results they have used in the past?)
-           
-           if ($loadstatus['startdefs'] == 0 )
-           {
-           // load or update lifestyle definitions
-                 // status of definitions
-          // nil, need to promoted to add first, have def. been updated, peer to peer to to community hub e.g. mepath.com for sport
-            $this->definitionControl();
-           
-           }
-           
-           
-           if ($loadstatus['startcontent'] == 0 )
-           {
-               // identity of content
-               // is this first time entry of any content, is then addition of second content source, or rescoring of existing content on new definitions etc.
-              
-                        // extract sources and then foreachloop on a per source basis
-                        //but need to call call rssfeeder to find those?
-                        $newsource = array('0'=>'1');
-                        foreach ($newsource as $sid)
-                        {
-                       
-                       $this->contentControl($sid);
-                       
-                       // core  process wisewords, matrix, statistics break to create Avg. of Avg then proceed to normalization, peergroups,, break to input results window then display based on window ie make future 
-                       // need some function to poll clean content to detect a new sources to allow content core to begin rather than waiting for all new content to be updated
-                       $this->controlCore($sid);
-                       
-                       }
-
+      print_r($loadstatus);
+       
+       if ($loadstatus)
+       {
+             // for existing defs and sources of contents  see if updates,  ie updated wisewords for each definition or sources of content as new content authored into the universe?  (possible rescore of existing content with updated defintions and notify user of changes to results they have used in the past?)
+             
+             if ($loadstatus['startdefs'] !== 0 )
+             {
+             // load or update lifestyle definitions
+            // status of definitions
+            // nil, need to promoted to add first, have def. been updated, peer to peer to to community hub e.g. mepath.com for sport
+              $this->definitionControl($loadstatus['startdefs']);
+             
              }
+             
+             
+             if ($loadstatus['startcontent'] !== 0 )
+             {
+                 // identity of content
+                 // is this first time entry of any content, is addition of second content source, or rescoring of existing content on new definitions etc.
+                  print_r($loadstatus['startcontent']);
+                          // extract sources and then foreachloop on a per source basis
+                          //but need to call call rssfeeder to find those?
+                          foreach ($loadstatus['startcontent'] as $sid=>$surl)
+                          {
+                         
+                         $this->contentControl($sid, $surl);
+                         
+                         // core  process wisewords, matrix, statistics break to create Avg. of Avg then proceed to normalization, peergroups,, break to input results window then display based on window ie make future 
+                         // need some function to poll clean content to detect a new sources to allow content core to begin rather than waiting for all new content to be updated
+                         $this->controlCore($sid);
+                         
+                         }
 
-            
+               }
+
+              
      } 
       
-    }
+  }
  
  
       // depending on first time use, nosql, or sql setup, load existing frameworks status info. ie. exsting defs, sources of content, results windows, display etc.
       public function existingSettings()
 		{
       // load last use settings
-      $existingframework['startdefs'] = 0;
-      $existingframework['startcontent'] = 0;
+     // exsting definitions
+      $existingdefs = $this->existingdef();
+      $newdefs = $this->lifestyle;
+      
+      $comparedefnew = $newdefs;
+      
+      
+      //  what are the current content inputs
+      $existingsources = $this->existingsource();
+      $newsource = $this->identitysource;
+      // compare both are return the new to be processed
+     // some array comparing to be added 
+      $comparenewsource = $this->identitysource;
+      
+      $existingframework['startdefs'] = $comparedefnew;
+      $existingframework['startcontent'] = $comparenewsource;
       
       return $existingframework;
  
     }
   
   
+      public function existingdef()
+		{
+      // load last used definitions  (might be worth calling external api rdf for avg of avg updates?
+    }
+  
+      public function existingsource()
+		{
+    // what sources already added rss , photo, video etc etc. call pubhubsubdub from here?
+ 
+    }
+  
+  
       // or special case  starting defintions from wikipedia,  built in api or  as a service (from somewhere, mepath might provide)
-      public function definitionControl()
+      public function definitionControl($newdefs)
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
-      $newdef = new LLdefinitions();
-      $newdef->definitionWord($this->lifestyle);
+      $newdef = new LLdefinitions($newdefs);
       $newdef->definitionManager();
       $newdef->startNewdefinition();
       $this->defSet = $newdef->cleanedDefinition();
@@ -134,10 +174,7 @@ class LLframeworkmanager
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
       $newdata = new LLcontent($sid); 
-      // new content to be processed?
-      //$newdata->contentData();
       $newdata->contentManager();
-      //$newdata->startNewcontent();
       $this->contSet = $newdata->cleanedContent();
       //print_r($this->contSet);
     }

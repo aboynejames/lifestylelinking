@@ -18,6 +18,11 @@ require_once "library/llcore.php";
 /**
  * @see LLcore class
  */
+require_once "library/llexperimentation.php";
+
+/**
+ * @see LLcore class
+ */
 require_once "library/logic/llcontent.php";
 
 
@@ -31,6 +36,11 @@ include_once('apis/simplepie/idn/idna_convert.class.php');
  * @see LLcore class
  */
 require_once "library/logic/lldefinitions.php";
+
+/**
+ * @see LLcore class
+ */
+require_once "library/logic/llconfusionquotent.php";
 
 /**
  * @see LLcore class

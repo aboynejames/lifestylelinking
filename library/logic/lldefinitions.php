@@ -1,24 +1,25 @@
 <?php
 
-class LLdefinitions
-{
+      class LLdefinitions
+      {
 
-     protected $defwikiword;  // the unique word for a page on wikipedia 
-     protected $definitionPrep;  // list of definition with uniqueids / rdf uris
-     protected $cleanDefinition;  // array of definition words clean and split into single words.
+           protected $defwikiword; // the unique word for a page on wikipedia
+           protected $definitionPrep; // list of definition with uniqueids / rdf uris
+           protected $cleanDefinition; // array of definition words clean and split into single words.
 
     // accept input definition words (only allow from wikipedia (for now))
-    public function definitionWord($defstart)
+     		public function __construct($newdefs)
 		{
 			// TODO: Check that postWords is in the correct format
       // need to add regex to make sure 
 
-      $this->defwikiword = $defstart;   // temporary test data
-            
+      $this->defwikiword = $newdefs;   // temporary test data
+      print_r($this->defwikiword);      
 		}
 
 
-    public function definitionManager()
+           
+ public function definitionManager()
 		{
 			// If a new definition is being added then attach a new definition identity to it (no.1 + linked data url e.g. dpedia
       //  also someday, defintions will be update i.e. crowd sourced from LL community(could be segments of a community) rather than wikipedia, or no. of words in list today 50 eventually all words ever used online.
@@ -31,11 +32,11 @@ class LLdefinitions
      // array to compare input definitions with existing defs. already in framework
 
      // call wikipedia API  (this examples limited two pre pared source files)
-		  $demodef[1] = file_get_contents('C:\apache\htdocs\llcore\text\skiingwikip.txt');  // temporary test data
-      $demodef[2] = file_get_contents('C:\apache\htdocs\llcore\text\swimmingwikip.txt');  // temporary test data     
+		  //$this->defwikiword[1] = file_get_contents('C:\apache\htdocs\llcore\text\skiingwikip.txt');  // temporary test data
+      //$this->defwikiword[2] = file_get_contents('C:\apache\htdocs\llcore\text\swimmingwikip.txt');  // temporary test data     
       
       
-      $this->definitionPrep = $demodef;
+      $this->definitionPrep = $this->defwikiword;
       
 		}
 
@@ -53,24 +54,17 @@ class LLdefinitions
 
       
 		}
-
-
-    // call wikipedia api to retrive source definition content 
-		public function buildDefinitions($defid, $indef)
+    
+   // call wikipedia api to retrive source definition content 
+		public function buildDefinitions($defid, $wikiword)
 		{
 			// Note: use arrays and not database
-			
-			// Call the Wikipedia API for URL for $subject
-      // first need to activate include wikipedia class
-      // how???
-      // use the wikipedia class
-			//$lifeobj = new Wikipedia();
-      //$lifeobj->getpage($this->$indef, $revid=null);
-      $lifeobj = $indef;
-            
-      
+      $lifedefobj = new wikipedia();
+
+      $wdefwords = $lifedefobj->getpage($wikiword, $revid=null);     
+      //print_r($wdefwords);
 			// Create a LLDataCleanser object
-			$dataCleaner = new LLDataCleanser($lifeobj);
+			$dataCleaner = new LLDataCleanser($wdefwords);
 			
 			// Clean the data
 			$dataCleaner->clean();
@@ -80,6 +74,7 @@ class LLdefinitions
       //print_r($this->cleanDefinition);      
     
 		}
+ 
 
 		public function cleanedDefinition()
     {
@@ -88,6 +83,5 @@ class LLdefinitions
 
 
   }  // closes class
-  
   
   ?>
