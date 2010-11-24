@@ -15,18 +15,16 @@ class LLgroups
     }
     
     
-    public function groupManager($contidarray)
+    public function groupManager()
     {
       // what sort of list, 1. assume average, 2 personalized on idenitity of individual  (could be lists by aggregating or add various lifestyle defs together e.g swimming + trialthon ie a swimmer that also does triathlon.
-      $source = $contidarray;
-      // average list  do per lifestyle definition
-      $defids = array('0'=>'1', '1'=>'2');
       
         // need to add a loop foreach individual identity source 
-        foreach($source as $sid=>$cid)
+        foreach($this->normalinput as $sid=>$dids)
         {
+        //print_r($dids);
               // order each source top diff positive to negative
-                foreach($defids as $did)
+                foreach($dids as $did=>$davg)
                 {
                 //print_r($this->normalinput[$sid][$did]);
                 $defgrouparray[$did][$sid] =  $this->normalinput[$sid][$did];
@@ -36,16 +34,17 @@ class LLgroups
           
         }
           //print_r($defgrouparray);
-          $this->buildPeergroups($defids, $defgrouparray);
+          $this->buildPeergroups($dids, $defgrouparray);
     
     }
     
 
-    public function buildPeergroups($defids, $defgrouparray)
+    public function buildPeergroups($dids, $defgrouparray)
     {
     // given all the identities, list them in an order based on 'normalized distance from average'
     //echo 'buld group';
-    foreach($defids as $did)
+    //print_r($dids);
+    foreach($dids as $did=>$davgs)
     {
     //print_r($defgrouparray[$did]);
     asort($defgrouparray[$did]);

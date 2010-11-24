@@ -21,19 +21,19 @@ class LLnormalization
     }
 
 
-   public function normalizationManager ($contidarray)
+   public function normalizationManager ()
 		{
-      // need to take each individual definition average and 
-      $conids = $contidarray;
-      $defids = array('0'=>'1', '1'=>'2');
+      // need to take each individual definition average
+        
         
        // need to add a loop foreach individual identity source 
         
-        foreach($defids as $did)
+        foreach($this->avgavgcomm as $did=>$avgv)
           {
           
-                foreach($conids as $sid=>$cid)
+                foreach($this->indivavg as $sid=>$cid)
                 {
+                  //echo 'def avg'.$this->avgavgcomm[$did];
                   $this->normalizeDistances($sid, $did, $this->avgavgcomm[$did]);
                 }
         

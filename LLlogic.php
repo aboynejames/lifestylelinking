@@ -13,11 +13,6 @@ require_once "library/llframeworkmanager.php";
 /**
  * @see LLcore class
  */
-require_once "library/llexperimentation.php";
-
-/**
- * @see LLcore class
- */
 require_once "library/llcore.php";
 
 /**
@@ -25,15 +20,17 @@ require_once "library/llcore.php";
  */
 require_once "library/logic/llcontent.php";
 
-/**
- * @see LLcore class
- */
-require_once "library/logic/lldefinitions.php";
+
+// Include SimplePie
+// Located in the parent directory
+include_once('apis/simplepie/simplepie.class.php');
+include_once('apis/simplepie/idn/idna_convert.class.php');
+
 
 /**
  * @see LLcore class
  */
-require_once "library/logic/llconfusionquotent.php";
+require_once "library/logic/lldefinitions.php";
 
 /**
  * @see LLcore class

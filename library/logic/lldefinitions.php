@@ -8,13 +8,13 @@ class LLdefinitions
      protected $cleanDefinition;  // array of definition words clean and split into single words.
 
     // accept input definition words (only allow from wikipedia (for now))
-    public function definitionWord($defstart)
+     		public function __construct($newdefs)
 		{
 			// TODO: Check that postWords is in the correct format
       // need to add regex to make sure 
-//      $this->assumptions = $assumptions;
-      $this->defwikiword = $defstart;   // temporary test data
-            
+
+      $this->defwikiword = $newdefs;   // temporary test data
+      //print_r($this->defwikiword);      
 		}
 
 
@@ -27,19 +27,15 @@ class LLdefinitions
      // check if new, if so attached definition id to it ie a number for this framework and dpedia uri if already entered attach that defintition id to it.
      // first call and get list of all defintition stored in the framework (could also use PeertoPeer RDF to get most update def ie. post first time use via wikipedia)
      // to be built
-     //check to see if first time enter lifestyle definition words (for this example yes)
-     
+     //check to see if first time enter lifestyle definition words (for this example yes
+     // array to compare input definitions with existing defs. already in framework
+
      // call wikipedia API  (this examples limited two pre pared source files)
-
-      // start lifestyle definition array ie those already added
-      $existingdefs = array();
-
-      // new lifestyle definitions added via UI or control panel (assume all first time entry
-      $newdefs = $this->defwikiword;
-      //  compare two to array to get new wikipedia words that need to be collected.
+		  //$this->defwikiword[1] = file_get_contents('C:\apache\htdocs\llcore\text\skiingwikip.txt');  // temporary test data
+      //$this->defwikiword[2] = file_get_contents('C:\apache\htdocs\llcore\text\swimmingwikip.txt');  // temporary test data     
       
-          
-      $this->definitionPrep = $newdefs;
+      
+      $this->definitionPrep = $this->defwikiword;
       
 		}
 
@@ -49,17 +45,16 @@ class LLdefinitions
 		{
 			// starts methods to add new definition(s)
 			      // one or more defintions?
-           foreach ($this->definitionPrep as $defid=>$wikiword)
+           foreach ($this->definitionPrep as $defid=>$indef)
            {
-             $this->buildDefinitions($defid, $wikiword);
+             //$this->buildDefinitions($defid, $indef);
             
             } // closes foreach loop
 
       
 		}
-
-
-    // call wikipedia api to retrive source definition content 
+    
+   // call wikipedia api to retrive source definition content 
 		public function buildDefinitions($defid, $wikiword)
 		{
 			// Note: use arrays and not database
@@ -78,6 +73,7 @@ class LLdefinitions
       //print_r($this->cleanDefinition);      
     
 		}
+ 
 
 		public function cleanedDefinition()
     {

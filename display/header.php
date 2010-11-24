@@ -20,6 +20,7 @@ function llheader ()
 <!--[if lt IE 7]>
 
 	<link rel="stylesheet" type="text/css" media="all" href="css/ie6.css"/><![endif]-->
+  
 </head>
 
 <body id="index" class="home">
