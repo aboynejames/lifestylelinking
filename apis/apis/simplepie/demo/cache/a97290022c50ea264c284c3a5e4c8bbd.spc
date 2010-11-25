@@ -1,1 +1,0 @@
-a:3:{s:3:"url";s:36:"http://lifestylelinking.blogspot.com";s:8:"feed_url";s:56:"http://lifestylelinking.blogspot.com/feeds/posts/default";s:5:"build";s:14:"20101106155636";}
