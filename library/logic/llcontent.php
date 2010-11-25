@@ -8,10 +8,11 @@ class LLcontent
      protected $newcontent;
 
         // feed in the content
-     		public function __construct($contentsources)
+     		public function __construct($sourceid, $sourceurl)
 		{
         
-			  $this->contentin = $contentsources;
+			  $this->contentin = $sourceid;
+        $this->contenturl = $sourceurl;
             
 		}
      
@@ -35,7 +36,7 @@ class LLcontent
       //{
  
        // match source id to url decide if new or updating 
-      $this->newcontent[$this->contentin] = $this->startFeedreader($this->contentin);
+      $this->newcontent[$this->contentin] = $this->startFeedreader($this->contenturl);
       //print_r($this->newcontent);
       $this->startNewcontent($this->contentin);
       
@@ -45,19 +46,19 @@ class LLcontent
 		} 
 
 
-    public function startFeedreader($sid)
+    public function startFeedreader($surlin)
 		{
     
     // use source id to check if new or required to be check for new data
     
     // add function to do this
-    $sidurl = 'http://aboynejames.blogspot.com';
+//    $sidurl = 'http://aboynejames.blogspot.com';
 
     // Start counting time for the page load
           $starttime = explode(' ', microtime());
           $starttime = $starttime[1] + $starttime[0];
 
-          $_GET['feed'] = $sidurl;
+          $_GET['feed'] = $surlin;
 
           // Create a new instance of the SimplePie object
           $feed = new SimplePie();

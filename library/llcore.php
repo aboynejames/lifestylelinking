@@ -50,21 +50,21 @@
         
        // use this manager function to call other core functions
         // matrix
-          $this->createLLMatrix();
+          $this->createLLMatrix($source);
 
         // statistics
-          $this->calculateLLStats();
+          $this->calculateLLStats($source);
         
         // break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports defs?
         // break to update Avg of Avg.
-          $this->calculateLLAvgOfAvg();
+          //$this->calculateLLAvgOfAvg();
        
        // normalization
-          $this->calculateLLNormalisation();
+          //$this->calculateLLNormalisation();
         
         // peergroups
         // Self form LL groups
-          $this->calculateLLgroups();
+          //$this->calculateLLgroups();
        
        //results  
         
@@ -124,28 +124,28 @@
   
     } 
 
-    public function createLLMatrix()
+    public function createLLMatrix($sid)
 		{
 			// score matrix
 			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
 			// Use arrays instead of database
       
-      $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent['1']); 
+      $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent[$sid]); 
       // start matrix
       //$newmatrix->startLLmatrix();
-      $newmatrix->matrixManager();
+      $newmatrix->matrixManager($sid);
       $this->matrix = $newmatrix->matrixComplete();
       //print_r($this->matrix);
 
 		}
 
 		// cal stats
-		public function calculateLLStats()
+		public function calculateLLStats($sid)
 		{
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
       $newstats = new LLstatistics($this->matrix);
-      $newstats->statisticsManager();
+      $newstats->statisticsManager($sid);
       $this->matrix['avg'] = $newstats->statisticsComplete();
       //print_r($this->matrix['avg']);
       

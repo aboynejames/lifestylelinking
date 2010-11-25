@@ -169,11 +169,11 @@ class LLframeworkmanager
      }
    
      
-      public function contentControl($sid)
+      public function contentControl($sid, $surl)
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
-      $newdata = new LLcontent($sid); 
+      $newdata = new LLcontent($sid, $surl); 
       $newdata->contentManager();
       $this->contSet = $newdata->cleanedContent();
       //print_r($this->contSet);

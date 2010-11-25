@@ -21,19 +21,19 @@
     }
 
 
-    public function matrixManager() 
+    public function matrixManager($sid) 
     {
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions, this should be smarter to save un-nessary scoring.
     // should pick up this data from framework object.
-    $defids = array('0'=>'1', '1'=>'2');
+    //$defids = array('0'=>'1', '1'=>'2');
     //print_r($this->wordsarray);
     //$conids = $contidarray;
     
-                  foreach ($defids as $did)
+                  foreach ($this->definitionarray as $did=>$wdef)
                   {
-                  $sid = 1;
+                  //$sid = 1;
                   //print_r($this->wordsarray);
                         foreach($this->wordsarray as $cid=>$ws)
                         {
