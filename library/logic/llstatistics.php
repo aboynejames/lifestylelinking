@@ -13,11 +13,13 @@ class LLstatistics
     protected $statsarray;
     protected $statsSummary;
     
-    public function __construct($matrix)
+    public function __construct($matrix, $defstoscore)
 		{
     // new data 
       $this->statsarray = $matrix;
+      $this->definitions = $defstoscore;
       //print_r($this->statsarray);
+      //print_r($this->definitions);
   	}
 
 
@@ -26,13 +28,11 @@ class LLstatistics
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions,
-     
-    $defids = array('0'=>'1', '1'=>'2');
     
                   
-                  $votes = $this->formScorearray ($sid, $defids);
+                  $votes = $this->formScorearray ($sid, $this->definitions);
                   //print_r($votes);
-                  foreach ($defids as $did)
+                  foreach ($this->definitions as $did=>$durl)
                   {
                         //foreach($this->statsarray as $sid=>$cid)
                         //{
@@ -57,7 +57,7 @@ class LLstatistics
          //foreach($conSet as $sid=>$cid)
           //{
           
-                foreach($defids as $did)
+                foreach($defids as $did=>$durl)
                 {
                 
                         foreach($this->statsarray[$sid] as $ccid=>$ar)

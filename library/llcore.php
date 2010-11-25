@@ -3,6 +3,7 @@
 	class LLCore {
 	
 		protected $cleanContent; // array of words from content
+    protected $defstoscore;
 		protected $cleanDefinition; // cleaned version of Wiki definiton
     protected $matrix;
   //  protected $statistics;
@@ -18,7 +19,7 @@
 		} 
     
 		
-    public function LLcoremanager($source)
+    public function LLcoremanager($source, $defstoscore)
     {
     // utility function to 
     // has information to tag data with so the right combintation of path through core is captured and recorded.
@@ -26,6 +27,8 @@
     // core runs on a PER SOURCE basis (exept break for avgofavg update/calc) before resuming on per source basis, results aggregate data qualifying for results windows from indiv sources.
     //print_r($this->cleanDefinition);
     //print_r($this->cleanContent);
+        
+       $this->defstoscore = $defstoscore; 
         // make wise Definitions
         foreach ($this->cleanDefinition as $defid=>$defWords) 
         {
@@ -53,18 +56,18 @@
           $this->createLLMatrix($source);
 
         // statistics
-          $this->calculateLLStats($source);
+          $this->calculateLLStats($source, $this->defstoscore);
         
         // break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports defs?
         // break to update Avg of Avg.
-          //$this->calculateLLAvgOfAvg();
+          $this->calculateLLAvgOfAvg();
        
        // normalization
-          //$this->calculateLLNormalisation();
+          $this->calculateLLNormalisation();
         
         // peergroups
         // Self form LL groups
-          //$this->calculateLLgroups();
+          $this->calculateLLgroups();
        
        //results  
         
@@ -140,11 +143,11 @@
 		}
 
 		// cal stats
-		public function calculateLLStats($sid)
+		public function calculateLLStats($sid, $defstoscore)
 		{
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
-      $newstats = new LLstatistics($this->matrix);
+      $newstats = new LLstatistics($this->matrix, $defstoscore);
       $newstats->statisticsManager($sid);
       $this->matrix['avg'] = $newstats->statisticsComplete();
       //print_r($this->matrix['avg']);

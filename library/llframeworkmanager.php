@@ -106,7 +106,7 @@ class LLframeworkmanager
                          
                          // core  process wisewords, matrix, statistics break to create Avg. of Avg then proceed to normalization, peergroups,, break to input results window then display based on window ie make future 
                          // need some function to poll clean content to detect a new sources to allow content core to begin rather than waiting for all new content to be updated
-                         $this->controlCore($sid);
+                         $this->controlCore($sid, $loadstatus['startdefs']);
                          
                          }
 
@@ -147,11 +147,14 @@ class LLframeworkmanager
       public function existingdef()
 		{
       // load last used definitions  (might be worth calling external api rdf for avg of avg updates?
+     $existingdefarray = array(); 
+      
     }
   
       public function existingsource()
 		{
     // what sources already added rss , photo, video etc etc. call pubhubsubdub from here?
+      $existingsourcesarray = array();
  
     }
   
@@ -180,13 +183,13 @@ class LLframeworkmanager
     }
 
     // LLcore goes to play
-      public function controlCore($sid)
+      public function controlCore($sid, $defsforcore)
 		{
     global $llnew;
     
     $llnew = new LLCore($this->defSet, $this->contSet[$sid]);
     //  time to enter the matrix
-    $llnew->LLcoremanager($sid);
+    $llnew->LLcoremanager($sid, $defsforcore);
   
 
 
