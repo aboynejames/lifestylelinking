@@ -1,6 +1,6 @@
 <?php
 	
-	class LLCore {
+	class LLCore  {
 	
 		protected $cleanContent; // array of words from content
     protected $defstoscore;
@@ -12,12 +12,20 @@
     protected $results;
     
     
-   public function __construct($dataDefinition, $dataContent)
+   public function __construct()
+		{
+			//$this->cleanDefinition = $dataDefinition;
+      //$this->cleanContent = $dataContent;
+		} 
+    
+   
+    public function sourcecontent($dataDefinition, $dataContent)
 		{
 			$this->cleanDefinition = $dataDefinition;
       $this->cleanContent = $dataContent;
 		} 
-    
+   
+
 		
     public function LLcoremanager($source, $defstoscore)
     {

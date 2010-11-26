@@ -59,7 +59,7 @@ class LLframeworkmanager
 
       //  co ordinates apis plugin that feed data in and out of the whole framework  (installed feedreader, wikipedia api or pluged in as a service? will know from install.)
      		public function apiStatus()
-		{
+      {
 			// uses  llapi class include api classes or plug into third party servies 
       $apinew = new apimanagement($this->frameworkSetup);
       
@@ -96,20 +96,26 @@ class LLframeworkmanager
              {
                  // identity of content
                  // is this first time entry of any content, is addition of second content source, or rescoring of existing content on new definitions etc.
-                  print_r($loadstatus['startcontent']);
+                print_r($loadstatus['startcontent']);
                           // extract sources and then foreachloop on a per source basis
                           //but need to call call rssfeeder to find those?
-                          foreach ($loadstatus['startcontent'] as $sid=>$surl)
-                          {
-                         
+                         $llnew = new LLCore(); 
+                        foreach ($loadstatus['startcontent'] as $sid=>$surl)
+                        {
+                         echo 'start content';
                          $this->contentControl($sid, $surl);
                          
-                         // core  process wisewords, matrix, statistics break to create Avg. of Avg then proceed to normalization, peergroups,, break to input results window then display based on window ie make future 
-                         // need some function to poll clean content to detect a new sources to allow content core to begin rather than waiting for all new content to be updated
-                         $this->controlCore($sid, $loadstatus['startdefs']);
-                         
+                         // core  process wisewords, matrix, statistics break to create Avg. of Avg then proceed to normalization, peergroups,, break to input results window then display based on window ie make future
+                          echo 'start core';
+                             // need some function to poll clean content to detect a new sources to allow content core to begin rather than waiting for all new content to be updated
+                             //$this->controlCore($sid, $loadstatus['startdefs']);
+                             // $llnew = new LLCore($this->defSet, $this->contSet[$sid]);
+                            $llnew->sourcecontent($this->defSet, $this->contSet[$sid]);
+                            //  time to enter the matrix
+                            $llnew->LLcoremanager($sid, $this->lifestyle);
+                                print_r($llnew);
                          }
-
+                     
                }
 
               
@@ -185,20 +191,20 @@ class LLframeworkmanager
     // LLcore goes to play
       public function controlCore($sid, $defsforcore)
 		{
-    global $llnew;
+      global $llnew;
+   
+     // $llnew = new LLCore($this->defSet, $this->contSet[$sid]);
+      $llnew->sourcecontent($this->defSet, $this->contSet[$sid]);
+      //  time to enter the matrix
+      $llnew->LLcoremanager($sid, $defsforcore);
     
-    $llnew = new LLCore($this->defSet, $this->contSet[$sid]);
-    //  time to enter the matrix
-    $llnew->LLcoremanager($sid, $defsforcore);
-  
-
-
-    // import input context instance, ie results window  output make the future.
-    
-    //$llnew->calculateLLresults();
-    //print_r($llnew);
-    
-    // from raw data feed json or rdf php array (see easy rdf code look at using)
+      //print_r($llnew);
+      // import input context instance, ie results window  output make the future.
+      
+      //$llnew->calculateLLresults();
+      //print_r($llnew);
+      
+      // from raw data feed json or rdf php array (see easy rdf code look at using)
 
     }
 
