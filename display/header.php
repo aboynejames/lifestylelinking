@@ -1,10 +1,22 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Forming header for the display UI 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-// LLbox
-function llheader ()
-{
-?>
-
+/**
+ * Build header logic for display page
+ *
+ * 
+ */
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

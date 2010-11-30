@@ -1,4 +1,21 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Demo of the user interface 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
+
+/**
+ * The LL user experience 
+ *
+ * 
+ */
 include_once ('llcore/display/header.php');
 // stitch together header and content.
 

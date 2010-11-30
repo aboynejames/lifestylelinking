@@ -1,4 +1,21 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Example4.php  show how the LL Framework and Core work 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
+
+/**
+ * Illustrates Framwork Object and Core Object structures
+ *
+ *
+ */
 //$hh =  set_include_path(get_include_path() . PATH_SEPARATOR . '../library/');
 //echo $hh;
 set_include_path(get_include_path() . PATH_SEPARATOR . '../');
