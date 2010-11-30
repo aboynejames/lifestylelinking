@@ -1,5 +1,23 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Clean definition and source content of markup 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
+/**
+ * Removes markup around content authored on the web
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 	class LLDataCleanser {
 
     protected $data;

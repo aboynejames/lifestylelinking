@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * LifestyleLinking
+ *
+ * Use this file to load the LifestyleLinking Framework.
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
+
+/**
+ * Framework for managing the whole LifestyleLinking experience.
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */
 class LLframeworkmanager
 {
   // overall management of the framework    apis, datachecking, core, display, testing, experimentation  
@@ -17,7 +36,18 @@ class LLframeworkmanager
     protected $contSet;
     protected $source;
     protected $resultswindow;
-    
+
+     
+    /**
+     * Constructor 
+     *
+     * Setup of new or existing Framework settings 
+     *
+     * Data input from the UI
+     *
+     * @param  int  $individual    owner of frameworks id
+     *
+     */
    public function __construct($individual, $idsources, $inputSetup, $lifestyleDefs, $resultswindow)
 		{
 			$this->individual = $individual;
@@ -31,8 +61,11 @@ class LLframeworkmanager
       
  		} 
     
-    
-        // load in current experimentation assumptions
+    /** load in current experimentation assumptions
+     *
+     * The default assumption active in the frawework
+     *
+     */ 
       public function assumptionsSet()
       {
       global $aset;
@@ -44,8 +77,13 @@ class LLframeworkmanager
       //print_r($aset->assumptions['remove']);
       }
 
-      // Start.  First time use, update use?
-        public function indentityStatusmanger()
+      
+    /** Establish the starting indienty of definitions and content sources
+     *
+     * What has already but processed by core?  What need to go into LLcore?
+     *
+     */
+      public function indentityStatusmanger()
 		{
 			// identity of Framework
       // has the framework been unique identified?
@@ -57,8 +95,13 @@ class LLframeworkmanager
       }
 
 
-      //  co ordinates apis plugin that feed data in and out of the whole framework  (installed feedreader, wikipedia api or pluged in as a service? will know from install.)
-     		public function apiStatus()
+      
+    /** Co ordinates apis plugin that feed data in and out of the whole framework  
+     *
+     * (installed feedreader, wikipedia api or pluged in as a service? will know from install.)
+     *
+     */
+      public function apiStatus()
       {
 			// uses  llapi class include api classes or plug into third party servies 
       $apinew = new apimanagement($this->frameworkSetup);
@@ -66,7 +109,11 @@ class LLframeworkmanager
       }
 
 
-    // tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
+    
+    /** Tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
+     *
+     *
+     */
       public function identityControl()
 		{
 
@@ -124,7 +171,13 @@ class LLframeworkmanager
   }
  
  
-      // depending on first time use, nosql, or sql setup, load existing frameworks status info. ie. exsting defs, sources of content, results windows, display etc.
+   
+    /** depending on first time use, nosql, or sql setup, load existing frameworks status info. ie. exsting defs, sources of content, results windows, display etc.
+     *
+     *
+     * @return array of existing settings
+     *
+     */ 
       public function existingSettings()
 		{
       // load last use settings
@@ -150,6 +203,9 @@ class LLframeworkmanager
     }
   
   
+    /** Find out existing defintion existing in the Framework
+     *
+     */ 
       public function existingdef()
 		{
       // load last used definitions  (might be worth calling external api rdf for avg of avg updates?
@@ -157,6 +213,9 @@ class LLframeworkmanager
       
     }
   
+    /** Find out the exsting content sources in the Framework
+     *
+     */ 
       public function existingsource()
 		{
     // what sources already added rss , photo, video etc etc. call pubhubsubdub from here?
@@ -165,7 +224,11 @@ class LLframeworkmanager
     }
   
   
-      // or special case  starting defintions from wikipedia,  built in api or  as a service (from somewhere, mepath might provide)
+    /** Controls creating a new lifestyle Definition 
+     *
+     * After adding markup is clean from the defintion words 
+     *
+     */
       public function definitionControl($newdefs)
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
@@ -178,6 +241,11 @@ class LLframeworkmanager
      }
    
      
+    /** Controls adding new content sources to the Framework
+     *
+     * After adding mark up is clean from source content words
+     *
+     */ 
       public function contentControl($sid, $surl)
 		{
     // where is the data coming from?
@@ -188,7 +256,11 @@ class LLframeworkmanager
       //print_r($this->contSet);
     }
 
-    // LLcore goes to play
+    /** Control the data going into LLcore
+     *
+     * Fed into core on a per content sources basis (and as many definitions that need scoring)
+     * 
+     */
       public function controlCore($sid, $defsforcore)
 		{
       global $llnew;

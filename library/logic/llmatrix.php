@@ -1,4 +1,30 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * The matching of wise definitions and content words 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
+
+/**
+ * Clean definition and source content are process match
+ *
+ * Manager hands the follow stages
+ *
+ * Make words wise, frequency count and removal of confusionQuotent/'joing' words e.g. that and at etc.
+ * Matrix  Matching words in a content item to a definitions wiseWords
+ * Statistics build aggregate statistics of a whole content source over time
+ * Avgerage of Averages calculate for all sources in the universe for each definition
+ * Normalization  given a community lifestyle definition average, how far is a particular source from that average
+ * Peer Group   Given each sources 'distance from a lifestyle definition, order source top to bottom
+ * Results  - given individuals input results window (input context) produce results
+ * 
+ */
 
 	class LLmatrix {
 		

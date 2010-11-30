@@ -1,5 +1,34 @@
 <?php
-	
+/**
+ * LifestyleLinking
+ *
+ * Use this file to load the LLcore logic.
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
+
+/**
+ * Clean definition and source content are process to create LL data
+ *
+ * Manager hands the follow stages
+ *
+ * Make words wise, frequency count and removal of confusionQuotent/'joing' words e.g. that and at etc.
+ * Matrix  Matching words in a content item to a definitions wiseWords
+ * Statistics build aggregate statistics of a whole content source over time
+ * Avgerage of Averages calculate for all sources in the universe for each definition
+ * Normalization  given a community lifestyle definition average, how far is a particular source from that average
+ * Peer Group   Given each sources 'distance from a lifestyle definition, order source top to bottom
+ * Results  - given individuals input results window (input context) produce results
+ * Make all data available (json) for distribution anywhere on the web
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 	class LLCore  {
 	
 		protected $cleanContent; // array of words from content
@@ -11,14 +40,24 @@
     protected $lifeGroup;
     protected $results;
     
-    
+    /**
+     * Constructor 
+     *
+     *
+     */
    public function __construct()
 		{
 			//$this->cleanDefinition = $dataDefinition;
       //$this->cleanContent = $dataContent;
 		} 
     
-   
+    /** Clean definition and clean source content input to core (maybe put back in to constructor?)
+     *
+     *
+     * @param array $this->cleanDefinition
+     * @param array $this->cleanContent
+     *
+     */ 
     public function sourcecontent($dataDefinition, $dataContent)
 		{
 			$this->cleanDefinition = $dataDefinition;
@@ -26,7 +65,11 @@
 		} 
    
 
-		
+    /** Control how all the stages of core are handled
+     *
+     *
+     *
+     */ 
     public function LLcoremanager($source, $defstoscore)
     {
     // utility function to 
@@ -84,8 +127,13 @@
         
     } // closes function
     
-
-	public function makeDefinitions($defid, $defWords)
+    /** Turns clean Definition array in Wise array of words
+     *
+     * based on frequency used author by wikipedia community (why?  Start crowd source vocabularly)
+     * also certain words excluded  CQ and 'joining' words
+     *
+     */ 
+  	public function makeDefinitions($defid, $defWords)
 		{
 			// Note: use arrays and not database
 			
@@ -99,9 +147,13 @@
 			$this->wiseDefinition[$defid] = $dataWisdom->wiseWords();
 		}
 	
-  
-		// tidy data, excluded words (need to crowd source these via confusion )
-		public function makeContent($sid, $contid, $contWords)
+    /** Turns clean content arrays into wise list of words for each content item
+     *
+     * based on frequency used author by wikipedia community (why?  Start crowd source vocabularly)
+     * also certain words excluded  CQ and 'joining' words
+     *
+     */ 
+  		public function makeContent($sid, $contid, $contWords)
 		{
 			// Note: use arrays and not database
 			
@@ -116,7 +168,12 @@
       
 		}
 	
-  
+    /** Given the definition in Core, how alike are they?  
+     *
+     * identifies matrix of words showing how closely two or more definition are
+     * 
+     *
+     */ 
     public function controlConfusionQuotent($definitionarray)
     {
       // if more than one definition in the universe - look to see if 'the system' will find them confusing to classify?
@@ -134,7 +191,13 @@
             
   
     } 
-
+    
+    /** Matches the wise definition words to those in each content item
+     *
+     * each content item array is search to see if a definition words is match
+     * matched words a ranked for frequency importance and allocate votes based on definition word weighting
+     *
+     */ 
     public function createLLMatrix($sid)
 		{
 			// score matrix
@@ -149,8 +212,14 @@
       //print_r($this->matrix);
 
 		}
-
-		// cal stats
+    
+    /** Start the statistics class that aggregates data on a content source
+     *
+     * how many content items, how frequency do content items score? etc
+     * Calculate average definition score (per scoring content items)
+     * Frequency that a source score for each definition
+     *
+     */ 
 		public function calculateLLStats($sid, $defstoscore)
 		{
 			// Take code from old core/logic/mestats.php
@@ -161,7 +230,13 @@
       //print_r($this->matrix['avg']);
       
 		}
-	
+
+    /** Community definition averages class
+     *
+     * given all the framework individual sources in the universe, what is the average of average for that population?
+     * 
+     *
+     */ 
 		// average of averages
 		public function calculateLLAvgOfAvg()
 		{
@@ -172,8 +247,13 @@
       //print_r($this->avgofavgs);
       
 		}
-
-		// calc avg. of averages
+    
+    /** Normalization of source data
+     *
+     * Given the community average and an individual source average
+     * calculate that 'distance' as a simple percentage sum (that is the normalization used)
+     *
+     */     
 		public function calculateLLNormalisation()
 		{
 			//  turns averages to percentages to allow comparison of apples with oranges.
@@ -184,8 +264,12 @@
       
 		}
 
-
-		// calc melife
+    /** Creates list of order sources base on 'distance' from avg.ofavg for each definition 
+     *
+     * Orders the normalized data for each source, highest to lowest  (maybe square to get rid of negative numbers?)
+     * 
+     *
+     */ 
 		public function calculateLLgroups()
 		{
 			// Take code from old core/logic/social.php and pre ie social folder two files
@@ -197,8 +281,13 @@
       //print_r($this->lifeGroup);      
         
 		}
-
-    // calculat results
+    
+    /** Given individuals input context (results window) produce best results
+     *
+     * Uses all available data to produce results
+     * What LL science has been used to connect all individuals?
+     *
+     */     
     public function calculateLLresults($contidsource)
     {
     // produce data to be passed to display

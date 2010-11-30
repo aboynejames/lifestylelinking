@@ -1,12 +1,27 @@
-
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Checks all data coming in the Framework to ensure it is safe (as can be) 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-// utility class
-// ie. tidy data, form relative urls, basic admin tasks
-
+/**
+ * All input data from UI check before entering Framework
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 class utility 
 {
-
+// utility class
+// ie. tidy data, form relative urls, basic admin tasks
 
 
 

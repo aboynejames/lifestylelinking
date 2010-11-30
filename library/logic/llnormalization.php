@@ -1,5 +1,23 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Normalization of source averages compared to a community average 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
+/**
+ * Calculates a normalizaton based on a simple percentage
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 
 class LLnormalization
 {

@@ -1,11 +1,29 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * The assumptions behing the LifestyleLinking science
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
+/**
+ * Input of human assumptions (as little as possible, all should be crowd sources)
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
+class LLassumptions
+{
 // add new logic and ideas to the core
 // able to test against currunt.
 
 // current human assumptions (ie not crowd sourced, where possible try and replace these with crowd source values)
-class LLassumptions
-{
   
     public $assumptions;
     

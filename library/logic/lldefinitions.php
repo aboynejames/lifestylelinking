@@ -1,7 +1,25 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Controls new definitions into the Framework 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-      class LLdefinitions
-      {
+/**
+ * Definitions are all started from a wikipedia URL
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
+ class LLdefinitions
+ {
 
            protected $defwikiword; // the unique word for a page on wikipedia
            protected $definitionPrep; // list of definition with uniqueids / rdf uris

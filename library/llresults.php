@@ -1,6 +1,24 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Take all LL data to produce results based on input context (results window)
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-	class LLResults
+/**
+ * Calcluates results
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
+class LLResults
 	{
 		// Use old core/logic/dailyresults.php
 		

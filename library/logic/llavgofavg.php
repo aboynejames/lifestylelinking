@@ -1,6 +1,23 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Given a community of sources, for each definition was the average of the average value per definition? 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-
+/**
+ * Wisdom of the crowd average aggregation calculation
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 class LLavgOfavg
 {
   

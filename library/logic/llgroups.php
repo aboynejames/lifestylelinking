@@ -1,6 +1,23 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Creates list of peer groups for each context/definition 
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-
+/**
+ * Applies LL logic to pull together sources of feeds around lifestyle.
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 class LLgroups
 {
        //

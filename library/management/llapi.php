@@ -1,7 +1,23 @@
 <?php
+/**
+ * LifestyleLinking
+ *
+ * Co-ordinates the various local and in the cloud api available to the Framework.
+ *
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    $Id$
+ */
 
-// not being used right now - api used hardwired into LLlogic.php class include list.
-
+/**
+ * Manages the identity, connection and dataflows from API's
+ *
+ * @package    LifestyleLinking Open Source Project
+ * @copyright  Copyright (c) 2010 James Littlejohn
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ */	
 class apimanagement
 {
 

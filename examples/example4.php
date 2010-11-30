@@ -87,7 +87,7 @@ Text four: <?php //echo file_get_contents('C:\apache\htdocs\llcore\text\swimming
 
 <p>
 <b>FRAMWORK OBJECT</b> Description of Framework and Core Object array structure <?php //echo file_get_contents('C:\apache\htdocs\llcore\text\arraystructures.html'); ?><br />
-<?php// print_r($newframework);  ?>
+<?php print_r($newframework);  ?>
 </p>
 
 
