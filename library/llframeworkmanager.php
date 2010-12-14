@@ -139,7 +139,7 @@ global $llnew;
              
              }
              
-             
+       /*      
              if ($loadstatus['startcontent'] !== 0 )
              {
                  // identity of content
@@ -168,7 +168,7 @@ global $llnew;
                      
                }
 
-              
+            */  
      } 
       
        //print_r($llnew);
