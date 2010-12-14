@@ -20,11 +20,14 @@
  */	
 class LLResults
 	{
-		// Use old core/logic/dailyresults.php
+		//  what is the Lifestylelinking logic to use for results  ie how is all life connected?  start in context of same definition, science to add together lifestyle logic (to be found chaos theory?)
 		
-		public function defineResultsWindow() 
+		public function defineResultsPath() 
 		{
-			
+		
+      //  user intention  or daily update of all (or part or rescoring due to new data)
+      
+      
 		}
 		
 		// Use average ll science

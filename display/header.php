@@ -43,7 +43,7 @@ function llheader ()
 <header id="accountnav" class="body">
 	
   	<nav><ul>
-		<li class="active"><a href="#">login</a></li>
+		<li class="active"><a href="controlpanel/index.php">login</a></li>
 	   </ul></nav>
   
   </header><!-- /#banner -->
@@ -53,7 +53,6 @@ function llheader ()
 
 <img src="display/images/mepath.png"><br><br>
 
-Enter something about your lifestyle: words, a blog or website
 <form>
   <input name="q" type="search"  >
   <br>
@@ -122,11 +121,6 @@ function displayheader5 ()
    <nav><ul>
 		<li class="active"><a href="#">me</a></li>
 		<li><a href="#">sport</a></li>
-
-		<li><a href="#">music</a></li>
-		<li><a href="#">science</a></li>
-    	<li><a href="#">software</a></li>
-      <li><a href="#">food</a></li>
 	</ul></nav>
 
 </header><!-- /#banner -->

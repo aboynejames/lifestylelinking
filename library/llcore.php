@@ -79,7 +79,7 @@
     // core runs on a PER SOURCE basis (exept break for avgofavg update/calc) before resuming on per source basis, results aggregate data qualifying for results windows from indiv sources.
     //print_r($this->cleanDefinition);
     //print_r($this->cleanContent);
-        
+        /*
        $this->defstoscore = $defstoscore; 
         // make wise Definitions
         foreach ($this->cleanDefinition as $defid=>$defWords) 
@@ -102,7 +102,7 @@
                 
                 }
         //}        
-        
+        */
        // use this manager function to call other core functions
         // matrix
           $this->createLLMatrix($source);

@@ -75,7 +75,7 @@ include_once('apis/simplepie/idn/idna_convert.class.php');
 /**
  * @see LLdefinitions class
  */
-require_once "library/logic/lldefinitions.php";
+require_once "library/management/lldefinitions.php";
 
 /**
  * @see LLconfusionQuotent class
@@ -115,13 +115,18 @@ require_once "library/logic/llgroups.php";
 /**
  * @see LLResults class
  */
-require_once "library/logic/llresults.php";
+require_once "library/llresults.php";
 
 
 /**
  * @see apimanagement class
  */
 require_once "library/management/llapi.php";
+
+/**
+ * @see LLrdf class
+ */
+require_once "library/management/llrdf.php";
 
 
 /**

@@ -26,9 +26,15 @@ class LLassumptions
 // current human assumptions (ie not crowd sourced, where possible try and replace these with crowd source values)
   
     public $assumptions;
+    protected $iLLlogic;
     
+    /** load in current experimentation assumptions
+     *
+     * The default assumption active in the frawework
+     *
+     */ 
    public function __construct()
-{
+  {
       $this->assumptions['remove'] = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#", "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com", "htm", "px" );
       $this->assumptions['wordlength'] = 1;
       $this->assumptions['characterperwordmax'] = 30;
@@ -36,14 +42,49 @@ class LLassumptions
       
   }
     
+    /** find out what definition will be need to produce a resultpath given the user intention
+     *
+     * The default will be a single defintion until a more advanced science if found
+     *
+     */  
+   public function LLlogic($LLlogic)
+  {
+echo $LLlogic;
+  // what is the 'science that connects all life?
+  //  this will determine the data required to produce the 'best' resultpath for this individual life
+  //types available,  single  or order of definitions
+        if ($LLlogic === 'singledefinition')
+        {
+          // then lifestylelinking will be performed based upon one definition
+          $this->iLLlogic = 'intention';
+        
+        }
+        
+        else
+        {
+        // based on a science unique to this individual, an array of definition in a certain order will produce better resutls
+        $this->iLLlogic = array();  // some order  could be 1 def, 2 defs, combo defs, location, weather, medical sats in the future (probably a dynamic algorithm to call)
+        
+        
+        }
+
+
+
+
+  } 
+  
+    /** pass back to framework the defintion LLlogic
+     *
+     *  a singel def or array of logic or algorythm (cometime)
+     *
+     */ 
     
    public function loadAssumptions()
-{
-      // loadup exlcluded works if not alreadyloaded
-      //print_r($this->wiseData);
-      return $this->assumptions;
+  {
+      
+      return $this->iLLlogic;
   
-    }
+  }
   
     
     

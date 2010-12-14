@@ -51,19 +51,24 @@ class apimanagement
           
     }
 
-
-//  installed apis available
-
-    // wikipedia include class
+    
+    /** wikipedia include class
+     *
+     * local install or as a service from the web?
+     *
+     */  
     public function wikipediAPI()
 		{
 			
      include_once('apis/wikipedia.php'); 
       
     }
-
-
-    // wikipedia include class
+    
+    /** rss/atom feed reader / parser
+     *
+     * local install or as a service from the web?
+     *
+     */  
     public function rssFeedreader()
 		{
 			
@@ -74,9 +79,11 @@ class apimanagement
     // other to add potentiall,  openis, FBconnect, pubhubsubdub, easyRDF, fickr photo, youtube videos, api all media available on web.
 
 
-//  third party as a service e.g. superfeedr, twitter, fb, sports data, medical data etc.
-
-    // wikipedia include class
+    /** other api services
+     *
+     * any other apps local or online service to integrate
+     *
+     */  
     public function thirdPartyAPI()
 		{
       // use this function to hook up to third part APIS

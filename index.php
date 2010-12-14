@@ -1,4 +1,5 @@
 <?php
+session_start();
 /**
  * LifestyleLinking
  *
@@ -16,7 +17,9 @@
  *
  * 
  */
-include_once ('opensource/lifestylelinking/display/header.php');
+define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+
+include_once (DOCROOT.'display/header.php');
 // stitch together header and content.
 
 $jam = $_GET['q'];
@@ -36,4 +39,6 @@ else {
 displayheader5() ;
 
 } // closes else
+
+
 ?>

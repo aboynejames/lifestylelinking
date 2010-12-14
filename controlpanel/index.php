@@ -1,35 +1,47 @@
-<?php
+<?php session_start();
 set_include_path(get_include_path() . PATH_SEPARATOR . '../');
 require_once "LLlogic.php";
+include_once('controlpanel/controlhead.php'); 
 
-// controlpanel for LL
-
-// control over personalization, data, display settings for the framework
-
+//echo RSSDATA;
 
 ?>
 
-<html>
 
-<body>
-CQ - CONFUSION QUOTENT TESTING<br />
 <?php
-
-// testing confusion quotent
-
-//  shows total no. words common to two definitions
-// need to feed function the top50 words for each lifestyle definition
-$newCQ = new  LLconfusionQuotent();
-$newCQ->cqtwodef ($lifewordsagg);
-$newCQ->defmatcount ();
-
-
+include_once ("controlpanel/controlhead.php");
 ?>
+<div id="adminpanel"> <!-- admin panel -->
 
-</body>
+<div id="controlsection">
+<h1>TIME</h1>
+<?php// dailytimes() ; ?>
+</div>
+<div id="controlsection">
+<h1>Statistics summary </h1>
 
-</html>
+<?php// activefeeds(); ?>
+
+<?php //postitemsall () ?>
+
+<?php //lasttwofourperiod () ?> 
+
+<?php //No results live, previous days (split per lifestyle)  ?>
+
+<?php //No users registered ?>
+
+<?php //No users logged in ?>
+
+</div>
+
+<div id="controlsection">
+<h1>Definitions</h1>
+
+<?php //livelifemags (); ?>
+
+</div>
+
+</div>  <!-- closes admin panel -->
 
 
-
-
+<?php include_once ("controlpanel/controlfooter.php"); ?> 
