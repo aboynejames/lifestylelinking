@@ -39,6 +39,7 @@
     protected $avgofavgs;
     protected $lifeGroup;
     protected $results;
+    protected $coreobject;
     
     /**
      * Constructor 
@@ -301,6 +302,29 @@
 
 // all ingredients formed.  data (array in right form) should be handed over to LLresults-> LLdisplay
 
+
+  /** Save this source data to the CORE object
+     *
+     * 
+     *
+     */     
+    public function saveSource()
+    {
+    // list of data that need to be held
+    $this->coreobject = $this->wiseDefinition;
+    $this->coreobject = $this->wiseContent;
+    $this->coreobject = $this->matrix;
+    $this->coreobject = $this->matrix['avg'];
+    $this->coreobject = $this->avgofavgs;
+    $this->coreobject = $this->matrix['normdata'];
+    $this->coreobject = $this->lifeGroup;
+    $this->coreobject = $this->results;
+    
+    //print_r($this->coreobject);
+    return $this->coreobject;
+    
+    }
+    
 
 
     

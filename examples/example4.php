@@ -38,12 +38,12 @@ $identitysource = array('1'=>'http://aboynejames.blogspot.com', '2'=>'http://lif
 $startSetup = array('0' => 'wikipedia', '1' => 'rssFeedreader');
 // input from UI, installation or control panel defaults
 $definitionsSet = array('0' => 'Skiing', '1' => 'Swimming_(sport)');
-$resultswindow = array('LLcontext'=>'auto', 'starttime'=>'unixtimestamp', 'time'=>'24', 'media'=>'blogposts');
+$resultspath = array('LLcontext'=>'auto', 'starttime'=>'unixtimestamp', 'time'=>'24', 'media'=>'blogposts');
 
 // so this page need to picking up the start or live interactions and respond to them.
 
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
-$newframework = new LLframeworkmanager($individual, $identitysource, $startSetup, $definitionsSet, $resultswindow);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
+$newframework = new LLframeworkmanager($individual, $identitysource, $startSetup, $definitionsSet, $resultspath);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
 
 // transfer data to core on a per source basis done via framework manager
 
@@ -110,7 +110,7 @@ Text four: <?php //echo file_get_contents('C:\apache\htdocs\llcore\text\swimming
 
 <p>
 <b>LLCORE OBJECT</b> <br />
-<?php print_r($llnew);  ?>
+<?php //print_r($llnew);  ?>
 </p>
 
 </body>

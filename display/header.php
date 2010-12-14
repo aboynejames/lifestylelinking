@@ -16,6 +16,9 @@
  *
  * 
  */
+ // LLbox
+function llheader ()
+{
  ?>
 <!DOCTYPE html>
 <html lang="en">

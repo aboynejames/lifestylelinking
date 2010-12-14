@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LifestyleLinking
  *
@@ -35,7 +34,9 @@ class LLframeworkmanager
     protected $defSet;
     protected $contSet;
     protected $source;
-    protected $resultswindow;
+    protected $resultspath;
+    protected $core;
+    
 
      
     /**
@@ -48,13 +49,13 @@ class LLframeworkmanager
      * @param  int  $individual    owner of frameworks id
      *
      */
-   public function __construct($individual, $idsources, $inputSetup, $lifestyleDefs, $resultswindow)
+   public function __construct($individual, $idsources, $inputSetup, $lifestyleDefs, $resultspath)
 		{
 			$this->individual = $individual;
       $this->identitysource = $idsources;
       $this->frameworkSetup = $inputSetup;
       $this->lifestyle = $lifestyleDefs;
-      $this->resultswindow = $resultswindow;
+      $this->resultspath = $resultspath;
 
       $this->assumptionsSet();
       $this->indentityStatusmanger();
@@ -116,7 +117,7 @@ class LLframeworkmanager
      */
       public function identityControl()
 		{
-
+global $llnew;
       // to be used by definition and indentity content
       // pair up e.g. wikipedia api to definition id (where possible RDF URI dpedia in this case
       // pair content to api in e.g. feedreader, that will produce id but will be unique to each installation, need convert to RFD or identity service or build parser to match same identity
@@ -160,7 +161,9 @@ class LLframeworkmanager
                             $llnew->sourcecontent($this->defSet, $this->contSet[$sid]);
                             //  time to enter the matrix
                             $llnew->LLcoremanager($sid, $this->lifestyle);
-                                print_r($llnew);
+                            $llnew->saveSource();
+                            $this->core[$sid] = $llnew;
+                               
                          }
                      
                }
@@ -168,6 +171,7 @@ class LLframeworkmanager
               
      } 
       
+       //print_r($llnew);
   }
  
  
