@@ -1,0 +1,93 @@
+/**
+ *
+ * lifestylelinking controlpanel stylesheet - admin
+ * copyright lifestylelinking
+ *
+ * Media: screen
+ * Author: james @ lifestylelinking
+ * Version: 28rd April 2010
+*
+**/
+
+
+/** HTML standard elements **/
+
+body 
+{
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    overflow: -moz-scrollbars-vertical;
+  
+    background-color: #4380d3;
+    color: #000000;
+}
+
+#container 
+{
+    margin: auto;
+/*    min-width: 800px;*/
+    width: 940px;
+    
+    padding: 0.5em;    
+    background-color: #ffffff;
+}
+
+
+img{
+	border: 0;
+}
+
+h1{
+	margin: 0;
+	margin-bottom: 10px;
+	font-size: 1.4em;
+	color: rgb(104,104,104);
+	padding:0;
+}
+
+h2{
+	font-size: 1.2em;
+}
+
+h3{
+	font-size: 0.9em;
+}
+
+hr{
+	border: 0;
+	color: rgb(255,240,241);
+	background-color: rgb(255,240,241);
+	height: 3px;
+	margin-bottom: 7px;
+}
+
+
+/* admin header */
+.controlheader  {
+  width: 100%;  
+  border: 1;
+}
+
+/* admin panel */
+#adminpanel {
+  	display: block;
+	padding-top: 10px;
+	width: 100%px;
+	height: auto;
+	margin: 10px auto;
+	border: 2px solid rgb(225,219,220);
+}
+
+
+
+
+/* control panel sections */
+#controlsection  {
+  	display: block;
+	padding: 10px;
+	width: 100%px;
+	height: auto;
+	margin: 10px;
+	border: 1px solid rgb(225,219,220);
+}
+  
+  
