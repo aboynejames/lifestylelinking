@@ -128,25 +128,7 @@
         
     } // closes function
     
-    /** Turns clean Definition array in Wise array of words
-     *
-     * based on frequency used author by wikipedia community (why?  Start crowd source vocabularly)
-     * also certain words excluded  CQ and 'joining' words
-     *
-     */ 
-  	public function makeDefinitions($defid, $defWords)
-		{
-			// Note: use arrays and not database
-			
-   		// Create a LLDataCleanser object
-      $dataWisdom = new LLwordWisdom($defWords);
-			
-			// Clean the data
-			$dataWisdom->wisdomLogic();
-			
-			// Get the cleaned data
-			$this->wiseDefinition[$defid] = $dataWisdom->wiseWords();
-		}
+
 	
     /** Turns clean content arrays into wise list of words for each content item
      *

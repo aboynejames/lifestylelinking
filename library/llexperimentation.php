@@ -35,7 +35,8 @@ class LLassumptions
      */ 
    public function __construct()
   {
-      $this->assumptions['remove'] = array("'", "-", ",", "(",")", "?", ".", "&rsquo;", "&ldquo;", "&rsquo;", "&rdquo;", ":", "@", "!", "#", "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com", "htm", "px" );
+      $this->assumptions['remove'] = array("'", "-", ",", "(",")", "?", ".", "&rsquo;",  "&nbsp", "ref", "&ldquo;", "&rsquo;", "&rdquo;", "â€“", ":", "@", "!", "#", "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com", "htm", "px");
+      //$this->assumptions['remove'] = array("[", "]", "-", "|", "{", "}");
       $this->assumptions['wordlength'] = 1;
       $this->assumptions['characterperwordmax'] = 30;
       $this->assumptions['numberwisewords'] = 50;
@@ -49,7 +50,7 @@ class LLassumptions
      */  
    public function LLlogic($LLlogic)
   {
-echo $LLlogic;
+//echo $LLlogic;
   // what is the 'science that connects all life?
   //  this will determine the data required to produce the 'best' resultpath for this individual life
   //types available,  single  or order of definitions

@@ -45,18 +45,18 @@ class LLframeworkmanager
      * @param  int  $individual    owner of frameworks id
      *
      */
-   public function __construct($inputSetup, $resultspath, $individual, $idsources)
+   public function __construct($inputSetup, $resultspath, $individual, $iddefinition, $idsources)
 		{
 		
       $this->frameworkSetup = $inputSetup;
       $this->resultspath = $resultspath;
       $this->individual = $individual;
-      $this->lifestyle = $lifestyleDefs;
+      $this->lifestyle = $iddefinition;
       $this->identitysource = $idsources;
 
       $this->assumptionsSet();
       $this->indentityManager();
-      
+   
  		} 
     
     /** load in current experimentation assumptions
@@ -74,7 +74,7 @@ class LLframeworkmanager
       $aset->LLlogic($this->frameworkSetup['science']);
       
       //$aset->loadAssumptions();
- print_r($aset);
+
       $this->intentionlogic = $aset->loadAssumptions();
  
         // active the appropriate apis local or from the web
@@ -112,7 +112,7 @@ class LLframeworkmanager
       $resultspath = new LLResults();
       
       // defintions class
-      $this->definitionControl($this->resultspath['intention'], $this->intentionlogic);  //  intention, iLLlogic,     
+      $this->definitionControl($this->resultspath['intention'], $this->intentionlogic, $this->lifestyle);  //  intention, iLLlogic,     
       
       // content
       //$this->contentControl($this->);
@@ -130,15 +130,15 @@ class LLframeworkmanager
      * After adding markup is clean from the defintion words 
      *
      */
-      public function definitionControl($intention, $llogic)
+      public function definitionControl($intention, $llogic, $indefinition)
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
-      $newdef = new LLdefinitions($intention, $llogic);
-      $newdef->definitionManager();
-      $newdef->startNewdefinition();
+      $newdef = new LLdefinitions($intention, $llogic, $indefinition);
+      //$newdef->definitionManager();
+      //$newdef->startNewdefinition();
       //$this->defSet = $newdef->cleanedDefinition();
-      //print_r($this->defSet);
+      print_r($newdef);
      }
    
      

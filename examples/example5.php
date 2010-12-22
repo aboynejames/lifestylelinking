@@ -35,16 +35,20 @@ try{
 // settings from install or defaults in controlpanel 
 // will change dynamically from UI or picked up automaticall e.g. display device
 $startSetup = array('science'=>'singledefinition', '0' => 'wikipedia', '1' => 'rssFeedreader');
-$resultspath = array('intention'=>'1', 'starttime'=>'unixtimestamp', 'timebatch'=>'24', 'media'=>'blogposts', 'make'=>'past');
+$resultspath = array('intention'=>'2', 'starttime'=>'unixtimestamp', 'timebatch'=>'24', 'media'=>'blogposts', 'make'=>'past');
 
 $individual = 1;
+
+//$identitydefintion = array('defword'=>'swimming', 'wikipedia'=>'swimming_(sport)', 'dpedia'=>'http://swimming_(sport).dpedia.org', 'defid'=>'1'); 
+//$identitydefintion = array('defword'=>'skiing', 'wikipedia'=>'Skiing', 'dpedia'=>'http://skiing.dpedia.org', 'defid'=>''); 
+$identitydefintion = array('defword'=>'Hillwalking', 'wikipedia'=>'Hillwalking', 'dpedia'=>'http://Hillwalking.dpedia.org', 'defid'=>''); 
 
 $identitysource = array('1'=>'http://aboynejames.blogspot.com', '2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
 
 // so this page need to picking up the start or live interactions and respond to them.
 
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
-$newframework = new LLframeworkmanager($startSetup, $resultspath, $individual, $identitysource);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
+$newframework = new LLframeworkmanager($startSetup, $resultspath, $individual, $identitydefintion, $identitysource);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel
 
 // transfer data to core on a per source basis done via framework manager
 

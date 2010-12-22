@@ -53,7 +53,7 @@ function llheader ()
 
 <img src="display/images/mepath.png"><br><br>
 
-<form>
+<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="GET">
   <input name="q" type="search"  >
   <br>
     <input type="submit" value="Start lifestylelinking">
