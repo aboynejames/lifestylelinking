@@ -28,6 +28,7 @@
      protected $definitionPrep; // list of definition with uniqueids / rdf uris
      protected $cleanDefinition; // array of definition words clean and split into single words.
      protected $loaddefinitions;  // exsting defintions in array format
+     protected $existdef;  // list of top 50 words for each defintion id=>no.->word
 
     /** Controls creating a new lifestyle Definition 
      *
@@ -75,9 +76,9 @@
       // local text files for now
       // need to have json txt for id of defintions already wise the foreach those
       $this->loaddefinitions = $this->importDefinitiondata($defkey = 0, $defstage = 'definitions');
-     // print_r($this->loaddefinitions);
+//print_r($this->loaddefinitions);
      
-      if ($this->loaddefinitions == 'empty')
+      if ($this->loaddefinitions['start'] == 'empty')
       {
       return null;
       }
@@ -93,13 +94,13 @@
             $defids[$dkey] = $dw['wikipedia'];
           
           }
-          //print_r($defids);
+//print_r($defids);
           foreach($defids as $did=>$dwiki)
           {
-          
-          $existdef = $this->importDefinitiondata($did, $defstage='wisedef');
+          $importdef = $this->importDefinitiondata($did, $defstage='wisedef');
+          $this->existdef[$did] = $importdef[$did];
 //echo 'the load existing def in array<br /><br />';
-//print_r($existdef);
+//print_r($this->existdef);
 //echo 'any loaded';
           }
                     
@@ -178,7 +179,7 @@
      */  
     public function newdefidnumber($existingdef)
     {
-   //print_r($existingdef); 
+//print_r($existingdef); 
     // existing definition array - what was last id used?
     $flifdefid = array_flip($existingdef);
     $lastdefid = end($flifdefid);
@@ -191,8 +192,8 @@
    
     public function updatedefinitionlist($newdefid, $newdef)
     {
-      echo 'before new add <br /><br />';
-    //print_r($this->loaddefinitions);
+//echo 'before new add <br /><br />';
+//print_r($this->loaddefinitions);
     
    // existing list of def data
     $newsavedef = $this->loaddefinitions;
@@ -200,8 +201,8 @@
     
    
     
-    //echo 'after add new';
-    //print_r($newsavedef);
+//echo 'after add new';
+//print_r($newsavedef);
     
     return $newsavedef;
     
@@ -221,8 +222,8 @@
 		{
 			// starts methods to add new definition(s)
 			      // one or more defintions?
-            //echo 'startnew api';
-            //print_r($newdef);
+//echo 'startnew api';
+//print_r($newdef);
            foreach ($newdef as $defid=>$indef)
            {
            
@@ -284,7 +285,7 @@
 			$this->wiseDefinition[$defid] = $dataWisdom->wiseWords();
       //print_r($this->wiseDefinition);
 
-      $this->storeDefinitiondata($this->wiseDefinition[$defid], $defid, $stage = 'wisedef');
+      $this->storeDefinitiondata($this->wiseDefinition, $defid, $stage = 'wisedef');
 
 		}
  
@@ -307,7 +308,8 @@
     {
      // what storage method set,  check via framework setup
      // assume txt json for now
-     //print_r($defdata);
+//echo 'store wisedef and other';
+//print_r($defdata);
      $jsondef = json_encode($defdata);
       //echo $jsondef;
       
