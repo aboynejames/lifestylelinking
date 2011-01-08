@@ -50,6 +50,17 @@ require_once "library/exceptions.php";
 require_once "library/llframeworkmanager.php";
 
 /**
+ * @see LLpath class
+ */
+require_once "library/llpath.php";
+
+/**
+ * @see LLJSON class
+ */
+require_once "library/llJSON.php";
+
+
+/**
  * @see LLcore class
  */
 require_once "library/llcore.php";
@@ -62,7 +73,7 @@ require_once "library/llexperimentation.php";
 /**
  * @see LLcontent class
  */
-require_once "library/logic/llcontent.php";
+require_once "library/management/llcontent.php";
 
 
 /**

@@ -41,11 +41,16 @@ $individual = 1;
 
 //$identitydefintion = array('defword'=>'swimming', 'wikipedia'=>'swimming_(sport)', 'dpedia'=>'http://swimming_(sport).dpedia.org', 'defid'=>'1'); 
 //$identitydefintion = array('defword'=>'skiing', 'wikipedia'=>'Skiing', 'dpedia'=>'http://skiing.dpedia.org', 'defid'=>''); 
-$identitydefintion = array('defword'=>'Hillwalking', 'wikipedia'=>'Hillwalking', 'dpedia'=>'http://Hillwalking.dpedia.org', 'defid'=>''); 
+//$identitydefintion = array('defword'=>'Hillwalking', 'wikipedia'=>'Hillwalking', 'dpedia'=>'http://Hillwalking.dpedia.org', 'defid'=>''); 
 
-$identitysource = array('1'=>'http://aboynejames.blogspot.com', '2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
+$identitysource =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );//, '2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
+//$identitysource =array('url'=>'http://lifestylelinking.blogspot.com', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );//, '2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
+//$identitysource =array('url'=>'http://aboynejames.blogspot.com', 'rss'=>'http://aboynejames.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+
 
 // so this page need to picking up the start or live interactions and respond to them.
+// call  LLpath class
+
 
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
 $newframework = new LLframeworkmanager($startSetup, $resultspath, $individual, $identitydefintion, $identitysource);  // this must come from user via install or UI interaction i.e. default setup setup or what is selected via UI/controlpanel

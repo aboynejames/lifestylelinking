@@ -35,7 +35,7 @@ class LLassumptions
      */ 
    public function __construct()
   {
-      $this->assumptions['remove'] = array("'", "-", ",", "(",")", "?", ".", "&rsquo;",  "&nbsp", "ref", "&ldquo;", "&rsquo;", "&rdquo;", "â€“", ":", "@", "!", "#", "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com", "htm", "px");
+      $this->assumptions['remove'] = array("'", "&#8217;", "&#8216;", "-", ",", "(",")", "?", ".", "&rsquo;",  "&nbsp", "ref", "&ldquo;", "&rsquo;", "&rdquo;", "â€“", ":", "@", "!", "#", "^", "%", "/", "|", '\'', "+", "=", "{", "}", "[", "]", '"', ";", "*", "<", ">", "_", "~", "<br />", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "also", "www", "jpg", "org", "html", "http", "–", "com", "htm", "px");
       //$this->assumptions['remove'] = array("[", "]", "-", "|", "{", "}");
       $this->assumptions['wordlength'] = 1;
       $this->assumptions['characterperwordmax'] = 30;

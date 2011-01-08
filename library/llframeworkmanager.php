@@ -111,11 +111,13 @@ class LLframeworkmanager
       // what is the lifestyledefinition active resultspath e.g. swimming, what other LL logic this base upon, get all content if new, update or rescore, this set parameters, so everything else after
       $resultspath = new LLResults();
       
+        // path class will probably be called first and then release appropriate data to defintiions, content based upon the purpose/intention input.
+      
       // defintions class
-      $this->definitionControl($this->resultspath['intention'], $this->intentionlogic, $this->lifestyle);  //  intention, iLLlogic,     
+      //$this->definitionControl($this->resultspath['intention'], $this->intentionlogic, $this->lifestyle);  //  intention, iLLlogic,     
       
       // content
-      //$this->contentControl($this->);
+      $this->contentControl($this->resultspath['dailyupdate'], $this->intentionlogic, $this->identitysource);
       
       
       // CORE  input data from defs and content and context get resultpath out or dailyupdate or general scoring or rescoring
@@ -138,7 +140,7 @@ class LLframeworkmanager
       //$newdef->definitionManager();
       //$newdef->startNewdefinition();
       //$this->defSet = $newdef->cleanedDefinition();
-      print_r($newdef);
+      //print_r($newdef);
      }
    
      
@@ -151,8 +153,8 @@ class LLframeworkmanager
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
-      $newdata = new LLcontent($sid, $surl); 
-      $newdata->contentManager();
+      $newdata = new LLcontent($intention, $llogic, $this->identitysource); 
+      //$newdata->contentManager();
       //$this->contSet = $newdata->cleanedContent();
       //print_r($this->contSet);
     }

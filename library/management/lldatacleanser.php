@@ -99,7 +99,7 @@
                             {
                             //$val = ereg_replace("(\\\*)+(/*)+('*)", "", $val);
                            // echo $val."\n";
-                            $val = ltrim($val);
+                            $val = trim($val);
                             $val = substr($val, 0, $this->charperwordlength);
                             
 
@@ -115,6 +115,36 @@
 
         } // closes function
           
+   /**  cleans markup from simplepie feedreader
+     *
+     *  also want to collect basic stats on input content and to extract html links to video, photos links etc.
+     *
+     */
+    public function cleanContent()
+    {
+    
+      $rawstrip = strip_tags($this->data);
+      $trans = get_html_translation_table(HTML_ENTITIES);
+
+      $encoded = strtr($rawstrip, $trans);
+      $decoded = str_replace($trans, "", $encoded);
+      $arraywords = str_word_count($decoded, 1, '');
+
+      foreach ($arraywords as $word)
+      {
+            if(strlen($word) > $this->minlength )
+            {
+
+            $small[] = strtolower($word);
+        
+            }
+
+      
+      }
+//print_r($small);
+      return $small;
+    
+    }
 
    /**  returns array of words
      *
