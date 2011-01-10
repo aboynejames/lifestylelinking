@@ -24,13 +24,12 @@ class LLcontent
      protected $loadcontent;  // existing content data in the framework
      protected $contentin;  // input content source array
 
-     		public function __construct($intention, $llogic, $sourcecontent)
+     		public function __construct($intention, $sourcecontent)
 		{
         // what context?  intention for results or dailyupdate mode?
 			  
 
         $this->intention = $intention;
-        $this->llogic = $llogic;
         $this->contentin = $sourcecontent;
         $this->contentManager();
             
@@ -46,20 +45,27 @@ class LLcontent
       // also what api will be use installed rssreader or 'as a service' to superfeedr/third party rss/firehose
       
       // first call and get list of all content ids stored in the framework (has the new content id be process else where in the LL universer check peer to peer)
+      // TODO first need to check what data is live in the framework?  If first use this instance, load updata or based on intention
       $existingcontent = $this->loadExistingcontent();
       
-     
-      // check if new, if so attached content id to it ie a number for this framework and ideally a FOAF i.e. unique id for whole of web.
-      //for each content source, go see if new content items exist for each sources      match source id to url decide if new or updating?
-      // feed in new content on a per sourceid
-      
-      $newcontent = $this->addContent($this->contentin, $existingcontent);
-      
-      
-      //$this->newcontent[$this->contentin] = $this->startFeedreader($this->contenturl);
-      //print_r($this->newcontent);
-      //$this->startNewcontent($this->contentin);
-      
+         // need logics  dailyupdate or first time entry of content
+          if($this->intention == 'update')
+          {
+            //  just fly through all sources add new content add to the universe
+            // new update function that will compare what we have with what it live?
+            $this->updatasources($existingcontent);
+          
+          }
+          
+         else
+          {
+          $newcontent = $this->addContent($this->contentin, $existingcontent);
+          
+          
+          //$this->newcontent[$this->contentin] = $this->startFeedreader($this->contenturl);
+          //print_r($this->newcontent);
+          //$this->startNewcontent($this->contentin);
+          }
       
       
 		} 
@@ -98,6 +104,9 @@ echo 'existing data found <br /><br />';
 //print_r($defids);
           foreach($contentexist as $sid=>$cwords)
           {
+            //  TODO need to import 1. content dispaly summary data (may have already been done by results class just check)
+          $sourcecontentsummary = '';
+          // top wise words load
           $importcontent = LLJSON::importJSONdata($sid, $contentstage='wisecont');
           $this->existsource[$sid] = $importcontent;
 echo 'the load existing def in array<br /><br />';
@@ -112,6 +121,42 @@ print_r($this->existsource);
       // call RDF nextwork
       
 		}
+
+
+    /** see if new content is available for all live feed sources
+     *
+     * if new content save and make live in framework ready for results 
+     *
+     */
+    public function updatasources($existingcontent)
+		{
+    
+        foreach($existingcontent as $sid=>$sidurl)
+        {
+        
+              // check to see if data for this source is live in the framework?  If not load it up
+            if( == )
+            {
+              // load data
+            
+            }
+       
+          // last date saved
+          $lastpostdate = '';
+        
+        
+          // get rss/atom feed
+         $updatecontent = $this->startFeedreader($sidurl);
+        
+        // are any post dates later then the last postdate variable?  if so add the new data to that source
+      
+        // then compare to existing framework data/save new
+        // look at post dates
+        
+        }
+    
+    }
+
 
 
     /** compare new input conent to existing content
@@ -314,7 +359,10 @@ echo 'brand new source add it to the framework';
 echo 'new content';
       // call rss/atom feedreader
       $sourcecontent = $this->startFeedreader($newcontentstart['url']);
-      //$sourcecontent['posts'][1] = array('content'=>'<p>Read a quote from Jefferson that &#8216;vision without execution is a called a hallucination!&#8217;  Or words to that affect.  Execution is a rather fierce word, even in the &#8216;corporate&#8217; was it suggests of ruthless efficiency, do what ever it takes, an object devoid of life etc.  However, we are in 2011, we are now wiser, social connections abound, other humans matter all the time, ideas have a lowering barrier before they get seeded into the world.  So, maybe, vision and make real is a better tag line for today.</p>');
+      
+      // TODO:  save memory and JSON summary content summary, limited to data required to be called for display or to check if update content posts are available ie. date data
+      
+
 echo 'new rss feed content data';
 //print_r($sourcecontent);
           
@@ -388,10 +436,10 @@ print_r($wiseContent);
 			$dataWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->wiseDefinition[$cid] = $dataWisdom->wiseWords();
+			$this->wiseContent[$cid] = $dataWisdom->wiseWords();
       //print_r($this->wiseDefinition); 
       
-      return $this->wiseDefinition;
+      return $this->wiseContent;
 
 
 		}     

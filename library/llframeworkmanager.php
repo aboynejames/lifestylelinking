@@ -25,16 +25,12 @@ class LLframeworkmanager
   // forms inputs order into LLcore and identifies inputs
   //  we need to know 1. data state, string, array, tidy undity. 2. is it definition or post words 3.  how many of each 10 blog posts and 3 wikipedia definition
   
+    protected $resultspath; 
+    protected $frameworkSetup; // install or default settings for framework
     protected $individual;
     protected $identitysource;
-    protected $frameworkSetup; // install or default settings for framework
     protected $lifestyle;  // input from individual
-    protected $resultspath;
-    
-    protected $intentionlogic;
-    
 
-     
     /**
      * Constructor 
      *
@@ -48,14 +44,14 @@ class LLframeworkmanager
    public function __construct($inputSetup, $resultspath, $individual, $iddefinition, $idsources)
 		{
 		
+      $this->resultspath = $resultspath; 
       $this->frameworkSetup = $inputSetup;
-      $this->resultspath = $resultspath;
       $this->individual = $individual;
       $this->lifestyle = $iddefinition;
       $this->identitysource = $idsources;
 
       $this->assumptionsSet();
-      $this->indentityManager();
+      $this->intentionManager($this->resultspath);
    
  		} 
     
@@ -104,43 +100,65 @@ class LLframeworkmanager
      * What has already but processed by core?  What need to go into LLcore?
      *
      */
-      public function indentityManager()
+      public function intentionManager($path)
       {
-        
+       //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
+        // create intentionlogic  which will release logic to results, definitions and content sources?
+
       //  start results path class
-      // what is the lifestyledefinition active resultspath e.g. swimming, what other LL logic this base upon, get all content if new, update or rescore, this set parameters, so everything else after
-      $resultspath = new LLResults();
+        //$pathnew = new LLpath($path);
+        
+                // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
+        // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic
+                  
+         if($path['intention'] == 'newstart')
+         {
+         //  from start page UI
+         $this->definitionControl($intent = 'newstart', $this->lifestyle);  //  intention, iLLlogic,     
+          
+          // content
+         $this->contentControl($intent = 'newstart', $this->identitysource);
+         
+         $this->controlCore($newdef->wiseDefinition, $newdata->wiseContent);  
+         
+         $resultspath = new LLResults($newdef->$loaddefinitions, $path['logic'], $path['time']);
+         
+         $displayPath = new LLDisplay($newdef->$loaddefinitions, $path['display']);
+         
+         }
+       
+         elseif($path['intention'] == 'results')
+         {
+         
+         // pickup lifestlye definition and then decide a. produce results immediately or to up sources of content based on intent e.g. if real time wanted.
+         
+         }
+        
+        elseif($path['intention'] == 'controlpanel')
+         {
+                  
+          //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
+          
+         }
+         
       
-        // path class will probably be called first and then release appropriate data to defintiions, content based upon the purpose/intention input.
-      
-      // defintions class
-      //$this->definitionControl($this->resultspath['intention'], $this->intentionlogic, $this->lifestyle);  //  intention, iLLlogic,     
-      
-      // content
-      $this->contentControl($this->resultspath['dailyupdate'], $this->intentionlogic, $this->identitysource);
-      
-      
-      // CORE  input data from defs and content and context get resultpath out or dailyupdate or general scoring or rescoring
-      //$this->controlCore();
 
       }
       
-  
-  
-    /** Controls creating a new lifestyle Definition 
+      
+      
+      
+     /** Controls creating a new lifestyle Definition 
      *
      * After adding markup is clean from the defintion words 
      *
      */
-      public function definitionControl($intention, $llogic, $indefinition)
+      public function definitionControl($intention, $indefinition)
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       // read in test text.
-      $newdef = new LLdefinitions($intention, $llogic, $indefinition);
-      //$newdef->definitionManager();
-      //$newdef->startNewdefinition();
-      //$this->defSet = $newdef->cleanedDefinition();
-      //print_r($newdef);
+      $newdef = new LLdefinitions($intention, $indefinition);
+print_r($newdef);
      }
    
      
@@ -149,14 +167,12 @@ class LLframeworkmanager
      * After adding mark up is clean from source content words
      *
      */ 
-      public function contentControl($sid, $surl)
+      public function contentControl($intention, $source)
 		{
     // where is the data coming from?
     // e.g. rss feedreader built in,  pubhubsubdub/cloudrss  or as a service for updates  ie. superfeeder
-      $newdata = new LLcontent($intention, $llogic, $this->identitysource); 
-      //$newdata->contentManager();
-      //$this->contSet = $newdata->cleanedContent();
-      //print_r($this->contSet);
+      $newdata = new LLcontent($intention, $source); 
+print_r($newdata);
     }
 
     /** Control the data going into LLcore
@@ -180,14 +196,9 @@ class LLframeworkmanager
       // from raw data feed json or rdf php array (see easy rdf code look at using)
 
     }
-
-      /*
-
-      // results time-context
-      $llnew->calculateLLresults();
-
-      */
-
+ 
+  
+  
 
    /** Tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
      *
@@ -271,58 +282,7 @@ class LLframeworkmanager
   }
  
  
-   
-    /** depending on first time use, nosql, or sql setup, load existing frameworks status info. ie. exsting defs, sources of content, results windows, display etc.
-     *
-     *
-     * @return array of existing settings
-     *
-     */ 
-      public function existingSettings()
-		{
-      // load last use settings
-     // exsting definitions
-      $existingdefs = $this->existingdef();
-      $newdefs = $this->lifestyle;
-      
-      $comparedefnew = $newdefs;
-      
-      
-      //  what are the current content inputs
-      $existingsources = $this->existingsource();
-      $newsource = $this->identitysource;
-      // compare both are return the new to be processed
-     // some array comparing to be added 
-      $comparenewsource = $this->identitysource;
-      
-      $existingframework['startdefs'] = $comparedefnew;
-      $existingframework['startcontent'] = $comparenewsource;
-      
-      return $existingframework;
- 
-    }
-  
-  
-    /** Find out existing defintion existing in the Framework
-     *
-     */ 
-      public function existingdef()
-		{
-      // load last used definitions  (might be worth calling external api rdf for avg of avg updates?
-     $existingdefarray = array(); 
-      
-    }
-  
-    /** Find out the exsting content sources in the Framework
-     *
-     */ 
-      public function existingsource()
-		{
-    // what sources already added rss , photo, video etc etc. call pubhubsubdub from here?
-      $existingsourcesarray = array();
- 
-    }
- 
+
 
  
 }  // closes class

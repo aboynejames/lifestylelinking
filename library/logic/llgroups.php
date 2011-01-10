@@ -24,15 +24,20 @@ class LLgroups
     protected $normalinput;
     protected $peerGroup;
 
-    public function __construct($normalin)
+    public function __construct($peerlogic)
 		{
     
-      $this->normalinput = $normalin;
+      $this->normalinput = $peerlogic;
+      $this->peerManager();
       //print_r($this->normalinput);
     }
     
-    
-    public function groupManager()
+    /**  
+     *
+     * 
+     *
+     */ 
+    public function peerManager()
     {
       // what sort of list, 1. assume average, 2 personalized on idenitity of individual  (could be lists by aggregating or add various lifestyle defs together e.g swimming + trialthon ie a swimmer that also does triathlon.
       
@@ -55,23 +60,32 @@ class LLgroups
     
     }
     
-
+    /**  
+     *
+     * 
+     *
+     */ 
     public function buildPeergroups($dids, $defgrouparray)
     {
     // given all the identities, list them in an order based on 'normalized distance from average'
     //echo 'buld group';
     //print_r($dids);
-    foreach($dids as $did=>$davgs)
-    {
-    //print_r($defgrouparray[$did]);
-    asort($defgrouparray[$did]);
-    $this->peerGroup =  $defgrouparray;
-    }
-    
+        foreach($dids as $did=>$davgs)
+        {
+        //print_r($defgrouparray[$did]);
+        asort($defgrouparray[$did]);
+        $this->peerGroup =  $defgrouparray;
+        }
+        
     //print_r($this->peerGroup);
     }
     
-  	public function groupsComplete()
+     /**  
+     *
+     * 
+     *
+     */ 
+     public function groupsComplete()
 		{
       //print_r($this->peerGroup);
       return $this->peerGroup;

@@ -21,22 +21,71 @@
 class LLResults
 	{
 		//  what is the Lifestylelinking logic to use for results  ie how is all life connected?  start in context of same definition, science to add together lifestyle logic (to be found chaos theory?)
-		
-		public function defineResultsPath() 
+    
+        /**
+     * Constructor 
+     *
+     * Setup of new or existing Framework settings 
+     *
+     * Data input from the UI
+     *
+     * @param  int  $individual    owner of frameworks id
+     *
+     */
+   public function __construct($lifestylebuild, $LLlogic, $timeperiod)
 		{
 		
-      //  user intention  or daily update of all (or part or rescoring due to new data)
-      
+    $this->lifestylemenu = $lifestylebuild;
+    $this->pathlogic = $LLlogic;
+    $this->pathtime = $timeperiod;
+   
+ 		} 
+		    
+    /**  
+     *
+     * 
+     *
+     */ 
+		public function resultsManager() 
+		{
+		
+    // make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
+    
+    // given lifestylelogic settings prepare relevant peergroups
+    
+    // prepare weighted listing of qualifying results
+    
+    // publish raw JSON (ready for api export or delivery to display formatting before published to the web.
+     
       
 		}
 		
-		// Use average ll science
-		public function averageResults()
+    
+    
+    
+    
+    
+    /**  
+     *
+     * 
+     *
+     */ 
+		public function buildPeers($peerlogic)
 		{
 			// extration of correct peergroup
-			$this->buildLLGroups();
+			$peerlist = new LLgroups();
 		}
 		
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 		// Use personalised filtered ll science
 		public function personalisedFilteredResults()
 		{

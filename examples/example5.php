@@ -34,8 +34,8 @@ try{
 // INSTALL OR LIVE CONTEXT coming from the UI
 // settings from install or defaults in controlpanel 
 // will change dynamically from UI or picked up automaticall e.g. display device
-$startSetup = array('science'=>'singledefinition', '0' => 'wikipedia', '1' => 'rssFeedreader');
-$resultspath = array('intention'=>'2', 'starttime'=>'unixtimestamp', 'timebatch'=>'24', 'media'=>'blogposts', 'make'=>'past');
+$startSetup = array('science'=>'singledefinition', 'lifestylestart' => 'wikipedia', '1' => 'rssFeedreader');
+$resultspath = array('intention'=>'update', 'starttime'=>'unixtimestamp', 'timebatch'=>'24', 'media'=>'blogposts', 'make'=>'past');
 
 $individual = 1;
 

@@ -18,7 +18,7 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-class llinstallation
+class LLinstallation
 {
 	
 	

@@ -22,24 +22,18 @@
  {
 
      protected $defpath;
-     protected $deflinking;
      protected $defin;
-     protected $defwikiword; // the unique word for a page on wikipedia
-     protected $definitionPrep; // list of definition with uniqueids / rdf uris
-     protected $cleanDefinition; // array of definition words clean and split into single words.
-     protected $loaddefinitions;  // exsting defintions in array format
-     protected $existdef;  // list of top 50 words for each defintion id=>no.->word
+     public $loaddefinitions;
 
     /** Controls creating a new lifestyle Definition 
      *
      * accept input definition words (only allow from wikipedia (for now)) 
      *
      */
-    public function __construct($intention, $llogic, $indefinition)
+    public function __construct($intention, $indefinition)
 		{
       // always check for a. new definiitions, b, updates to definitions (that are proven to be better or of individuals choice) 
       $this->defpath = $intention; 
-      $this->deflinking = $llogic;
       $this->defin = $indefinition;
       
       $this->definitionManager();
