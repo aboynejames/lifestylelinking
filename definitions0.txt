@@ -1,1 +1,0 @@
-{"definition":{"1":{"defword":"swimming","wikipedia":"swimming_(sport)","dpedia":"http:\/\/swimming_(sport).dpedia.org","defid":"1"},"2":{"defword":"skiing","wikipedia":"Skiing","dpedia":"http:\/\/skiing.dpedia.org","defid":""},"3":{"defword":"Hillwalking","wikipedia":"Hillwalking","dpedia":"http:\/\/Hillwalking.dpedia.org","defid":""}}}
