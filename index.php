@@ -23,15 +23,9 @@ require_once "LLview.php";
 
 try{
 
-// has a session been set if yes, what info. does it tell us?
-
-
-//  if own hosted install first, or hosted, check for input.
-$LLstart = new LLcontext();
-print_r($LLstart);
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
-$newframework = new LLframeworkmanager($LLstart->startSetup, $LLstart->resultspath = null, $LLstart->individual = 1, $LLstart->identitydefintion = null, $LLstart->identitysource = null);  // this must come from user via install 
-
+$newframework = new LLframeworkmanager();//$LLstart->startSetup, $LLstart->resultspath = null, $LLstart->individual = 1, $LLstart->identitydefintion = null, 
+print_r($newframework); 
 }  // closes try
 
 

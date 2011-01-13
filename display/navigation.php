@@ -35,10 +35,11 @@
      * @param  
      *
      */
-   public function __construct($context)
+   public function __construct($selectedlifestyle, $lifestylemenu)
 		{
 		
-    $this->navcontext = $context;
+    $this->lifestylelive = $selectedlifestyle;
+    $this->lifemenu = $lifestylemenu;
     
     $navigation = $this->buildnavigation();
     
@@ -52,17 +53,18 @@
     public function buildnavigation ()
     {
     
-        if($this->navcontext == 'newstart' )
+        if(is_array($this->lifemenu) == true)
         {
         
-        $navigationparts = $this->navigation();
+        $this->navigation();
+        $this->navigationLifestyle($this->lifestylelive, $this->lifemenu);
         
         }
         
         else
         {
         
-          $navigationparts = $this->navigationLifestyle($this->navcontext['']);
+        $this->navigation();
           
         }
 
@@ -95,7 +97,7 @@
      *
      *
      */
-    public function navigationLifestyle ($lifestylemenu)
+    public function navigationLifestyle ($menulive, $lifestylemenu)
     {
 ?>
       <header id="banner" class="body">
@@ -105,8 +107,21 @@
       foreach($lifestylemenu as $lifestyle)
       {
       
-      $lifemenu .= '<li><a href="#">'.$lifestyle.'</a></li>';
+      if($menulive == $lifestyle)
+      {
       
+      $lifemenu .= '	<li class="active"><a href="#">'.$lifestyle.'</a></li>';
+      
+      }
+      
+      else
+      {
+      
+      $lifemenu .= '<li><a href="#">'.$lifestyle.'</a></li>';
+       
+       }
+
+
       }
       echo $lifemenu; 
 ?>    

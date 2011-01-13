@@ -43,10 +43,14 @@
      * @param 
      *
      */
-    public function __construct($pathcontext)
+    public function __construct($meidentity,  $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata)
 		{
 		
-    $this->displaycontext = $pathcontext;
+    $this->identity = $meidentity;
+    $this->selectedlifestyle = $currentlifestyle;
+    $this->lifemenu = $lifestylemenu;
+    $this->diplaymedia = $displayrequired;
+    $this->resultsdata = $resultsdata;
     
     $this->displayManager();
       
@@ -90,7 +94,7 @@
     public function displayNavigation()
     {
      // lifestyle menu
-    $buildnavigation = new LLNavigation($this->displaycontex['']);
+    $buildnavigation = new LLNavigation($this->selectedlifestyle, $this->lifemenu);
       
     }
 
@@ -102,7 +106,7 @@
     public function displaySections()
     {
      // what needs to displayed  blog posts, images, video, other formats of content
-      $buildsections= new LLsections();
+      $buildsections= new LLsections($this->selectedlifestyle, $this->resultsdata);
       
     }
 

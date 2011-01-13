@@ -30,10 +30,10 @@
      * accept input definition words (only allow from wikipedia (for now)) 
      *
      */
-    public function __construct($intention, $indefinition)
+    public function __construct($intentionpath, $indefinition)
 		{
-      // always check for a. new definiitions, b, updates to definitions (that are proven to be better or of individuals choice) 
-      $this->defpath = $intention; 
+      // always check for a. new definiitions, b, updates to definitions (that are proven to be better or of individuals request) 
+      $this->defpath = $intentionpath; 
       $this->defin = $indefinition;
       
       $this->definitionManager();
@@ -85,7 +85,7 @@
           foreach($this->loaddefinitions['definition'] as $dkey=>$dw)
           {
           
-            $defids[$dkey] = $dw['wikipedia'];
+            $defids[$dkey] = $dw['wikipedia'];  // need to delete wikipdia element of arry need to check
           
           }
 //print_r($defids);
@@ -122,7 +122,7 @@
       //print_r($newdefstart);
       $this->storeDefinitiondata($newdefstart, $newdefid = 0, $defstage='definitions');
       
-      $newdefarray = array('1'=>$newdef['wikipedia']);
+      $newdefarray = array('1'=>$newdef);
       //print_r($newdefarray);
       //echo ' before call to wikipedia';
       $this->startNewdefinition($newdefarray); 
@@ -135,7 +135,7 @@
       //print_r($existingdef);
    
       // is the new wikipedia definition word already in the framework?
-      $defcheck = array_search($newdef['wikipedia'], $existingdef);
+      $defcheck = array_search($newdef, $existingdef);
      
          if ($defcheck == 0)
          {
@@ -151,7 +151,7 @@
          $this->storeDefinitiondata($newdefupdate, $newdefidstart = 0, $defstage='definitions');
          // not in framework , add it
          // append definition new allocated id 
-         $newdefarray = array($newdefid=>$newdef['wikipedia']);
+         $newdefarray = array($newdefid=>$newdef);
          
          $this->startNewdefinition($newdefarray);
          

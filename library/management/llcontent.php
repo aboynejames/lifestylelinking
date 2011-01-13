@@ -24,7 +24,7 @@ class LLcontent
      protected $loadcontent;  // existing content data in the framework
      protected $contentin;  // input content source array
 
-     		public function __construct($intention, $sourcecontent)
+    public function __construct($intention, $sourcecontent)
 		{
         // what context?  intention for results or dailyupdate mode?
 			  
@@ -41,8 +41,6 @@ class LLcontent
     public function contentManager()
 		{
 			// If a new content is being added then attach a new content identity to it (no.1 + linked data url e.g. foaf
-      //  also someday, the source content maybe 'rescored 'ie used based on a 'new' science
-      // also what api will be use installed rssreader or 'as a service' to superfeedr/third party rss/firehose
       
       // first call and get list of all content ids stored in the framework (has the new content id be process else where in the LL universer check peer to peer)
       // TODO first need to check what data is live in the framework?  If first use this instance, load updata or based on intention
@@ -59,16 +57,58 @@ class LLcontent
           
          else
           {
-          $newcontent = $this->addContent($this->contentin, $existingcontent);
+          //  1. is there any content sources to score?  If nil then TODO: prompt for manual input, rssreader e.g. via opensocial googlereader api call, call autocrawl->built in 'spawning url e.g. mepath.com to kickstart content, or peertopeerRDF to source urls score for the lifestyledefinition entered.
+              if($this->contentin == null)
+              {
+              // no content in framework there prompt for manual input, add rssfeed URL, autocrawl->call spawing .com api or peertoPeerRDF framework networking
+echo 'no content sources so go for autosource options';              
+              // user input
+              //echo 'Please add a source blog url';
+              
+              // autosource
+              $autosource = $this->autocontent();
+              $newcontent = $this->addContent($autosource['url'], $existingcontent);
+              
+              }
+              
+              else
+              {
+              // source content url present, check to see if it will be added to the framework
+              $newcontent = $this->addContent($this->contentin, $existingcontent);
+              
+              }
           
-          
-          //$this->newcontent[$this->contentin] = $this->startFeedreader($this->contenturl);
-          //print_r($this->newcontent);
-          //$this->startNewcontent($this->contentin);
           }
       
       
 		} 
+
+    /** 
+     * call various methods to input source content
+     *  
+     *
+     */
+    public function autocontent()
+		{
+      //NB. source content url and results data or even full download of everything but enourage sharing of min to save data repication
+    
+     // api to rssfeed reader (various on web)
+     
+     // built in autocrawl
+     
+     // api call to spawning ground site e.g. mepath.com
+     
+     // peertopeer RDF network sources
+     
+    // for now a batch of sourceurls with no. additional data   if data then need a flag stop the processing of content and get on to the personalization of results
+      $shareddata = array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'', 'frameworkid'=>'mepath.com');
+     
+     return $shareddata;
+      
+      
+    }
+
+
 
     /** Load existing definition or connect for updates to defitions 
      *
@@ -135,7 +175,7 @@ print_r($this->existsource);
         {
         
               // check to see if data for this source is live in the framework?  If not load it up
-            if( == )
+            if($aaa == $bb)
             {
               // load data
             
@@ -190,7 +230,6 @@ echo 'afterstore';
 echo 'add content additional need to check if url entered before?';
    
       // is the new content source already in the framework? (check id number, url and xmlfeeduri, rdf if they have it (muitlilevel identity checking
-      //$contentcheck = array_search($newcont['url'], $existingcontentids['source']);
         $idstatus = $this->identitycontent($newcont, $existingcont);
 echo 'status \n';
               if ($idstatus['match'] > 0)
@@ -358,10 +397,12 @@ echo 'brand new source add it to the framework';
 			// starts 
 echo 'new content';
       // call rss/atom feedreader
-      $sourcecontent = $this->startFeedreader($newcontentstart['url']);
+      $sourcecontent = $this->startFeedreader($newcontentstart);
       
       // TODO:  save memory and JSON summary content summary, limited to data required to be called for display or to check if update content posts are available ie. date data
-      
+      // now opportunity to store source content for retieval by results class (also prepare sample text, urls, extract photos/video or other asset within the post
+      $this->resultscontent($sid, $sourcecontent);
+
 
 echo 'new rss feed content data';
 //print_r($sourcecontent);
@@ -455,10 +496,8 @@ print_r($wiseContent);
        if (count($surlin) > 0 )
       {
 
-      // new data
+      // new contentdata
       // prase own try of rss/atom and pass that to simplepie or allow all that to be done by the pie??)
-            //foreach ($new as $fid=>$nfeedurl)
-            //{
 
             $feed = array();
             $contentfeed = array();
@@ -527,68 +566,86 @@ print_r($wiseContent);
                         $contentfeed['description'] = $feed->get_description(); 
 
                         $itemids = 1; 
-                          
-                        foreach($feed->get_items() as $item): 
-
-                        // iterate by one each time
-                        $itemid = $itemids ++;
-
-                        //echo $item->get_id();
-                        //print_r($item->get_categories());
-                        //print_r($item); 
-                              if ($item->get_permalink())
-                              $contentfeed['posts'][$itemid]['permalink'] = $item->get_permalink();
-                              $contentfeed['posts'][$itemid]['posttitle'] = $item->get_title();
                               
-                              if ($item->get_permalink())
-                              $contentfeed['posts'][$itemid]['authordate'] = $item->get_date("U"); //('j M Y, g:i a');
+                            foreach($feed->get_items() as $item): 
 
-                              $contentfeed['posts'][$itemid]['content'] = $item->get_content();
-                        /*
-                              // Check for enclosures.  If an item has any, set the first one to the $enclosure variable.
-                              if ($enclosure = $item->get_enclosure(0))
-                              {
-                                // Use the embed() method to embed the enclosure into the page inline.
-                                $enclosure->embed(array(
-                                  'audio' => './for_the_demo/place_audio.png',
-                                  'video' => './for_the_demo/place_video.png',
-                                  'mediaplayer' => './for_the_demo/mediaplayer.swf',
-                                  'altclass' => 'download'
-                                )) ;
+                            // iterate by one each time
+                            $itemid = $itemids ++;
 
-                                if ($enclosure->get_link() && $enclosure->get_type())
-                                {
-                                     $enclosure->get_type();
-                                  if ($enclosure->get_size())
+                            //echo $item->get_id();
+                            //print_r($item->get_categories());
+                            //print_r($item); 
+                                  if ($item->get_permalink())
+                                  $contentfeed['posts'][$itemid]['permalink'] = $item->get_permalink();
+                                  $contentfeed['posts'][$itemid]['posttitle'] = $item->get_title();
+                                  
+                                  if ($item->get_permalink())
+                                  $contentfeed['posts'][$itemid]['authordate'] = $item->get_date("U"); //('j M Y, g:i a');
+
+                                  $contentfeed['posts'][$itemid]['content'] = $item->get_content();
+                            /*
+                                  // Check for enclosures.  If an item has any, set the first one to the $enclosure variable.
+                                  if ($enclosure = $item->get_enclosure(0))
                                   {
-                                    $enclosure->get_size();
+                                    // Use the embed() method to embed the enclosure into the page inline.
+                                    $enclosure->embed(array(
+                                      'audio' => './for_the_demo/place_audio.png',
+                                      'video' => './for_the_demo/place_video.png',
+                                      'mediaplayer' => './for_the_demo/mediaplayer.swf',
+                                      'altclass' => 'download'
+                                    )) ;
+
+                                    if ($enclosure->get_link() && $enclosure->get_type())
+                                    {
+                                         $enclosure->get_type();
+                                      if ($enclosure->get_size())
+                                      {
+                                        $enclosure->get_size();
+                                      }
+                                    
+                                    }
+                                    if ($enclosure->get_thumbnail())
+                                    {
+                                      $enclosure->get_thumbnail();
+                                    }
+                                  
                                   }
-                                
-                                }
-                                if ($enclosure->get_thumbnail())
-                                {
-                                  $enclosure->get_thumbnail();
-                                }
-                              
-                              }
-                              ?>
-                        */
-
+                                  ?>
+                            */
+                            
+                            endforeach;
                         $newcontentarray = $contentfeed;
-                        
-                        endforeach;
-
                         endif;
-
-                       
-
-            //}  // closes foreachloop
 
 //print_r($newcontentarray);
       return $newcontentarray;
       
       }
 
+		}
+
+
+
+    /**  
+     *
+     *    
+     *
+     */  
+  	public function resultscontent($sid, $sourcecontent);
+    {
+      // first extract the data
+      //$postresults['links'] = $this->extractlinks();
+      //$postresults['images'] = this->extractimages();
+      //$postresults['video'] = $this->extractvideo();
+      //$postresults['other'] = this->extractother();
+      // call autocrawl?
+      //$sautocrawl = new LLautocrawl();
+      
+      
+      // store source content data
+      //LLJSON::storeJSONdata($postresults, $newcontidstart = $sid, $contentstage='results');
+    
+    
 		}
 
     /**  

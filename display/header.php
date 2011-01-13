@@ -116,6 +116,28 @@
             echo $style;
             
         }
+        
+       /** RDF url link
+         * 
+         *
+         * 
+         */
+        public function RDFlink()
+        {
+        
+            if($template == 'default')
+            {
+            $rdf = '<link rel="alternate" type="application/rdf+xml" href="" />';
+            
+            }
+            else
+            {
+            // load template selected
+            }
+        
+            //echo $rdf;
+            
+        }
 
 } // closes class
         ?>

@@ -24,11 +24,12 @@ class LLgroups
     protected $normalinput;
     protected $peerGroup;
 
-    public function __construct($peerlogic)
+    public function __construct($identity, $peerlogic)
 		{
     
+      $this->meidentity = $identity;
       $this->normalinput = $peerlogic;
-      $this->peerManager();
+      $this->groupManager();
       //print_r($this->normalinput);
     }
     
@@ -37,9 +38,9 @@ class LLgroups
      * 
      *
      */ 
-    public function peerManager()
+    public function groupManager()
     {
-      // what sort of list, 1. assume average, 2 personalized on idenitity of individual  (could be lists by aggregating or add various lifestyle defs together e.g swimming + trialthon ie a swimmer that also does triathlon.
+      // pickup llLogic ie. default single defintion linking this can be 1. assume annon user therefore 'average' used or 2. blog url added personalize on their placing to average.
       
         // need to add a loop foreach individual identity source 
         foreach($this->normalinput as $sid=>$dids)

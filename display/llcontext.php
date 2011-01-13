@@ -18,17 +18,16 @@
  */
  class LLcontext
  {
-   
-        public $displayPath;
-        public $userinput; 
-        public $Setup; 
+ 
         public $resultspath;
         public $individual;
+        public $displayPath;
+        public $startAPI;
+
         public $identitydefintion;
         public $identitysource;
   
-  
-      /**
+    /**
      * Constructor 
      *
      *  // take all input from UI or control panel and makes it safe and manages the data between UI and Framework
@@ -54,13 +53,9 @@
       public function startLL()
       {
           
-        // gather $startSetup
-        $this->startSetup = $this->startSetup();
-        // anything from the UI             
-        $this->userinput = $this->inputcontext(); 
-        
-
-        
+       $this->startAPI = $this->startSetup();   
+       $this->inputcontext(); 
+               
       }
 
       /** 
@@ -83,6 +78,7 @@
         $lifestyleinput['display'] = $_GET['display'];
         $lifestyleinput['timebatch'] = $_GET['time'];
         $lifestyleinput['make'] = $_GET['make'];
+        $lifestyleinput['filter'] = $_GET['filter'];
         // set starting context
    
         $this->resultspath = $this->startPath($lifestyleinput);
@@ -95,7 +91,7 @@
        else
        {
        // dispay start UI
-       $this->displayPath = new LLDisplay();
+       $this->displayPath = new LLDisplay($meidentity, $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata);
 //echo 'echo start display';
        }
        
@@ -113,7 +109,6 @@
       public function startSetup()
       {
         // default but need load for return user(cookie or serverside(openid, fbconnect, someID login)
-        $startsetup['science'] = 'singledefinition';
         $startsetup['api'] = array('lifestyle' => 'wikipedia', 'content' => 'rssFeedreader');
         // set starting context
         return $startsetup;
@@ -131,11 +126,12 @@
         $timestamp = microtime(true);
          
         $startresultspath['intention'] = $intentioninput['intention'];
-        $startresultspath['logic'] = $intentioninput['logic'];
+        $startresultspath['logic'] = $intentioninput['LLlogic'];
         $startresultspath['starttime'] = $timestamp;
-        $startresultspath['timebatch'] = $intentioninput['time'];
+        $startresultspath['timebatch'] = $intentioninput['timebatch'];
         $startresultspath['media'] = $intentioninput['display'];
         $startresultspath['make'] = $intentioninput['make'];
+        $startresultspath['filter'] = $intentioninput['filter'];        
         // set starting context
         return $startresultspath;
         
@@ -148,8 +144,9 @@
      */ 
       public function startIndividual()
       {
-      
-        $startindividual = 1;
+        // if public first time use then nothing is known about the user place in the LL universe, therefore treat as 'average'
+        // if indentity is picked up from cookie/session then set (TODO)  Signed in users will use identity function within Framework class
+        $startindividual = 'average';
         // set starting context
         return $startindividual;
         
@@ -163,10 +160,13 @@
       public function startLifestyle($uiinput)
       {
       // if lifestyle menus saved or new lifestyle being added
-        $startidentitydefintion = array('defwrod'=>$uiinput);
+        $startidentitydefintion = $uiinput;
        //$startidentitydefintion = array('defword'=>'swimming', 'wikipedia'=>'swimming_(sport)', 'dpedia'=>'http://swimming_(sport).dpedia.org', 'defid'=>'1'); 
 //$identitydefintion = array('defword'=>'skiing', 'wikipedia'=>'Skiing', 'dpedia'=>'http://skiing.dpedia.org', 'defid'=>''); 
 //$identitydefintion = array('defword'=>'Hillwalking', 'wikipedia'=>'Hillwalking', 'dpedia'=>'http://Hillwalking.dpedia.org', 'defid'=>''); 
+
+        // goes through functions to match input text to wikipedia word and manage interaction to get to that stage(TODO)
+
         return $startidentitydefintion;
         
       } 
