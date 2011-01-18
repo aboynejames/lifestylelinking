@@ -31,6 +31,10 @@ class LLframeworkmanager
    // protected $identitysource;
     //protected $lifestyle;  // input from individual
       protected $meidentity;
+      protected $livesource;
+      protected $livedefinition;
+      
+      
     /**
      * Constructor 
      *
@@ -51,7 +55,7 @@ class LLframeworkmanager
       //$this->identitysource = $idsources;
       
       $LLstart = new LLcontext();
-      print_r($LLstart);
+print_r($LLstart);
       $this->individual = $LLstart->individual;
       
       $this->meidentity = $this->identityControl();
@@ -136,6 +140,7 @@ class LLframeworkmanager
      */
       public function intentionManager($path, $definition, $sourcecontent)
       {
+      
        //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
         // create intentionlogic  which will release logic to results, definitions and content sources?
 
@@ -147,7 +152,9 @@ class LLframeworkmanager
                   
          if($path['intention'] == 'newstart')
          {
-echo 'newstart  intention manager has been called';
+         // in this mode one definition needs displayed, if results not ready for this then apply LL to produce all neccessary data to display results as quickly as possible
+//echo 'newstart  intention manager has been called';
+//print_r($definition);
          //  from start page UI
          $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     
           
@@ -155,14 +162,13 @@ echo 'newstart  intention manager has been called';
          $this->contentControl($path['intention'], $sourcecontent);
          
          // feed core
-         //$this->controlCore($newdef->wiseDefinition, $newdata->wiseContent);  
+         $this->controlCore($this->livesource, $this->livedefinition);  
          
          // make results
-         //$resultspath = new LLResults($this->meidentity, $newdef->$loaddefinitions, $path['logic'], $path['time'], $path['filter']);
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['time'], $path['filter']);
          
          // given user display selection (could be to export via api or display in their framework 
-         //$displayPath = new LLDisplay($this->meidentity,  $currentlifestyle = 'swimming', $newdef->$loaddefinitions, $path['display'], $resultspath->wheretofindtheresultsdata);
-         
+         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultspath->resultsin);
          }
        
          elseif($path['intention'] == 'results')
@@ -174,7 +180,7 @@ echo 'newstart  intention manager has been called';
         
         elseif($path['intention'] == 'controlpanel')
          {
-                  
+          // batch updating via control panel or CRON,  need to pickup all definitions and all sources (figure out what is not up to date and update those needing)
           //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
           
          }
@@ -195,6 +201,7 @@ echo 'newstart  intention manager has been called';
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       $newdef = new LLdefinitions($intention, $indefinition);
+      $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
 print_r($newdef);
      }
    
@@ -209,6 +216,11 @@ print_r($newdef);
     // where is the data coming from?
       $newdata = new LLcontent($intention, $source); 
 print_r($newdata);
+//echo 'extract individual sources';
+//print_r($newdata->existsource);
+//echo 'livesource any content array';
+      $this->livesource = $newdata->wiseContent;
+//print_r($this->livesource);
     }
 
     /** Control the data going into LLcore
@@ -216,16 +228,16 @@ print_r($newdata);
      * Fed into core on a per content sources basis (and as many definitions that need scoring)
      * 
      */
-      public function controlCore($sid, $defsforcore)
+      public function controlCore($livesourcecontent, $livedef)
 		{
-      global $llnew;
-   
-      $llnew = new LLCore($this->defSet, $this->contSet[$sid]);
-      $llnew->sourcecontent($this->defSet, $this->contSet[$sid]);
-      //  time to enter the matrix
-      $llnew->LLcoremanager($sid, $defsforcore);
-    
-      //print_r($llnew);
+//echo 'core called with this source content';
+//print_r($livesourcecontent);
+//echo ' any content???';
+//print_r($livedef);
+//echo 'any def data';
+      // idea here is to release the content sources and defintiions that are need to get results as quick as possible.  Do that work here then subsequent classes just process  
+      $llnew = new LLCore($livesourcecontent, $livedef);
+print_r($llnew);
       // import input context instance, ie results window  output make the future.
       
       

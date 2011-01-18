@@ -22,6 +22,9 @@ class LLResults
 	{
 		//  what is the Lifestylelinking logic to use for results  ie how is all life connected?  start in context of same definition, science to add together lifestyle logic (to be found chaos theory?)
     
+    protected $melife; 
+    public $resultsin;
+    
     /**
      * Constructor 
      *
@@ -52,22 +55,63 @@ class LLResults
      */ 
 		public function resultsManager() 
 		{
-        
+    
+    //TODO construct a mechanism to figure out what is the best path to form results (resultspath class might work this out when build)
+    
+    // how are the results being form?  1. filter post on time?  2. lifestylelinking logic, 3. filtered/unfiltered ie in context post, any context post of LL sources
+    
+    // pick out source/post that meet the time constraint
+    //$this->resulttime();
+    
+    // start 'melife' normalization updated per source
+    //$this->calculateLLNormalisation();
+    
     // given lifestylelogic settings prepare relevant peergroups
-    $this->buildPeers($this->personalizedid, $this->linkinglogic);
+    //$this->buildPeers($this->personalizedid, $this->linkinglogic);
     
     // make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
-    $this->loadresultsdata($currentlifestyledefinitionbeingprocessedbyresultsclass);
+    $this->loadresultsdata($sid = 1);
 
     // prepare weighted listing of qualifying results
-    $this->makeresults();
+    //$this->makeresults();
     
     // publish raw JSON (ready for api export or delivery to display formatting before published to the web.
-    $this->resultsJSON();
+    //$this->resultsJSON();
 
      
       
-		}    
+		}   
+    
+    /** 
+     * 
+     * 
+     *
+     */     
+		public function resulttime()
+		{
+			//  look at results array and limit to times selected via UI
+      
+      
+      
+      
+      
+    }
+
+    /** Normalization of source data
+     *
+     * Given the community average and an individual source average
+     * calculate that 'distance' as a simple percentage sum (that is the normalization used)
+     *
+     */     
+		public function calculateLLNormalisation()
+		{
+			//  turns averages to percentages to allow comparison of apples with oranges.
+      $newNormalization = new LLnormalization($llnew->avgofavg, $llnew->matrix['avg']);  // 1st, commmunity avg. 2nd live source being normalized
+      //$newNormalization->normalizationManager();
+      $this->melife['normdata'] = $newNormalization->normalizeComplete();
+      //print_r($this->matrix['normdata']);      
+      
+		}
     
     /**  
      *
@@ -89,12 +133,21 @@ class LLResults
      * 
      *
      */ 
-		public function loadresultsdata($peerlogic)
+		public function loadresultsdata($sid)
 		{
       // just memory to see what results JSON files are loaded, if this definitions results data is not in memory, load it ready for use
-      
-    
-    
+     
+     // list of source and postids
+         //foreach(as)
+         //{
+         
+          $this->resultsin = LLJSON::importJSONdata($sid = 1, $stage='results');
+        
+        //  }
+echo 'results data imported';
+print_r($this->resultsin);
+    return $this->resultsin;
+   
     } 
     
      /**  
@@ -107,7 +160,7 @@ class LLResults
       // used identity, LLlogic->peerGroup, filtered/unfiltered, time period,
    
       
-      $this->resultsmaker($this->personalizedid, $this->resultsfilter, $this->pointtodefarrayandsourcescontentidstobeprocessforthisresultspath/context);
+      $this->resultsmaker($this->personalizedid, $this->resultsfilter, $this->todo);
     
     
     } 
@@ -454,36 +507,15 @@ class LLResults
                
                }   // closes function
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-		
     /**  
      * 
      * 
      *
      */ 
-		public function resultsJSON();
+		public function resultsJSON()
 		{
-
+    
+    LLJSON::storeJSONdata($liveresults, $resultsid = 123, $stage='liveresults');
 
 		}
         

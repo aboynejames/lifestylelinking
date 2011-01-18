@@ -24,8 +24,9 @@ require_once "LLview.php";
 try{
 
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
-$newframework = new LLframeworkmanager();//$LLstart->startSetup, $LLstart->resultspath = null, $LLstart->individual = 1, $LLstart->identitydefintion = null, 
+$newframework = new LLframeworkmanager();
 print_r($newframework); 
+
 }  // closes try
 
 

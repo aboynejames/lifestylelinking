@@ -26,26 +26,35 @@ class LLnormalization
        protected $indivavg;
        protected $normalMe;
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
     public function __construct($avgofavg, $indavgarray)
 		{
     // need avg of avg array & array for each defintion per individual source
     $this->avgavgcomm = $avgofavg;
     $this->indivavg = $indavgarray;
-    //echo 'in normalization';
-    //print_r($this->avgavgcomm);
-    //echo 'indv avg';
-    //print_r($this->indivavg);
+echo 'in normalization';
+print_r($this->avgavgcomm);
+echo 'indv avg';
+print_r($this->indivavg);
     }
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
    public function normalizationManager ()
 		{
       // need to take each individual definition average
         
         
        // need to add a loop foreach individual identity source 
-        
         foreach($this->avgavgcomm as $did=>$avgv)
           {
           
@@ -60,7 +69,12 @@ class LLnormalization
       
     }
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
     public function normalizeDistances($sid, $did, $avgDef)
     {
     // need to build arrays to perform calculations on
@@ -71,11 +85,17 @@ class LLnormalization
     $indivavg = $this->indivavg[$sid][$did]['3'];
     $diffsum = (($indivavg-$avgDef)/$avgDef)*100;
     $diffpercent = round($diffsum, 2);
-    //echo 'percent'.$diffpercent;
+echo 'percent'.$diffpercent;
     $this->normalMe[$sid][$did] = $diffpercent;
     
     }
 
+    /**
+     *  
+     *
+     *  
+     *
+     */
   	public function normalizeComplete()
 		{
       // loadup exlcluded works if not alreadyloaded

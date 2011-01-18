@@ -12,25 +12,40 @@ class LLstatistics
   
     protected $statsarray;
     protected $statsSummary;
-    
-    public function __construct($matrix, $defstoscore)
+ 
+    /**
+     *  
+     *
+     *  
+     *
+     */ 
+    public function __construct($sid, $matrix, $defstoscore)
 		{
     // new data 
+      $this->sourceid = $sid;
       $this->statsarray = $matrix;
       $this->definitions = $defstoscore;
-      //print_r($this->statsarray);
-      //print_r($this->definitions);
+echo 'matrix array passed to stats'; 
+print_r($this->statsarray);
+echo 'def passed to stats';
+print_r($this->definitions);
+      $this->statisticsManager();
   	}
 
-
-    public function statisticsManager($sid) 
+    /**
+     *  
+     *
+     *  
+     *
+     */
+    public function statisticsManager() 
     {
     // feeds startLLmatrix with input arrays per definition
    
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions,
     
                   
-                  $votes = $this->formScorearray ($sid, $this->definitions);
+                  $votes = $this->formScorearray ($this->sourceid, $this->definitions);
                   //print_r($votes);
                   foreach ($this->definitions as $did=>$durl)
                   {
@@ -38,18 +53,19 @@ class LLstatistics
                         //{
                                
                                //echo 'defid='.$did.'and sid'.$sid.'andcid='.$ccid;
-                               $this->statcalulator($sid, $did, $votes);                        
+                               $this->statcalulator($this->sourceid, $did, $votes);                        
                         //}
                     
                   }  
-        
-
-
-
           
     }
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
     public function formScorearray ($sid, $defids)
     {
 //echo 'form';
@@ -85,7 +101,12 @@ class LLstatistics
     }
 
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
     public function  statcalulator ($sid, $did, $votes)
     {
     //echo 'votes array';
@@ -200,6 +221,12 @@ class LLstatistics
  
     } // closes function
 
+    /**
+     *  
+     *
+     *  
+     *
+     */
   	public function statisticsComplete()
 		{
       // loadup exlcluded works if not alreadyloaded

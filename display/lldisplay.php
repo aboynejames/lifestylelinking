@@ -43,14 +43,14 @@
      * @param 
      *
      */
-    public function __construct($meidentity,  $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata)
+    public function __construct($meidentity,  $currentlifestyle, $lifestylemenu, $displayrequired, $resultspathdata)
 		{
 		
     $this->identity = $meidentity;
     $this->selectedlifestyle = $currentlifestyle;
     $this->lifemenu = $lifestylemenu;
     $this->diplaymedia = $displayrequired;
-    $this->resultsdata = $resultsdata;
+    $this->resultsdata = $resultspathdata;
     
     $this->displayManager();
       

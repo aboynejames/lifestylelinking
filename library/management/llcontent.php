@@ -23,6 +23,8 @@ class LLcontent
 
      protected $loadcontent;  // existing content data in the framework
      protected $contentin;  // input content source array
+     public $existingcontent; // sources already in framework
+     public $wiseContent;  // top words per post
 
     public function __construct($intention, $sourcecontent)
 		{
@@ -44,30 +46,41 @@ class LLcontent
       
       // first call and get list of all content ids stored in the framework (has the new content id be process else where in the LL universer check peer to peer)
       // TODO first need to check what data is live in the framework?  If first use this instance, load updata or based on intention
-      $existingcontent = $this->loadExistingcontent();
+ 
       
          // need logics  dailyupdate or first time entry of content
           if($this->intention == 'update')
           {
             //  just fly through all sources add new content add to the universe
             // new update function that will compare what we have with what it live?
+            $existingcontent = $this->loadExistingcontent();
             $this->updatasources($existingcontent);
           
           }
           
          else
           {
+              // 
+              $existingcontent = $this->loadExistingcontent();
+              
+              if(strlen($this->contentin['url']) == 0)
+              {
+              $this->contentin = array('url'=>'empty', 'rss'=>'empty', 'rdf'=>'', 'sourceid'=>'empty', 'frameworkid'=>'empty');
+              }
+              
+              
+          
           //  1. is there any content sources to score?  If nil then TODO: prompt for manual input, rssreader e.g. via opensocial googlereader api call, call autocrawl->built in 'spawning url e.g. mepath.com to kickstart content, or peertopeerRDF to source urls score for the lifestyledefinition entered.
-              if($this->contentin == null)
+              if($this->contentin['url'] == 'empty' &&  $existingcontent == null)
               {
               // no content in framework there prompt for manual input, add rssfeed URL, autocrawl->call spawing .com api or peertoPeerRDF framework networking
-echo 'no content sources so go for autosource options';              
+//echo 'no content sources so go for autosource options';              
               // user input
               //echo 'Please add a source blog url';
               
               // autosource
               $autosource = $this->autocontent();
-              $newcontent = $this->addContent($autosource['url'], $existingcontent);
+              $newcontent = $this->addContent($autosource, $existingcontent);
               
               }
               
@@ -102,7 +115,7 @@ echo 'no content sources so go for autosource options';
      
     // for now a batch of sourceurls with no. additional data   if data then need a flag stop the processing of content and get on to the personalization of results
       $shareddata = array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'', 'frameworkid'=>'mepath.com');
-     
+  
      return $shareddata;
       
       
@@ -126,13 +139,13 @@ echo 'no content sources so go for autosource options';
      
       if ($this->loadcontent['start'] == 'empty')
       {
-      echo 'null content sources';
+//echo 'null content sources';
       return null;
       }
       
       else
       {
-echo 'existing data found <br /><br />';    
+//echo 'existing data found <br /><br />';    
 
           // form array of content       
           foreach($this->loadcontent['source'] as $skey=>$cw)
@@ -148,9 +161,9 @@ echo 'existing data found <br /><br />';
           $sourcecontentsummary = '';
           // top wise words load
           $importcontent = LLJSON::importJSONdata($sid, $contentstage='wisecont');
-          $this->existsource[$sid] = $importcontent;
-echo 'the load existing def in array<br /><br />';
-print_r($this->existsource);
+          $this->existsource = $importcontent;
+//echo 'the load existing content array<br /><br />';
+//print_r($this->existsource);
 //echo 'any loaded';
           }
                     
@@ -206,19 +219,19 @@ print_r($this->existsource);
      */
     public function addContent($newcont, $existingcont)
 		{
-echo 'call the add content function <br /><br />';
-print_r($newcont);
-print_r($existingcont);
+//echo 'call the add content function <br /><br />';
+//print_r($newcont);
+//print_r($existingcont);
       if ($existingcont == null)
       {
-echo 'first time add of content source';
+//echo 'first time add of content source';
       //print_r($existingcont);
         // add to content sources - FIRST time entry json txt files or mysql or couchdb
       $sid = 1;  
       $newcontentstart['source'][$sid] = $newcont;
 //print_r($newcontentstart);
       LLJSON::storeJSONdata($newcontentstart, $newcontentid = 0, $contentstage='content');
-echo 'afterstore';
+//echo 'afterstore';
       
       $this->startNewcontent($sid, $newcont); 
       
@@ -227,39 +240,49 @@ echo 'afterstore';
       else
       {
       //print_r($);
-echo 'add content additional need to check if url entered before?';
-   
-      // is the new content source already in the framework? (check id number, url and xmlfeeduri, rdf if they have it (muitlilevel identity checking
-        $idstatus = $this->identitycontent($newcont, $existingcont);
-echo 'status \n';
-              if ($idstatus['match'] > 0)
-              {
-echo 'already feed added because of ..';
-      //print_r($idstatus);
+//echo 'add content additional need to check if url entered before?';
+//echo 'is new content empty';
+//print_r($newcont);
+            if($newcont['url'] !== 'empty')
+            {
+       
+          // is the new content source already in the framework? (check id number, url and xmlfeeduri, rdf if they have it (muitlilevel identity checking
+            $idstatus = $this->identitycontent($newcont, $existingcont);
+//echo 'status \n';
+                  if ($idstatus['match'] > 0)
+                  {
+//echo 'already feed added because of ..';
+          //print_r($idstatus);
+                    }
+
+                  else 
+                  {
+//echo 'brand new source add it to the framework';
+          //print_r($idstatus);
+                 
+                         // need to store and append to json txt file, mysql or couchdb
+                         // form new summary definition array ie existing plus new
+                         $newcontentsourceid = $this->newcontentnumber($existingcont);
+                         
+                         $newcontupdate = $this->updatecontentlist($newcontentsourceid, $newcont);
+                         //echo 'new summary def array for json';
+                         //print_r($newdefupdate);
+
+                         LLJSON::storeJSONdata($newcontupdate, $newcontidstart = 0, $contentstage='content');
+                         // not in framework , add it
+                         // append definition new allocated id 
+                         $newcontentarray = array($newcontid=>$newcontent);
+                         
+                         $this->startNewcontent($newcontentsourceid, $newcont);
+                   
+                      }                     
                 }
-
-              else 
-              {
-echo 'brand new source add it to the framework';
-      //print_r($idstatus);
-             
-                     // need to store and append to json txt file, mysql or couchdb
-                     // form new summary definition array ie existing plus new
-                     $newcontentsourceid = $this->newcontentnumber($existingcont);
-                     
-                     $newcontupdate = $this->updatecontentlist($newcontentsourceid, $newcont);
-                     //echo 'new summary def array for json';
-                     //print_r($newdefupdate);
-
-                     LLJSON::storeJSONdata($newcontupdate, $newcontidstart = 0, $contentstage='content');
-                     // not in framework , add it
-                     // append definition new allocated id 
-                     $newcontentarray = array($newcontid=>$newcontent);
-                     
-                     $this->startNewcontent($newcontentsourceid, $newcont);
-               
-                  }                     
-  
+                else
+                {
+                
+                  // content already live in the framework
+                
+                }
          
      }
       
@@ -395,23 +418,25 @@ echo 'brand new source add it to the framework';
     public function startNewcontent($sid, $newcontentstart)
 		{
 			// starts 
-echo 'new content';
+//echo 'new content';
       // call rss/atom feedreader
-      $sourcecontent = $this->startFeedreader($newcontentstart);
+      $sourcecontent = $this->startFeedreader($newcontentstart['url']);
+      
+      // TODO: if no feed can be found or url not valid, get this feedback back to UI and stop all further processing, reset previous settings too
       
       // TODO:  save memory and JSON summary content summary, limited to data required to be called for display or to check if update content posts are available ie. date data
       // now opportunity to store source content for retieval by results class (also prepare sample text, urls, extract photos/video or other asset within the post
       $this->resultscontent($sid, $sourcecontent);
 
 
-echo 'new rss feed content data';
+//echo 'new rss feed content data';
 //print_r($sourcecontent);
           
            foreach ($sourcecontent['posts'] as $cid=>$newcont)
            {
-           echo 'new array formed';
-           echo $sid;
-           echo 'contentid'.$cid;
+//echo 'new array formed';
+//echo $sid;
+//echo 'contentid'.$cid;
            //print_r($newcont);
             // ? independently parse out rss feed url at this stage or allow pie to do it later?
             $this->buildContent($sid, $cid, $newcont);
@@ -421,19 +446,19 @@ echo 'new rss feed content data';
      
      // store raw post words       
      LLJSON::storeJSONdata($this->cleanContent, $sid, $stage = 'rawcontent');
-     echo 'after store rawcontent';
+//echo 'after store rawcontent';
       
       // now make those list of words wise
       foreach ($this->cleanContent[$sid] as $cid=>$newCwords)
       {
       
-      $wiseContent[$sid] = $this->makeContentWise($cid, $newCwords); 
+      $this->wiseContent[$sid] = $this->makeContentWise($cid, $newCwords); 
      
       }
-print_r($wiseContent);
+//print_r($wiseContent);
       // now all content madewise, save on a per source basis
            // store raw post words       
-      LLJSON::storeJSONdata($wiseContent, $sid, $stage = 'wisecont');
+      LLJSON::storeJSONdata($this->wiseContent, $sid, $stage = 'wisecont');
 
       
 		}
@@ -477,10 +502,10 @@ print_r($wiseContent);
 			$dataWisdom->wisdomLogic();
 			
 			// Get the cleaned data
-			$this->wiseContent[$cid] = $dataWisdom->wiseWords();
+			$this->madewiseContent[$cid] = $dataWisdom->wiseWords();
       //print_r($this->wiseDefinition); 
       
-      return $this->wiseContent;
+      return $this->madewiseContent;
 
 
 		}     
@@ -513,9 +538,9 @@ print_r($wiseContent);
                     // Strip slashes if magic quotes is enabled (which automatically escapes certain characters)
                    // if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
                     //{
-  echo 'strip';
+  //echo 'strip';
                       $nfeedurl = stripslashes($surlin);
-  echo $nfeedurl;
+  //echo $nfeedurl;
                     //}
 
                     // Use the URL that was passed to the page in SimplePie
@@ -631,7 +656,7 @@ print_r($wiseContent);
      *    
      *
      */  
-  	public function resultscontent($sid, $sourcecontent);
+  	public function resultscontent($sid, $sourcecontent)
     {
       // first extract the data
       //$postresults['links'] = $this->extractlinks();
@@ -641,12 +666,13 @@ print_r($wiseContent);
       // call autocrawl?
       //$sautocrawl = new LLautocrawl();
       
+      $postresults = $sourcecontent;
       
       // store source content data
-      //LLJSON::storeJSONdata($postresults, $newcontidstart = $sid, $contentstage='results');
+      LLJSON::storeJSONdata($postresults, $newcontidstart = $sid, $contentstage='results');
     
     
-		}
+	  }
 
     /**  
      *

@@ -34,122 +34,74 @@
 		protected $cleanContent; // array of words from content
     protected $defstoscore;
 		protected $cleanDefinition; // cleaned version of Wiki definiton
-    protected $matrix;
+    public $matrix;
   //  protected $statistics;
-    protected $avgofavgs;
+    public $avgofavg;
     protected $lifeGroup;
     protected $results;
     protected $coreobject;
-    
+    protected $wiseContent;
+    protected $wiseDefinition;
     /**
      * Constructor 
      *
      *
      */
-   public function __construct()
+   public function __construct($sourcecontent, $defslive)
 		{
-			//$this->cleanDefinition = $dataDefinition;
-      //$this->cleanContent = $dataContent;
+		 
+      $this->wiseContent = $sourcecontent;  // only the content need to produce results or update
+      $this->wiseDefinition = $defslive;  /// only the def should come in that need to be process to get results or update done the quickets/most efficient
+      
+      $this->LLcoremanager();
+      
 		} 
-    
-    /** Clean definition and clean source content input to core (maybe put back in to constructor?)
-     *
-     *
-     * @param array $this->cleanDefinition
-     * @param array $this->cleanContent
-     *
-     */ 
-    public function sourcecontent($dataDefinition, $dataContent)
-		{
-			$this->cleanDefinition = $dataDefinition;
-      $this->cleanContent = $dataContent;
-		} 
-   
 
     /** Control how all the stages of core are handled
      *
      *
      *
      */ 
-    public function LLcoremanager($source, $defstoscore)
+    public function LLcoremanager()
     {
-    // utility function to 
     // has information to tag data with so the right combintation of path through core is captured and recorded.
     // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
     // core runs on a PER SOURCE basis (exept break for avgofavg update/calc) before resuming on per source basis, results aggregate data qualifying for results windows from indiv sources.
-    //print_r($this->cleanDefinition);
-    //print_r($this->cleanContent);
-        /*
-       $this->defstoscore = $defstoscore; 
-        // make wise Definitions
-        foreach ($this->cleanDefinition as $defid=>$defWords) 
-        {
-        
-        $this->makeDefinitions($defid, $defWords);
-        
-        }
-        
-        // need some function to manage the source content identity and match source(s) to the owner of this framework
-        
-        // make wise Content
-        // do on a per sourceid basis (but maybe others ie. total flexibility on input ordering
-       //foreach($source as $sid)
-        //{
-                foreach ($this->cleanContent as $contid=>$contWords)
-                {
-               
-                $this->makeContent($source, $contid, $contWords);
-                
-                }
-        //}        
-        */
+echo 'wiseContent in core manager';
+print_r($this->wiseContent);
+echo 'wiseDefintion in core manager';
+print_r($this->wiseDefinition);
+
        // use this manager function to call other core functions
-        // matrix
-          $this->createLLMatrix($source);
-
-        // statistics
-          $this->calculateLLStats($source, $this->defstoscore);
-        
-        // break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports defs?
-        // break to update Avg of Avg.
-          $this->calculateLLAvgOfAvg();
        
-       // normalization
-          $this->calculateLLNormalisation();
-        
-        // peergroups
-        // Self form LL groups
-          $this->calculateLLgroups();
-       
-       //results  
-        
-        //  aggregate all results and weight for input context to inherit results priorities  (can be automaic or human decided from UI/control panel
-        
-        
-    } // closes function
-    
 
-	
-    /** Turns clean content arrays into wise list of words for each content item
-     *
-     * based on frequency used author by wikipedia community (why?  Start crowd source vocabularly)
-     * also certain words excluded  CQ and 'joining' words
-     *
-     */ 
-  		public function makeContent($sid, $contid, $contWords)
-		{
-			// Note: use arrays and not database
-			
-			// Create a LLDataCleanser object
-			$dataContentWisdom = new LLwordWisdom($contWords);
-			
-			// Clean the data
-			$dataContentWisdom->wisdomLogic();
-			
-			// Get the cleaned data
-			$this->wiseContent[$sid][$contid] = $dataContentWisdom->wiseWords();
-      
-		}
+       
+       
+           // what sources are 'live' for this path?  What definitions are 'live' ie. one def. from startUI or batch of UI for update of LL for all sources
+           foreach($this->wiseContent as $sid=>$postwisewords)
+           {
+            // matrix
+              $this->createLLMatrix($sid, $postwisewords);
+
+            // statistics
+              $this->calculateLLStats($sid);
+            
+            // TODO: break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports avgs?
+                   // load existing community AverageofAverage values for the 'live' defintion
+              $newavgs = new LLavgOfavg($this->matrix['avg']);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
+              $this->avgofavg = $newavgs->avgOFavgsComplete();
+
+           
+           // normalization
+              //$this->calculateLLNormalisation();
+              
+            }
+echo ' the matrix to be stored';
+print_r($this->matrix);
+        // store all the matrix data
+        $this->storeMatrixstats($sid, $this->matrix); 
+        
+        } // closes function
 	
     /** Given the definition in Core, how alike are they?  
      *
@@ -181,16 +133,17 @@
      * matched words a ranked for frequency importance and allocate votes based on definition word weighting
      *
      */ 
-    public function createLLMatrix($sid)
+    public function createLLMatrix($sid, $postwisewords)
 		{
 			// score matrix
 			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
 			// Use arrays instead of database
-      
-      $newmatrix = new LLmatrix($this->wiseDefinition, $this->wiseContent[$sid]); 
+//echo 'wisedef array??';
+//print_r($this->wiseDefinition);
+      $newmatrix = new LLmatrix($sid, $postwisewords, $this->wiseDefinition); 
       // start matrix
       //$newmatrix->startLLmatrix();
-      $newmatrix->matrixManager($sid);
+      //$newmatrix->matrixManager();
       $this->matrix = $newmatrix->matrixComplete();
       //print_r($this->matrix);
 
@@ -203,47 +156,28 @@
      * Frequency that a source score for each definition
      *
      */ 
-		public function calculateLLStats($sid, $defstoscore)
+		public function calculateLLStats($sid)
 		{
 			// Take code from old core/logic/mestats.php
 			// Use arrays instead of database
-      $newstats = new LLstatistics($this->matrix, $defstoscore);
-      $newstats->statisticsManager($sid);
+      $newstats = new LLstatistics($sid, $this->matrix, $this->wiseDefinition);
+      //$newstats->statisticsManager($sid);
       $this->matrix['avg'] = $newstats->statisticsComplete();
       //print_r($this->matrix['avg']);
       
 		}
 
-    /** Community definition averages class
+    /** Store per source its matrix, stats, normalized data
      *
-     * given all the framework individual sources in the universe, what is the average of average for that population?
-     * 
      *
-     */ 
-		// average of averages
-		public function calculateLLAvgOfAvg()
-		{
-			// Establish average of averages for each definition(s)
-      $newavgs = new LLavgOfavg($this->matrix['avg']);
-      $newavgs->AvgofAvgManager();
-      $this->avgofavgs = $newavgs->avgOFavgsComplete();
-      //print_r($this->avgofavgs);
-      
-		}
-    
-    /** Normalization of source data
      *
-     * Given the community average and an individual source average
-     * calculate that 'distance' as a simple percentage sum (that is the normalization used)
      *
      */     
-		public function calculateLLNormalisation()
+		public function storeMatrixstats($sid, $matrixstats)
 		{
-			//  turns averages to percentages to allow comparison of apples with oranges.
-      $newNormalization = new LLnormalization($this->avgofavgs, $this->matrix['avg']);
-      $newNormalization->normalizationManager();
-      $this->matrix['normdata'] = $newNormalization->normalizeComplete();
-      //print_r($this->matrix['normdata']);      
+			//  store per source the data created in core
+      LLJSON::storeJSONdata($matrixstats, $sid, $contentstage='matrix');
+      
       
 		}
 
@@ -259,7 +193,7 @@
 			// Use arrays instead of database
       // order list of identities by LLorder based on each definition
       $newGroups = new LLgroups($this->matrix['normdata']);
-      $newGroups->groupManager();
+      //$newGroups->groupManager();
       $this->lifeGroup = $newGroups->groupsComplete(); 
       //print_r($this->lifeGroup);      
         
@@ -274,9 +208,9 @@
     public function calculateLLresults($contidsource)
     {
     // produce data to be passed to display
-    $newResults = new LLresults($this->matrix);
-    $newResults->resultsManager($contidsource);
-    $this->results = $newResults->resultsComplete(); 
+    //$newResults = new LLresults($this->matrix);
+    //$newResults->resultsManager($contidsource);
+    //$this->results = $newResults->resultsComplete(); 
     
     }
     

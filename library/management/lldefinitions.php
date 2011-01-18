@@ -22,8 +22,11 @@
  {
 
      protected $defpath;
-     protected $defin;
+     public $defin;
      public $loaddefinitions;
+     public $wiseDefinition;
+     public $defids;
+     public $setlivedefinition;
 
     /** Controls creating a new lifestyle Definition 
      *
@@ -55,7 +58,7 @@
       $existingdefs = $this->loadExistingdefintions();
      
       $newdef = $this->addDefinition($this->defin, $existingdefs);
-     
+      
 		}
 
     /** Load existing definition or connect for updates to defitions 
@@ -69,7 +72,7 @@
       // query local json txt, mysql, couchdb or RDF
       // local text files for now
       // need to have json txt for id of defintions already wise the foreach those
-      $this->loaddefinitions = $this->importDefinitiondata($defkey = 0, $defstage = 'definitions');
+      $this->loaddefinitions = LLJSON::importJSONdata($defkey = 0, $defstage = 'definitions');
 //print_r($this->loaddefinitions);
      
       if ($this->loaddefinitions['start'] == 'empty')
@@ -82,23 +85,23 @@
 //echo 'existing data found <br /><br />';    
 
           // form array of defintions and then loadup the wisedefinitions      
-          foreach($this->loaddefinitions['definition'] as $dkey=>$dw)
+          foreach($this->loaddefinitions['definitions'] as $dkey=>$dw)
           {
           
-            $defids[$dkey] = $dw['wikipedia'];  // need to delete wikipdia element of arry need to check
+            $this->defids[$dkey] = $dw['wikipedia']; 
           
           }
 //print_r($defids);
-          foreach($defids as $did=>$dwiki)
+          foreach($this->defids as $did=>$dwiki)
           {
-          $importdef = $this->importDefinitiondata($did, $defstage='wisedef');
+          $importdef = LLJSON::importJSONdata($did, $defstage='wisedef');
           $this->existdef[$did] = $importdef[$did];
 //echo 'the load existing def in array<br /><br />';
 //print_r($this->existdef);
 //echo 'any loaded';
           }
                     
-          return $defids;
+          return $this->defids;
       }
       //  simplify array to id and wikipediaword
 
@@ -118,9 +121,9 @@
       {
       //print_r($newdef);
         // add to definition - FIRST time entry json txt files or mysql or couchdb
-      $newdefstart['definition']['1'] = $newdef;
+      $newdefstart['definitions']['1'] = $newdef;
       //print_r($newdefstart);
-      $this->storeDefinitiondata($newdefstart, $newdefid = 0, $defstage='definitions');
+      LLJSON::storeJSONdata($newdefstart, $newdefid = 0, $defstage='definitions');
       
       $newdefarray = array('1'=>$newdef);
       //print_r($newdefarray);
@@ -135,7 +138,7 @@
       //print_r($existingdef);
    
       // is the new wikipedia definition word already in the framework?
-      $defcheck = array_search($newdef, $existingdef);
+      $defcheck = array_search($newdef['wikipedia'], $existingdef);
      
          if ($defcheck == 0)
          {
@@ -148,7 +151,7 @@
          //echo 'new summary def array for json';
          //print_r($newdefupdate);
 
-         $this->storeDefinitiondata($newdefupdate, $newdefidstart = 0, $defstage='definitions');
+         LLJSON::storeJSONdata($newdefupdate, $newdefidstart = 0, $defstage='definitions');
          // not in framework , add it
          // append definition new allocated id 
          $newdefarray = array($newdefid=>$newdef);
@@ -160,7 +163,9 @@
          else
          {
          // already in framework
-         return 0;
+         // attached a defid to the 'live' definition
+         $this->setlivedefinition = $defcheck;
+      
          }
      }
       
@@ -191,7 +196,7 @@
     
    // existing list of def data
     $newsavedef = $this->loaddefinitions;
-    $newsavedef['definition'][$newdefid] = $newdef;
+    $newsavedef['definitions'][$newdefid] = $newdef;
     
    
     
@@ -239,7 +244,7 @@
 			// Note: use arrays and not database
       $lifedefobj = new wikipedia();
 
-      $wdefwords = $lifedefobj->getpage($wikiword, $revid=null);     
+      $wdefwords = $lifedefobj->getpage($wikiword['wikipedia'], $revid=null);     
       //print_r($wdefwords);
 			// Create a LLDataCleanser object
 			$dataCleaner = new LLDataCleanser($wdefwords);
@@ -251,7 +256,7 @@
 			$this->cleanDefinition[$defid] = $dataCleaner->cleanedData();
      //echo 'after clean'; 
      // printf($this->cleanDefinition);
-      $this->storeDefinitiondata($this->cleanDefinition[$defid], $wikiword, $stage = 'raw');
+      LLJSON::storeJSONdata($this->cleanDefinition[$defid], $wikiword['wikipedia'], $stage = 'raw');
       
       // now make those list of words wise
       $this->makeDefinitions($defid, $this->cleanDefinition[$defid]);
@@ -279,7 +284,7 @@
 			$this->wiseDefinition[$defid] = $dataWisdom->wiseWords();
       //print_r($this->wiseDefinition);
 
-      $this->storeDefinitiondata($this->wiseDefinition, $defid, $stage = 'wisedef');
+      LLJSON::storeJSONdata($this->wiseDefinition, $defid, $stage = 'wisedef');
 
 		}
  
@@ -293,59 +298,7 @@
       
 		}
 
-     /** Store, update, delete definitiondata
-     *
-     * give options, flat txt json, couchdb, mysql (and any in the future)
-     *
-     */
-		public function storeDefinitiondata($defdata, $defword, $defstage)
-    {
-     // what storage method set,  check via framework setup
-     // assume txt json for now
-//echo 'store wisedef and other';
-//print_r($defdata);
-     $jsondef = json_encode($defdata);
-      //echo $jsondef;
-      
-      // build a defintion file name
-      $deffile = 'data/'.$defstage.$defword.'.txt';
-      //echo $deffile;
-
-      $ourFileName = $deffile;
-      
-           
-      $ourFileHandle = fopen($ourFileName, 'w') or die("can't open file");
-      fwrite($ourFileHandle, $jsondef) or die('Could not write to file'); 
-      fclose($ourFileHandle);
-
-      
-      
-		}
-
-     /** Import existing data on install or use
-     *
-     * give options, flat txt json, couchdb, mysql (and any in the future)
-     *
-     */
-		public function importDefinitiondata($defkey, $defstage)
-    {
-     // what storage method set,  check via framework setup
-     // assume txt json for now
-         //echo 'import';
-      // build a defintion file name
-      $deffile = 'data/'.$defstage.$defkey.'.txt';
-      //echo $deffile; 
-
-      $ourFileName = $deffile;
-      $ourFileHandle = fopen($ourFileName, 'r') or die("can't open file");
-      $defdata = fread($ourFileHandle, filesize($ourFileName)) or die('Could not read file!'); 
-      fclose($ourFileHandle);
-      
-      // decode and turn into php array
-      $loadjs = json_decode($defdata, true);
-   
-      return $loadjs;
-		}
+  
 
      /** Returns a clean definition 
      *

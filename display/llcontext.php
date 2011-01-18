@@ -69,24 +69,37 @@
        if(isset($_GET['ll']))
        {
         
-        // this should get text input that is converted to a wikipedia definition or via control panel input
-        // also picks up LL logic, display preferences (probably in automode as default  Q. whatis automode/default settings?)
-        $lifestyleinput['wikipediaword'] = $_GET['ll'];
-        $lifestyleinput['LLlogic'] = $_GET['logic'];
-        $lifestyleinput['intention'] = $_GET['intention'];
-        // could be more than one dispaly sections
-        $lifestyleinput['display'] = $_GET['display'];
-        $lifestyleinput['timebatch'] = $_GET['time'];
-        $lifestyleinput['make'] = $_GET['make'];
-        $lifestyleinput['filter'] = $_GET['filter'];
-        // set starting context
-   
-        $this->resultspath = $this->startPath($lifestyleinput);
-        $this->individual = $this->startIndividual();
-        $this->identitydefintion = $this->startLifestyle($lifestyleinput['wikipediaword']);
-        $this->identitysource = $this->startInfoUniverse(); 
+            // if no text entered then display startpage again
+            $intext = $_GET['ll'];
+            if(strlen($intext) > 0)
+            {
+             // this should get text input that is converted to a wikipedia definition or via control panel input
+            // also picks up LL logic, display preferences (probably in automode as default  Q. whatis automode/default settings?)
+            $lifestyleinput['wikipediaword'] = $_GET['ll'];
+            $lifestyleinput['LLlogic'] = $_GET['logic'];
+            $lifestyleinput['intention'] = $_GET['intention'];
+            // could be more than one dispaly sections
+            $lifestyleinput['display'] = $_GET['display'];
+            $lifestyleinput['timebatch'] = $_GET['time'];
+            $lifestyleinput['make'] = $_GET['make'];
+            $lifestyleinput['filter'] = $_GET['filter'];
+            // set starting context
+            // TODO  will allow personlize box on startUI or just in results UI  either way need to gather personalization settings.
+            $mesetting['pblog'] = $_GET['psource'];
        
-       }
+            $this->resultspath = $this->startPath($lifestyleinput);
+            $this->individual = $this->startIndividual();
+            $this->identitydefintion = $this->startLifestyle($lifestyleinput['wikipediaword']);
+            $this->identitysource = $this->startInfoUniverse($mesetting['pblog']); 
+            }
+            
+            else
+            {
+            
+            $this->displayPath = new LLDisplay($meidentity, $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata);
+            
+            }
+        }
        
        else
        {
@@ -159,8 +172,8 @@
      */ 
       public function startLifestyle($uiinput)
       {
-      // if lifestyle menus saved or new lifestyle being added
-        $startidentitydefintion = $uiinput;
+      // if lifestyle menus saved or new lifestyle being added   TODO: takes input text and matches it to wikipedia url, from there form dpedia, allocatedid via definition class
+        $startidentitydefintion['wikipedia'] = $uiinput;
        //$startidentitydefintion = array('defword'=>'swimming', 'wikipedia'=>'swimming_(sport)', 'dpedia'=>'http://swimming_(sport).dpedia.org', 'defid'=>'1'); 
 //$identitydefintion = array('defword'=>'skiing', 'wikipedia'=>'Skiing', 'dpedia'=>'http://skiing.dpedia.org', 'defid'=>''); 
 //$identitydefintion = array('defword'=>'Hillwalking', 'wikipedia'=>'Hillwalking', 'dpedia'=>'http://Hillwalking.dpedia.org', 'defid'=>''); 
@@ -176,13 +189,14 @@
      * 
      *
      */ 
-      public function startInfoUniverse()
+      public function startInfoUniverse($psourceurl)
       {
-      
-        $startidentitysource = '';
-        //$startidentitysource =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
-       //$startidentitysource =array('url'=>'http://lifestylelinking.blogspot.com', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );//, '     2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
-        //$startidentitysource =array('url'=>'http://aboynejames.blogspot.com', 'rss'=>'http://aboynejames.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        // TODO felsh out info for this inputurl, is it a blog, find rss feed, any rdf, been process in another spawning ground or PeertoPeer RDF?
+        
+        //$startidentitysource = '';
+        $startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
+      //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );//, '     2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
+        //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://aboynejames.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
         // set starting context
         return $startidentitysource;
         

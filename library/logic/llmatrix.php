@@ -36,18 +36,36 @@
     protected $matrix;
     protected $idmatrix;
 	
-		public function __construct($definitionWise, $contentwordsWise)
+  
+      /**
+     * Constructor 
+     *
+     *  
+     *
+     */
+		public function __construct($sid, $postwisewords, $livewiseDefinition)
 		{
-      $this->definitionarray = $definitionWise;	
-      $this->wordsarray = $contentwordsWise;
+//echo 'start of matrix construct';
+      $this->sourceid = $sid;
+      $this->wordsarray = $postwisewords;
+      $this->definitionarray = $livewiseDefinition;	
+//print_r($this->definitionarray);
            
       //  need to set segmentation (need to allow future flexibility on this e.g. sentence structure, NLP
       $this->wordseg = array ( 1, 2, 3, 4, 5, 10, 20, 50 );
-  //print_r($this->wordsarray);
+//print_r($this->wordsarray);
+//echo 'in matrix def words there?';
+      $this->matrixManager();
+  
     }
 
-
-    public function matrixManager($sid) 
+    /**
+     *  
+     *
+     *  
+     *
+     */
+    public function matrixManager() 
     {
     // feeds startLLmatrix with input arrays per definition
    
@@ -67,7 +85,7 @@
                           // foreach($cid as $ccid=>$words)
                             //{
                                 //echo 'defid='.$did.'and sid'.$sid.'andcid='.$cid;
-                                $this->startLLmatrix($did, $sid, $cid);
+                                $this->startLLmatrix($did, $this->sourceid, $cid);
                             //}
                         
                         }
@@ -76,7 +94,12 @@
     
     }
 
-
+    /**
+     *  
+     *
+     *  
+     *
+     */
     public function startLLmatrix($did, $sid, $cid) 
     {
     //echo $cid;
@@ -133,8 +156,13 @@
        } // closes if
       
       }  //  closes function
-
   
+     /**
+     *  
+     *
+     *  
+     *
+     */ 
   	public function matrixComplete()
 		{
       // loadup exlcluded works if not alreadyloaded
