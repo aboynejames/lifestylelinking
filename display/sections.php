@@ -85,7 +85,7 @@
           <input name="time" type="hidden" value="86400" >
           <input name="make" type="hidden" value="past" >
           <input name="filter" type="hidden" value="on" >
-          <input name="psource" type="hidden" value="http://www.aboynejames.co.uk/wordpress" >
+          <input name="psource" type="hidden" value="" >
           
           <br>
             <input type="submit" value="Start lifestylelinking">

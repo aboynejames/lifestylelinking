@@ -21,7 +21,7 @@
 class LLcontent
 {
 
-     protected $loadcontent;  // existing content data in the framework
+     public $loadcontent;  // existing content data in the framework
      protected $contentin;  // input content source array
      public $existingcontent; // sources already in framework
      public $wiseContent;  // top words per post

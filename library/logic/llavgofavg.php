@@ -24,7 +24,8 @@ class LLavgOfavg
   // calculates average of average for any given definition (note definitions could be wikipedia or unverisal measurement + an identity e.g. blood pressure data)
   // perform on a per framework basis and in context of all decentralized LLdata in the universe
   
-  	protected $avgraw;	
+  	protected $avgdefid;	
+    protected $existingdefavg;
     protected $averageofaverages;
     
      /**
@@ -33,12 +34,12 @@ class LLavgOfavg
      *  
      *
      */   
-    public function __construct($avgrawarray)
+    public function __construct($averageid)
 		{
       
-      $this->avgraw = $avgrawarray;  // the live source content average live in Core
-echo 'new average data';
-print_r($this->avgraw);
+      $this->avgdefid = $averageid;  // the live source content average live in Core
+echo 'new average data required';
+print_r($this->avgdefid);
       
       $this->AvgofAvgManager(); 
       
@@ -52,21 +53,50 @@ print_r($this->avgraw);
      */   
    public function AvgofAvgManager ()
 		{
-      // done per source basis but need to add existing avg. source data in (if it exists)
+     
+     // need to get avgofavg data into memory?  or performing an update of a community average for an individual definition?
+     if($this->avgdefid)
+     {
+     // get data into mememory
+      $this->averageofaverages = $this->getavgofavglive();
+     
+     }
+     
+    
    // check for community avgofavgs numbers from the network
     //$this->networkAvgofAvgs();
     
-    $avgstart = $this->buildAvgofAvg();
-          
-      foreach($avgstart['aggscore'] as $did=>$davgs)
-      {
-      
-       $this->calculateAvgofAvg($did, $avgstart);
-      
-      }
-      
-     $this->storeAvgOfAvg();
-      
+        // need up date framework average for a lifestyledefintion (TODO needs reviewing)
+        /*else
+        {
+            $avgstart = $this->buildAvgofAvg();
+                  
+              foreach($avgstart['aggscore'] as $did=>$davgs)
+              {
+              
+               $this->calculateAvgofAvg($did, $avgstart);
+              
+              }
+              
+             $this->storeAvgOfAvg();
+        }
+        */
+    }
+     
+    /**
+     *  
+     *
+     *  
+     *
+     */    
+    public function getavgofavglive ()
+    { 
+    
+     $loadexisting =  $this->loadexistingAverages();
+     $this->existingdefavg[$this->avgdefid] = $loadexisting[$this->avgdefid];
+     
+     return $this->existingdefavg;
+    
     }
      
      /**

@@ -23,7 +23,12 @@ class LLResults
 		//  what is the Lifestylelinking logic to use for results  ie how is all life connected?  start in context of same definition, science to add together lifestyle logic (to be found chaos theory?)
     
     protected $melife; 
-    public $resultsin;
+    protected $definitionidliv;
+    protected $resultsin;
+    protected $linkingdata;
+    protected $postdatalive;
+    protected $postqualify;
+    protected $resultsready;
     
     /**
      * Constructor 
@@ -35,17 +40,19 @@ class LLResults
      * @param  int  $individual    owner of frameworks id
      *
      */
-   public function __construct($resultsidentity, $lifestylebuild, $LLlogic, $timeperiod, $filter)
+   public function __construct($resultsidentity, $lifestylebuild, $LLlogic, $timeperiod, $filter, $livelistsource, $liveavgofavg )
 		{
 		
     $this->personalizedid = $resultsidentity;
     $this->lifestylemenu = $lifestylebuild;
     $this->linkinglogic = $LLlogic;
-    $this->pathtime = $timeperiod;
+    $this->pathperiod = $timeperiod;
     $this->resultsfilter = $filter;
-   
+    $this->sourcesinresults = $livelistsource;
+    $this->livecommaverage = $liveavgofavg;
+    
     $this->resultsManager();
-      
+
  		} 
 		    
     /**  
@@ -60,20 +67,24 @@ class LLResults
     
     // how are the results being form?  1. filter post on time?  2. lifestylelinking logic, 3. filtered/unfiltered ie in context post, any context post of LL sources
     
-    // pick out source/post that meet the time constraint
-    //$this->resulttime();
+    // extract definition id from livedefinition
+    $this->definitionidlive = key($this->lifestylemenu); 
     
-    // start 'melife' normalization updated per source
-    //$this->calculateLLNormalisation();
+     // make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
+    // two types, first arrays of time, source post ids  and then the fuller content (but only those that make the results)
+    // needs to be called here to get source posts authored time (should have this in seperate data to 'lighter' loading?
+    $this->loadresultsdata();
     
-    // given lifestylelogic settings prepare relevant peergroups
-    //$this->buildPeers($this->personalizedid, $this->linkinglogic);
-    
-    // make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
-    $this->loadresultsdata($sid = 1);
 
+    // pick out source/post that meet the time constraint
+    $this->resulttime();
+    
+    // apply lifestylelinking logic this will set normalization and groups required.
+    $this->applylifestylelinking($this->personalizedid, $this->linkinglogic, $this->lifestylemenu, $this->sourcesinresults, $this->livecommaverage, $this->definitionidlive);
+    
     // prepare weighted listing of qualifying results
-    //$this->makeresults();
+    $this->makeresults();
+    
     
     // publish raw JSON (ready for api export or delivery to display formatting before published to the web.
     //$this->resultsJSON();
@@ -90,62 +101,77 @@ class LLResults
 		public function resulttime()
 		{
 			//  look at results array and limit to times selected via UI
-      
-      
-      
-      
+     $timenow = time(); 
+//echo $timenow.'now';      
+     $starttime = $timenow - $this->pathperiod;
+//echo $starttime.'startimmme';      
+         // now extract list of  source post that satify this time period
+         foreach($this->sourceposttime as $sid=>$post)
+         {
+//print_r($post);          
+            foreach($post as $pid=>$authortime)
+            {
+            
+                if($authortime >  $starttime && $authortime < $timenow)
+                {
+                
+                $this->resultbatch[$sid][$pid] = $authortime;
+                
+                }
+            }
+          }
+echo 'results making based on time filter';
+print_r($this->resultbatch); 
       
     }
 
-    /** Normalization of source data
-     *
-     * Given the community average and an individual source average
-     * calculate that 'distance' as a simple percentage sum (that is the normalization used)
-     *
-     */     
-		public function calculateLLNormalisation()
-		{
-			//  turns averages to percentages to allow comparison of apples with oranges.
-      $newNormalization = new LLnormalization($llnew->avgofavg, $llnew->matrix['avg']);  // 1st, commmunity avg. 2nd live source being normalized
-      //$newNormalization->normalizationManager();
-      $this->melife['normdata'] = $newNormalization->normalizeComplete();
-      //print_r($this->matrix['normdata']);      
-      
-		}
-    
-    /**  
+    /**
      *
      * 
      *
-     */ 
-		public function buildPeers($identity, $peerlogic)
+     */     
+		public function applylifestylelinking($perid, $theLLlogic, $thedefinition, $thesources, $theavgofavg, $setdefinition)
 		{
-			// extration of correct peergroup
-      // single lifestyle connection for now ie.  swimming order peer groups on all those sources scoring for that lifestyle definitions
-      // will get more complicated as  logic will equal  this source has order of lifestyle 1. swimming, 2, skiing, 3. hillwalking,  then filter on that basis in that priority, could be top 5 top10   this will require a how new science to be developed (give User UI filter tools mean time and discovery engine./platform will find out connect in orders and wieights of lifestyle defintions connections  definitions to DNA ie how all life is connected) 
+			//  given the results required applys lifestylelinking to set normalization and peerGroups required to be contructured.
+      $resultslinking = new LLlifestylelinking($perid, $theLLlogic, $thedefinition, $thesources, $theavgofavg, $setdefinition);
+print_r($resultslinking);
+      $this->linkingdata = $resultslinking->lldatareturn();
+      $this->postdatalive = $resultslinking->returnscorestatdatalive();
       
-			$peerlist = new LLgroups($identity, $peerlogic);
-      
-		}
+      }
 		
     /**  
      *
      * 
      *
      */ 
-		public function loadresultsdata($sid)
+		public function loadresultsdata()
 		{
       // just memory to see what results JSON files are loaded, if this definitions results data is not in memory, load it ready for use
-     
      // list of source and postids
-         //foreach(as)
-         //{
+     
+     // if content sources array not live in memory make it live.
+     
+         foreach($this->sourcesinresults['source'] as $sid=>$sdetail )
+         {
          
-          $this->resultsin = LLJSON::importJSONdata($sid = 1, $stage='results');
+          $this->resultsin[$sid] = LLJSON::importJSONdata($sid, $stage='results');
         
-        //  }
-echo 'results data imported';
-print_r($this->resultsin);
+         }
+         
+         // form source, postid, data arry
+         foreach($this->resultsin as $sid=>$contentdetail)
+         {
+          
+              foreach($contentdetail['posts'] as $pid=>$postdata)
+              {
+              
+               $this->sourceposttime[$sid][$pid] = $postdata['authordate'];
+               
+              }
+          }
+echo 'results source post data array';
+print_r($this->sourceposttime);
     return $this->resultsin;
    
     } 
@@ -157,12 +183,51 @@ print_r($this->resultsin);
      */ 
 		public function makeresults()
 		{
-      // used identity, LLlogic->peerGroup, filtered/unfiltered, time period,
-   
+      // used identity, LLlogic->peerGroup, filtered/unfiltered, time period
+      //  start, personalized by url source id yes/now, -> 1. order posts be source  LL significance    2.  post in and poor context post get in if (top5 & frequency >75%)  3.  filter on/off  in context or just any datafrom LLsources (give the time period)
       
-      $this->resultsmaker($this->personalizedid, $this->resultsfilter, $this->todo);
-    
-    
+                
+          foreach($this->linkingdata as $sidorder=>$melife)
+          {
+           // go through each source in order and see if post given (filter conditions to date)
+               if(count($this->resultbatch[$sidorder]) > 0 )
+               {
+    echo 'resultbatchextract'.$sidorder.'anynumberbefore';
+    print_r($this->resultbatch[$sidorder]);
+        
+                 $sourefilterposts = $this->resultbatch[$sidorder];
+                  // does each individual post in context for this lifestyle definitions (apply rules)
+                  foreach($sourefilterposts as $pid=>$postdate)
+                  {
+                  
+                      if($this->resultsfilter == 'off')
+                      {      
+                        // build array of sources/posts based on LL order
+                        $this->postqualify[$sidorder][$pid] = 1;
+        
+                      }
+                      else
+                      {
+                  
+                    // post score date for this
+    echo 'poststatspassedto resultcalc';
+    //print_r($this->postdatalive[$sidorder][$sidorder][$pid][$this->definitionidlive]);
+                    $this->postqualify[$sidorder][$pid] = $this->resultcalc($pid, $this->definitionidlive, $sidorder, $this->postdatalive[$sidorder][$sidorder][$pid][$this->definitionidlive]);
+
+                     // if more than one post per source then order those on weighted avg. between context and TODO
+                    //$this->weightingresults($this->postqualify);
+                    
+                      }
+                      
+                      
+                  }
+               }
+          }
+        
+      // all qualifying posts are known  now hookup to source data required for dispaly
+      $this->resultsready = $this->resultsdatahookup($this->postqualify);
+     
+
     } 
 
     /**  
@@ -176,9 +241,14 @@ print_r($this->resultsin);
     // this needs to be  re audited for new framework logic coming in (TODO) 
      
      // what context to output results eg. personalization  lifestyle, time period, logic of LL ie added blog or assume average
-     // for example three score results per lifestyle definition and gather data on a per source basis, then aggregate all 'qualifying' source content items and order (weighted ranking) 
-     //$defids = array('0'=>'1', '1'=>'2');
-     //print_r($contidarray);
+
+      //  source has an significance and posts on own have a significance.
+
+
+
+
+
+/*
       
         //foreach($defids as $did)
          //{
@@ -202,10 +272,14 @@ print_r($this->resultsin);
          //}
      $this->meresults = $forresults;   
      return $this->meresults;
-     
+  */   
 		}
    
-   
+     /**  
+     *
+     * 
+     *
+     */      
        public function buildresultsarray ($did, $winlimit, $sid, $contidarray)
       {
        // will need to pick out the list of content ids /info. universe that are incluced in results.
@@ -229,111 +303,78 @@ print_r($this->resultsin);
         return $dataids;
       }
 
-
-        public function resultcalc ($did, $sid, $indsource) 
+    /**  
+     *
+     * 
+     *
+     */    
+        public function resultcalc ($pid, $did, $sid, $indsource) 
         {
 
-              // Does any content post contain top lifestyle definition word?  (this is pretty primitive, with CQ in use could select top unqiue words needs testing)
-              //echo '<br /><br />START OF CALC'.$did.'and source'.$sid.'<br /><br />';
-              //  need to sort this loop array.
-                    foreach($indsource['ids'] as $ccid)
-                     {
-                     //echo '<br /><br />CALCsource'.$sid.'contentitem'.$ccid.'<br /><br />';
-                     // go through each content items for this source and see if they make it to results
-                     //echo '<br /><br />START TWO RULES'.$ccid.'<br /><br />';
-                     
-                    $topmm = $indsource['data'][$sid][$ccid]['matched']['1'];
+          // Does any content post contain top lifestyle definition word?  (this is pretty primitive, with CQ in use could select top unqiue words needs testing)
+echo 'resultscalcstarted';
+print_r($indsource);
+echo 'what has been passed';
+          $topmm = $indsource['matched']['1'];
 
                             if ($topmm  >= 1 )
                             {
                               // should also try and qualify the positive context with  sourceTopfive and requencyScore why?  positive qualification(down side risk one off post from in context)
-                            //echo 'topmatch??? <br /><br />';
-                              //$wordtopm[$sid][$ccid] = $topmm;
-                              $aftercalc[$sid][$ccid]['in'] = 1;
-                              //print_r($aftercalc);
-                              //echo 'one for topmatch';
+echo 'topmatch??? <br /><br />';
+                              $aftercalc = 1;
+print_r($aftercalc);
+echo 'one for topmatch';
                             }
                             else
                             {
-                            //echo 'does it have some context at all???????';
-                            //print_r($indsource['data'][$sid][$ccid]['scoring']['50']);
-                                 if ($indsource['data'][$sid][$ccid]['scoring']['50'] > 0)  //  has to have some context to qualify for two results 
+echo 'does it have some context at all???????';
+print_r($indsource['scoring']['50']);
+                                 if ($indsource['scoring']['50'] > 0)  //  has to have some context to qualify for two results 
                                 {
-                                          //echo '<br /><br /> start two tests <br /><br />';
-                                            // topfive  need to call topfive function
-                                          $fivematch = $this->sourceTopfive($did, $sid, $ccid, $indsource['data'][$sid][$ccid]);
-                                          //echo 'fivematch'.$fivematch;
+  //echo '<br /><br /> start two tests <br /><br />';
+  // topfive  need to call topfive function
+                                      //$fivematch = $this->sourceTopfive($did, $sid, $pid, $indsource);
+                                      $fivematch = 1;
+  //echo 'fivematch'.$fivematch;
                                           
-                                          // frequency over 75%
-                                          $freqmatch = $this->frequencyScore($sid, $did);
-                                          //echo 'frequencyhigh'.$freqmatch;
-                                          //echo 'END two tests <br /><br />';
+// frequency over 75%
+                                      //$freqmatch = $this->frequencyScore($sid, $did);
+                                      $freqmatch = 1;
+//echo 'frequencyhigh'.$freqmatch;
+//echo 'END two tests <br /><br />';
                                     
-                                               // now need to form array of the sources with their contentids that will make it to results
-                                               if(($fivematch == 1)  && ($freqmatch == 1))
-                                               {
-                                                $aftercalc[$sid][$ccid]['in'] = 1;
-                                                //print_r($aftercalc);
-                                                //echo 'two none context test met, allow to be included for results';
-                                               }
-                                              else 
-                                              {
-                                              //echo 'failed two test';  //  note this and does this mean this post is on diff. def. not scored? probably or we got it wrong!
-                                              }
+                                       // now need to form array of the sources with their contentids that will make it to results
+                                       if(($fivematch == 1)  && ($freqmatch == 1))
+                                       {
+                                        $aftercalc = 1;
+//print_r($aftercalc);
+echo 'two none context test met, allow to be included for results';
+                                       }
+                                      else 
+                                      {
+echo 'failed two test';  //  note this and does this mean this post is on diff. def. not scored? probably or we got it wrong!
+                                      }
                                                
                                   }
 
                                   else
                                   {
-                                  //echo 'fails as has no top50 context at all';
+echo 'fails as has no top50 context at all';
                                   }
                             }
-                  }
-                      //echo 'before aftercalc';
-//print_r($aftercalc);
-//echo 'end of calculation run<br /><br />';     
+echo 'before aftercalc';
+print_r($aftercalc);
+echo 'end of calculation run<br /><br />';     
                         
        return $aftercalc;
        
     }  // closes function
 
-
-		// looks at a source orders lifestyle definitions highest to lowest
-		public function sourceTopfive($did, $sid, $cid, $unsurep)
-		{
-			// order per source, definitions and limits the list to 5  (need to develop a smart way to cut off the length of the list ie. what are the lifestyle definition that really are this source?)
-    // echo '<br /><br />START topfive<br /><br />';
-		//print_r($this->resultsarray['normdata'][$sid]);
-   //echo 'source DEF id being used in this context'.$did.'source id'.$sid;
-    $siddiff =	$this->resultsarray['normdata'][$sid];
-    arsort($siddiff);
-    //echo 'diff avg order';
-     
-    array_slice($siddiff, 5, true);
-    //print_r($siddiff); 
-    $intop = array_key_exists($did, $siddiff);
-    //echo 'keylist number one or null??'.$intop;
-   
-            if ($intop > 0 ) 
-            {
-            // yes for this source, this defid is in the top5
-            $topfive = 1;
-            }
-            
-            else
-            {
-            // for this source , this defid is NOT in the top5
-            $topfive = null;
-            //echo 'not in top five';
-            }
-    //echo 'END TOPFIVE FUNCTION';
-    //echo $topfive;
-    
-    return $topfive;
-      
-		}
-
-
+    /**  
+     *
+     * 
+     *
+     */    
     public function frequencyScore($sid, $did)
     {
     //echo '<br /><br />START frequencyscore<br /><br />';
@@ -354,8 +395,51 @@ print_r($this->resultsin);
      return $freqentyes;   
      
     }
+    
+    /**  
+     *
+     *  looks at a source orders lifestyle definitions highest to lowest
+     *
+     */ 
+		public function sourceTopfive($did, $sid, $cid, $unsurep)
+		{
+			// order per source, definitions and limits the list to 5  (need to develop a smart way to cut off the length of the list ie. what are the lifestyle definition that really are this source?)
+// echo '<br /><br />START topfive<br /><br />';
+//print_r($this->resultsarray['normdata'][$sid]);
+//echo 'source DEF id being used in this context'.$did.'source id'.$sid;
+    $siddiff =	$this->resultsarray['normdata'][$sid];
+    arsort($siddiff);
+//echo 'diff avg order';
+     
+    array_slice($siddiff, 5, true);
+//print_r($siddiff); 
+    $intop = array_key_exists($did, $siddiff);
+//echo 'keylist number one or null??'.$intop;
+   
+            if ($intop > 0 ) 
+            {
+            // yes for this source, this defid is in the top5
+            $topfive = 1;
+            }
+            
+            else
+            {
+  // for this source , this defid is NOT in the top5
+            $topfive = null;
+  //echo 'not in top five';
+            }
+  //echo 'END TOPFIVE FUNCTION';
+  //echo $topfive;
+    
+    return $topfive;
+      
+		}
 
-
+    /**  
+     *
+     * 
+     *
+     */    
       public function weightingresults ()
       {
 
@@ -416,39 +500,18 @@ print_r($this->resultsin);
         $postaggranka = array_reverse($postaggrank, true);
 
 
-        // OK, last stage save ranking and appropriate info. to make display results as quick as possible.
-        $drposts = '';
-        $rank = 0;
-
-        foreach ($postaggranka as $key => $dayps)  {
-
-        $rank++;
-
-        $drposts .="( '$rank', '$finishtime', '$lifestyleidc', '$key' ), ";
-
-        }
-
-        $drposts=substr($drposts,0,(strLen($drposts)-2));//this will eat the last comma
 
 
-        if (strLen($drposts) > 0 )  {  //  if no posts for that day, no need for query
-
-        //$db->query ="INSERT INTO ".RSSDATA.".dailyposts (rank, enddate, lifestyleid, postid) VALUES ";
-
-        //$db->query .="$drposts";
-        //echo $db->query;
-        //$resultpostinsert = mysql_query($db->query) or die(mysql_error());
-
-        }
         }
 
    }
    
 
-        // need to update feeds for new data, score, stats, melife,   whole lifestyle averages  before running this function
-        // need to create online control panel secure for James to perform 24hrs updates.  NOW ONLINE at /lifestylelinking/loginfiles/rssfeed/dailyupdate
-
-        // merges arrays based on keys
+    /**  
+     *
+     *   merges arrays based on keys
+     *
+     */    
         public function array_merge_keys($arr1, $arr2)
         {
 
@@ -465,11 +528,11 @@ print_r($this->resultsin);
             return $arr1;
         }
 
-
-
-
-
-        // function to sort multidimentional array
+    /**  
+     *
+     *   // function to sort multidimentional array
+     *
+     */   
         public function sortByField($multArray,$sortField,$desc=true)
         {
 
@@ -507,12 +570,27 @@ print_r($this->resultsin);
                
                }   // closes function
 
+
     /**  
      * 
      * 
      *
      */ 
-		public function resultsJSON()
+		public function resultsdatahookup ()
+		{
+      //integrate results source/post qualifying to content required for display
+      
+      
+      return $resultscomplete;
+    
+    }
+
+    /**  
+     * 
+     * 
+     *
+     */ 
+		public function resultsJSON ()
 		{
     
     LLJSON::storeJSONdata($liveresults, $resultsid = 123, $stage='liveresults');
@@ -520,13 +598,20 @@ print_r($this->resultsin);
 		}
         
     
-    
-		// Use experimental ll science
-		public function experimentalResults()
+    /**  
+     * 
+     * 
+     *
+     */ 
+		public function liveResultsdata()
 		{
+    
+    
+    return $this->resultbatch;
 
 		}
 		
 
-	}
+}
+  
 ?>

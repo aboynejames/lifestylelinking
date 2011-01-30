@@ -88,8 +88,8 @@ print_r($this->wiseDefinition);
             
             // TODO: break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports avgs?
                    // load existing community AverageofAverage values for the 'live' defintion
-              $newavgs = new LLavgOfavg($this->matrix['avg']);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
-              $this->avgofavg = $newavgs->avgOFavgsComplete();
+              //$newavgs = new LLavgOfavg($this->matrix['avg']);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
+              //$this->avgofavg = $newavgs->avgOFavgsComplete();
 
            
            // normalization

@@ -194,9 +194,9 @@
         // TODO felsh out info for this inputurl, is it a blog, find rss feed, any rdf, been process in another spawning ground or PeertoPeer RDF?
         
         //$startidentitysource = '';
-        $startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
+        //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
       //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );//, '     2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
-        //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://aboynejames.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        $startidentitysource =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
         // set starting context
         return $startidentitysource;
         
@@ -216,19 +216,27 @@
    
         
       }   
+      
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function setContext()
+    {
+    
+      $livecontext['startAPI'] = $this->startAPI;
+      $livecontext['resultspath'] = $this->resultspath;
+      $livecontext['individual'] = $this->individual;
+      $livecontext['identitydefintion'] = $this->identitydefintion;
+      $livecontext['identitysource'] = $this->identitysource;
+      
+      return $livecontext;
+      
+      }
    
-   
-   
-   
+  
  }
  // closes class
- 
- 
- 
- 
- 
- 
- 
- 
  
  ?>

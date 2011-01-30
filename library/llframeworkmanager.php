@@ -33,6 +33,8 @@ class LLframeworkmanager
       protected $meidentity;
       protected $livesource;
       protected $livedefinition;
+      protected $livelistsource;
+      protected $avgofavg;
       
       
     /**
@@ -55,12 +57,13 @@ class LLframeworkmanager
       //$this->identitysource = $idsources;
       
       $LLstart = new LLcontext();
+      $livecontext = $LLstart->setContext();
 print_r($LLstart);
-      $this->individual = $LLstart->individual;
+      $this->individual = $livecontext['individual'];
       
       $this->meidentity = $this->identityControl();
       $this->assumptionsSet();
-      $this->intentionManager($LLstart->resultspath, $LLstart->identitydefintion, $LLstart->identitysource);
+      $this->intentionManager($livecontext['resultspath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
    
  		} 
     
@@ -125,7 +128,7 @@ print_r($LLstart);
       public function apiStatus()
       {
 			// uses  llapi class include api classes or plug into third party servies 
-      $apinew = new apimanagement($LLstart->api);
+      $apinew = new apimanagement($livecontext['startAPI']);
       
       // any RDF linking established?   if so establish connection
       $rdfconnect = new LLrdf();
@@ -161,20 +164,35 @@ print_r($LLstart);
           // content
          $this->contentControl($path['intention'], $sourcecontent);
          
-         // feed core
-         $this->controlCore($this->livesource, $this->livedefinition);  
+         $this->controlAverages($this->livedefinition);
          
+         // feed core
+         if(isset($this->livesource) && isset($this->livedefinition))
+         {
+         $this->controlCore($this->livesource, $this->livedefinition);  
+         }
          // make results
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['time'], $path['filter']);
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['timebatch'], $path['filter'], $this->livelistsource, $this->avgofavg);
+print_r($resultspath);      
+         $resultsdata = $resultspath->liveResultsdata();
          
          // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultspath->resultsin);
+         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultsdata);
          }
        
          elseif($path['intention'] == 'results')
          {
          
          // pickup lifestlye definition and then decide a. produce results immediately or to up sources of content based on intent e.g. if real time wanted.
+        
+         // first need to see if any content in the universe has been updated and needs to be scored for this lifestyle definition selected?
+           
+          // make results
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['time'], $path['filter'] );
+         $resultsdata = $resultspath->liveResultsdata();
+         
+         // given user display selection (could be to export via api or display in their framework 
+         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultsdata);
          
          }
         
@@ -221,6 +239,7 @@ print_r($newdata);
 //echo 'livesource any content array';
       $this->livesource = $newdata->wiseContent;
 //print_r($this->livesource);
+      $this->livelistsource = $newdata->loadcontent;
     }
 
     /** Control the data going into LLcore
@@ -245,5 +264,22 @@ print_r($llnew);
 
     }
  
+ 
+     /** 
+     *
+     * 
+     * 
+     */
+      public function controlAverages($setdefinition)
+		{
+
+      // manages the average of average calculations (or updated within core if that path chosen) 
+      // extract the definition id number      
+      $defenitionid = key($setdefinition);
+      
+      $newavgs = new LLavgOfavg($defenitionid);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
+      $this->avgofavg = $newavgs->avgOFavgsComplete();
+print_r($newavgs);
+    }
  
 }  // closes class

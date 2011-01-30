@@ -50,6 +50,11 @@ require_once "library/exceptions.php";
 require_once "library/llframeworkmanager.php";
 
 /**
+ * @see LLcontext class
+ */
+require_once "library/llcontext.php";
+
+/**
  * @see LLpath class
  */
 require_once "library/llpath.php";
@@ -128,6 +133,10 @@ require_once "library/logic/llgroups.php";
  */
 require_once "library/llresults.php";
 
+/**
+ * @see LLlifestylelinking class
+ */
+require_once "library/logic/lllifestylelinking.php";
 
 /**
  * @see apimanagement class
