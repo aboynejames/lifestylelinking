@@ -55,7 +55,7 @@
       
       $this->lifestyleSummary();
       $this->blogsections($this->datatodisplay);
-      $this->buildBlogroll($this->datatodisplay);
+      $this->buildBlogroll($this->datatodisplay['peergroup']);
       $this->personalizeSettings();
       
       }
@@ -106,11 +106,11 @@
 ?>    
        <aside id="featured" class="body"><article>
       <figure>
-        <img src="display/images/wikipedia.png" alt="swimming definition" />The aquatic sport of swimming is based on the human act of swimming ...
+        <img src="display/images/wikipedia.png" alt=" definition" />  text from wikipedia for this lifestyle ...
       </figure>
       <hgroup>
-        <h2>Swimming</h2>
-        <h3><a href="#">Personalized news</a></h3>
+        <h2><?php echo $this->lifestylelive['wikipedia'] ?></h2>
+        <h3><a href="#">Lifestyle</a></h3>
       </hgroup>
       <p>23 new posts - last 24 hrs <a href="#">Statistics</a> <a href="#"><img src="display/images/chart.png"></a></p>
 
@@ -123,7 +123,7 @@
      *
      *
      */
-    public function blogsections($blogposts)
+    public function blogsections($blogresults)
     {
 ?>
     <section id="content" class="body">
@@ -131,27 +131,25 @@
       <ol id="posts-list" class="hfeed">
 
 <?php
-          foreach($blogposts as $postid=>$content)
+          foreach($blogresults as $resultid=>$content)
           {
           ?>
           <li><article class="hentry">
             <header>
-              <h2 class="entry-title"><a href="<?php echo $content[''] ?>" rel="bookmark" title="<?php echo $content[''] ?>"><?php echo $content[''] ?>s</a></h2>
+              <h2 class="entry-title"><a href="<?php echo $content['posturl'] ?>" rel="bookmark" title="<?php echo $content['posttitle'] ?>"><?php echo $content['posttitle'] ?></a></h2>
             </header>
 
             <footer class="post-info">
-              <abbr class="published" title="<?php echo $content[''] ?>"><!-- YYYYMMDDThh:mm:ss+ZZZZ -->
-               <?php $content[''] ?>
+              <abbr class="published" title="<?php echo $content['postdate'] ?>"><!-- YYYYMMDDThh:mm:ss+ZZZZ --><?php echo $content['postdate'] ?>
               </abbr>
 
               <address class="vcard author">
-                By <a class="url fn" href="<?php echo $content[''] ?>"><?php echo $content[''] ?></a>
-
+                By <a class="url fn" href="<?php echo $content['blogurl'] ?>"><?php echo $content['blogname'] ?></a>
               </address>
             </footer><!-- /.post-info -->
 
             <div class="entry-content">
-              <p><?php echo $content[''] ?>.</p>
+              <p><?php echo $content['postcontent'] ?>.</p>
 
             </div><!-- /.entry-content -->
           </article></li>
@@ -170,18 +168,18 @@
      *
      *
      */
-    public function buildBlogroll()
+    public function buildBlogroll($blogroll)
     {
 ?>
     <section id="extras" class="body">
       <div class="blogroll">
-        <h2><?php echo $this->lifestylelive ?></h2>
+        <h2><?php echo $this->lifestylelive['wikipedia'] ?> Blog Roll</h2>
         <ul>
 <?php
-          foreach($peergroup as $peerid=>$peerlist)
+          foreach($blogroll as $peerid=>$peer)
           {
 ?>          
-             <li><a href="<?php echo $peer ?>" rel="external"><?php echo $peerlist ?></a></li>
+             <li><a href="<?php echo $peer['blogurl'] ?>" rel="external"><?php echo $peerid . $peer['blogname'] ?></a></li>
 <?php          
           }
           

@@ -35,6 +35,7 @@ class LLframeworkmanager
       protected $livedefinition;
       protected $livelistsource;
       protected $avgofavg;
+      protected $lifestyleword;
       
       
     /**
@@ -177,7 +178,8 @@ print_r($resultspath);
          $resultsdata = $resultspath->liveResultsdata();
          
          // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultsdata);
+         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path['display'], $resultsdata);
+print_r($displayPath);  
          }
        
          elseif($path['intention'] == 'results')
@@ -192,7 +194,7 @@ print_r($resultspath);
          $resultsdata = $resultspath->liveResultsdata();
          
          // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $lifestylemenu, $path['display'], $resultsdata);
+         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $this->lifestylemenu, $path['display'], $resultsdata);
          
          }
         
@@ -220,6 +222,8 @@ print_r($resultspath);
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       $newdef = new LLdefinitions($intention, $indefinition);
       $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
+      $this->lifestyleword = $newdef->setlifestyleword();
+      $this->lifestylemenu = $newdef->setlifestylemenu();
 print_r($newdef);
      }
    

@@ -29,6 +29,7 @@ class LLResults
     protected $postdatalive;
     protected $postqualify;
     protected $resultsready;
+    protected $lifestyleword;
     
     /**
      * Constructor 
@@ -50,6 +51,7 @@ class LLResults
     $this->resultsfilter = $filter;
     $this->sourcesinresults = $livelistsource;
     $this->livecommaverage = $liveavgofavg;
+
     
     $this->resultsManager();
 
@@ -226,6 +228,7 @@ print_r($this->sourceposttime);
         
       // all qualifying posts are known  now hookup to source data required for dispaly
       $this->resultsready = $this->resultsdatahookup($this->postqualify);
+      $this->resultsready['peergroup'] = $this->blogrolldatahookup();
      
 
     } 
@@ -576,13 +579,65 @@ echo 'end of calculation run<br /><br />';
      * 
      *
      */ 
-		public function resultsdatahookup ()
+		public function resultsdatahookup ($postresultrequired)
 		{
+echo 'hookup results';   
+//print_r($postresultrequired);
+
+        $resultsorder = 0;
       //integrate results source/post qualifying to content required for display
-      
+      foreach($postresultrequired as $sid=>$postsdata)
+      {
+echo 'postresults';
+//print_r($postsdata);
+
+         foreach($postsdata as $pid=>$resultsin)
+         {
+          
+              if($resultsin == 1)
+              {
+              $resultsorder ++;
+    echo $resultsorder.'end';
+              $resultscomplete[$resultsorder]['postdate'] = $this->resultsin[$sid]['posts'][$pid]['authordate'];
+              $resultscomplete[$resultsorder]['blogname'] = $this->resultsin[$sid]['title'];
+              $resultscomplete[$resultsorder]['blogurl'] = $this->resultsin[$sid]['link'];
+              $resultscomplete[$resultsorder]['posttitle'] = $this->resultsin[$sid]['posts'][$pid]['posttitle'];
+              $resultscomplete[$resultsorder]['posturl'] = $this->resultsin[$sid]['posts'][$pid]['permalink'];
+              $resultscomplete[$resultsorder]['postcontent'] = $this->resultsin[$sid]['posts'][$pid]['content'];
+              
+              }
+        
+         }
+          
+      }
       
       return $resultscomplete;
     
+    }
+        
+    /**  
+     * 
+     * 
+     *
+     */ 
+		public function blogrolldatahookup()
+		{
+echo 'blogroll hookup ';   
+            //integrate results source/post qualifying to content required for display
+        
+        $blogorder = 0;
+            
+        foreach($this->linkingdata as $sid=>$postsdata)
+        {
+         
+         $blogorder ++;
+         $blogrollcomplete[$blogorder]['blogname'] = $this->resultsin[$sid]['title'];
+         $blogrollcomplete[$blogorder]['blogurl'] = $this->resultsin[$sid]['link'];
+        
+        }
+      
+     return $blogrollcomplete;
+        
     }
 
     /**  
@@ -606,8 +661,7 @@ echo 'end of calculation run<br /><br />';
 		public function liveResultsdata()
 		{
     
-    
-    return $this->resultbatch;
+    return $this->resultsready;
 
 		}
 		

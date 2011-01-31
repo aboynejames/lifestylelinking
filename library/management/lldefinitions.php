@@ -298,7 +298,32 @@
       
 		}
 
-  
+     /** Returns a clean definition 
+     *
+     *  an array of words 
+     *
+     */
+		public function setlifestyleword()
+    {
+     
+     // TODO  need to pick this up after new id added (if new)
+     return $this->defin;
+     
+     }
+
+     /** Returns list of lifestyle menu 
+     *
+     *  lifestyle words and ids array
+     *
+     */
+		public function setlifestylemenu()
+    {
+     
+     // TODO  need to pick this up after new id added (if new)
+     return $this->defids;
+     
+     }
+
 
      /** Returns a clean definition 
      *
