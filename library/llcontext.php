@@ -19,13 +19,14 @@
  class LLcontext
  {
  
-        public $resultspath;
-        public $individual;
-        public $displayPath;
-        public $startAPI;
+        protected $resultspath;
+        protected $individual;
+        protected $displayPath;
+        protected $startAPI;
 
-        public $identitydefintion;
-        public $identitysource;
+        protected $identitydefintion;
+        protected $identitysource;
+        protected $pathstring;
   
     /**
      * Constructor 
@@ -75,21 +76,15 @@
             {
              // this should get text input that is converted to a wikipedia definition or via control panel input
             // also picks up LL logic, display preferences (probably in automode as default  Q. whatis automode/default settings?)
-            $lifestyleinput['wikipediaword'] = $_GET['ll'];
-            $lifestyleinput['LLlogic'] = $_GET['logic'];
-            $lifestyleinput['intention'] = $_GET['intention'];
-            // could be more than one dispaly sections
-            $lifestyleinput['display'] = $_GET['display'];
-            $lifestyleinput['timebatch'] = $_GET['time'];
-            $lifestyleinput['make'] = $_GET['make'];
-            $lifestyleinput['filter'] = $_GET['filter'];
+            $lifestyleinput = $_GET;
+            //$lifestyleinput['wikipediaword'] = $_GET['ll'];
             // set starting context
             // TODO  will allow personlize box on startUI or just in results UI  either way need to gather personalization settings.
             $mesetting['pblog'] = $_GET['psource'];
        
-            $this->resultspath = $this->startPath($lifestyleinput);
+            $this->lifestylepath = $this->startPath($lifestyleinput);
             $this->individual = $this->startIndividual();
-            $this->identitydefintion = $this->startLifestyle($lifestyleinput['wikipediaword']);
+            $this->identitydefintion = $this->startLifestyle($lifestyleinput['ll']);
             $this->identitysource = $this->startInfoUniverse($mesetting['pblog']); 
             }
             
@@ -112,7 +107,35 @@
         
       }   
 
+      /** 
+       *
+       * 
+       *
+       */ 
+      public function resultstringcapture ()
+      {
+      
+      // $this->baseurl = $_SERVER['SCRIPT_FILENAME'];
+       $this->pathstring = $_SERVER['QUERY_STRING'];
+       
+       return $this->pathstring;
+      
+      }
     
+      /** 
+       *
+       * 
+       *
+       */ 
+      public function resultscriptpath ()
+      {
+      
+      // $this->baseurl = $_SERVER['SCRIPT_FILENAME'];
+       $this->pathscript = $_SERVER['SCRIPT_NAME'];
+       
+       return $this->pathscript;
+      
+      } 
     
     /** 
      *
@@ -136,19 +159,62 @@
       public function startPath($intentioninput)
       {
       
-        $timestamp = microtime(true);
+        $timestamp = time();
+        $starttime = $timestamp - $intentioninput['timebatch'];
          
         $startresultspath['intention'] = $intentioninput['intention'];
-        $startresultspath['logic'] = $intentioninput['LLlogic'];
-        $startresultspath['starttime'] = $timestamp;
-        $startresultspath['timebatch'] = $intentioninput['timebatch'];
+        $startresultspath['logic'] = $intentioninput['logic'];
+        $startresultspath['starttime'] = $starttime;
+        $startresultspath['endtime'] = $timestamp;
+        $startresultspath['timebatch'] = $intentioninput['pathtime'];
         $startresultspath['media'] = $intentioninput['display'];
         $startresultspath['make'] = $intentioninput['make'];
-        $startresultspath['filter'] = $intentioninput['filter'];        
+        $startresultspath['filter'] = $intentioninput['filter'];  
+        $startresultspath['pathurlstring'] = $this->resultstringcapture();
+        $startresultspath['pathscript'] = $this->resultscriptpath();
+        $startresultspath['resultsid'] = $intentioninput['resultsid'];;
+        
+            // is the 16 ID code already in the url?  if yes, results for this lifestyle have been calculated before, use them and update for new info.
+            if($intentioninput['pathid'])
+            {
+              //code is present in id
+              $startresultspath['pathid'] = $intentioninput['pathid']; 
+            
+            }
+            else
+            {
+
+            $startresultspath['pathid'] = $this->makeuniqueid($startresultspath['pathurlstring'],  $startresultspath['endtime']);
+            
+            }
+
+       
+
+        $startresultspath['stream'] =  $intentioninput['stream'];
+        
         // set starting context
         return $startresultspath;
         
       }   
+
+    /** 
+     *  Make unique results id for each path
+     * 
+     *
+     */     
+		public function makeuniqueid ($pathin, $startimein) 
+		{
+    
+    $uniquepathform = $pathin.$starttimein;
+
+    $jam = sha1($uniquepathform);
+    
+    //$shortjam = strlen($jam, 16);
+    $shortpath = substr($jam, 0, 16);
+    
+    return $shortpath;
+
+    }   
 
     /** 
      *
@@ -201,21 +267,6 @@
         return $startidentitysource;
         
       }   
-
-    /** 
-     *
-     * 
-     *
-     */ 
-      public function startInstallation()
-      {
-      
-      //first time install
-    $newinstall = new LLinstallation(); 
-      
-   
-        
-      }   
       
     /** 
      *
@@ -226,7 +277,7 @@
     {
     
       $livecontext['startAPI'] = $this->startAPI;
-      $livecontext['resultspath'] = $this->resultspath;
+      $livecontext['lifestylepath'] = $this->lifestylepath;
       $livecontext['individual'] = $this->individual;
       $livecontext['identitydefintion'] = $this->identitydefintion;
       $livecontext['identitysource'] = $this->identitysource;

@@ -424,7 +424,7 @@ class LLcontent
       
       // TODO: if no feed can be found or url not valid, get this feedback back to UI and stop all further processing, reset previous settings too
       
-      // TODO:  save memory and JSON summary content summary, limited to data required to be called for display or to check if update content posts are available ie. date data
+      //  save memory and JSON summary content summary, limited to data required to be called for display or to check if update content posts are available ie. date data
       // now opportunity to store source content for retieval by results class (also prepare sample text, urls, extract photos/video or other asset within the post
       $this->resultscontent($sid, $sourcecontent);
 
@@ -538,9 +538,9 @@ class LLcontent
                     // Strip slashes if magic quotes is enabled (which automatically escapes certain characters)
                    // if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
                     //{
-  //echo 'strip';
+  echo 'strip';
                       $nfeedurl = stripslashes($surlin);
-  //echo $nfeedurl;
+  echo $nfeedurl;
                     //}
 
                     // Use the URL that was passed to the page in SimplePie
@@ -669,7 +669,7 @@ class LLcontent
       $postresults = $sourcecontent;
       
       // store source content data
-      LLJSON::storeJSONdata($postresults, $newcontidstart = $sid, $contentstage='results');
+      LLJSON::storeJSONdata($postresults, $newcontidstart = $sid, $contentstage='sourceprepared');
     
     
 	  }

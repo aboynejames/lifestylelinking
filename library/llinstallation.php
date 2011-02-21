@@ -21,7 +21,53 @@
 class LLinstallation
 {
 	
-	
+    protected $websitesettings;
+   
+   
+    /**
+     * Constructor 
+     *
+     *  
+     *
+     */
+   public function __construct()
+		{
+    
+    $this->setbaseurl();
+    
+    }
+    
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function setbaseurl()
+    {
+    
+    	$this->websitesettings['baseurl'] = 'http://'.$_SERVER['HTTP_HOST'];
+
+      
+        
+    }  
+      
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function websiteset() 
+    {
+    
+      return $this->websitesettings;
+    
+    }
+    
+    
+      
+     
+      
+      
 }
 
 ?>

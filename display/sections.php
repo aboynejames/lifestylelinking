@@ -32,11 +32,14 @@
      * @param  
      *
      */
-   public function __construct($selectedlifestyle, $resultsdata)
+   public function __construct($selectedlifestyle, $resultsdata, $contextfilter, $startpathtime, $endpathtime)
 		{
 
     $this->lifestylelive = $selectedlifestyle;
     $this->datatodisplay = $resultsdata;
+    $this->filterstatus = $contextfilter;
+    $this->startime = $startpathtime;
+    $this->endtime = $endpathtime;
     
     $this->buildsections();
     
@@ -82,10 +85,13 @@
           <input name="logic" type="hidden" value="single" >
           <input name="intention" type="hidden" value="newstart" >
           <input name="display" type="hidden" value="blogposts" >
-          <input name="time" type="hidden" value="86400" >
+          <input name="pathtime" type="hidden" value="86400" >
           <input name="make" type="hidden" value="past" >
           <input name="filter" type="hidden" value="on" >
           <input name="psource" type="hidden" value="" >
+          <input name="stream" type="hidden" value="10" >
+          <input name="pathid" type="hidden" value="" >
+          <input name="resultsid" type="hidden" value="" >
           
           <br>
             <input type="submit" value="Start lifestylelinking">
@@ -104,17 +110,21 @@
     public function lifestyleSummary()
     {
 ?>    
-       <aside id="featured" class="body"><article>
+       <aside id="featured" class="body">
+       <article>
       <figure>
         <img src="display/images/wikipedia.png" alt=" definition" />  text from wikipedia for this lifestyle ...
       </figure>
       <hgroup>
-        <h2><?php echo $this->lifestylelive['wikipedia'] ?></h2>
-        <h3><a href="#">Lifestyle</a></h3>
+        <h2><?php echo $this->lifestylelive['wikipedia'] ?></h2> Lifestyle 
+        <a href="#"><img src="display/images/chart.png"></a>
       </hgroup>
-      <p>23 new posts - last 24 hrs <a href="#">Statistics</a> <a href="#"><img src="display/images/chart.png"></a></p>
+      <p>
+      <?php echo $noposts . 'new posts'  .$this->startime . 'to'. $this->endtime . 'Filter' . $this->filterstatus; ?>
+      </p>
 
-    </article></aside><!-- /#featured --> 
+    </article>
+    </aside><!-- /#featured --> 
 <?php
     }
     
@@ -220,6 +230,51 @@
 
         </ul>
       </div><!-- /.social -->
+      
+          <div class="social">
+        <h2>Data Apps</h2>
+        <ul>
+
+          <li><a href="#" rel="me">Fitbit.com</a></li>
+          <li><a href="#" rel="me">Nike.com</a></li>
+          <li><a href="#" rel="me">Mapmyrun.com</a></li>
+
+          <li><a href="#" rel="me">Caloriecount.com</a></li>
+
+
+        </ul>
+      </div><!-- /.social -->
+      
+                <div class="social">
+        <h2>Medical Record</h2>
+        <ul>
+
+          <li><a href="#" rel="me">NHS.org.uk</a></li>
+          <li><a href="#" rel="me">Webmd.com</a></li>
+          <li><a href="#" rel="me">Organizedwisdom.com</a></li>
+
+          <li><a href="#" rel="me">23andme.com</a></li>
+
+
+        </ul>
+      </div><!-- /.social -->
+      
+                      <div class="social">
+        <h2>Make</h2>
+        <ul>
+
+          <li><a href="#" rel="me">shwowp.com</a></li>
+          <li><a href="#" rel="me">ebay.com</a></li>
+          <li><a href="#" rel="me">amazon.com</a></li>
+
+          <li><a href="#" rel="me">hilltrek.co.uk</a></li>
+          <li><a href="#" rel="me">mymuseli.co.uk</a></li>
+          <li><a href="#" rel="me">spreadshirt.co.uk</a></li>
+
+
+        </ul>
+      </div><!-- /.social -->
+      
       </section><!-- /#extras -->
     
 <?php

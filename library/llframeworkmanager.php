@@ -36,6 +36,9 @@ class LLframeworkmanager
       protected $livelistsource;
       protected $avgofavg;
       protected $lifestyleword;
+      protected $sitesetup;
+      
+      public $baseurl;
       
       
     /**
@@ -56,6 +59,13 @@ class LLframeworkmanager
       //$this->individual = $individual;
       //$this->lifestyle = $iddefinition;
       //$this->identitysource = $idsources;
+      if(!isset($this->baseurl))
+      {
+      echo 'install again';
+      $LLinstall = new LLinstallation(); 
+      $this->sitesetup = $LLinstall->websiteset();
+      $this->baseurl = $this->sitesetup['baseurl'];
+      }
       
       $LLstart = new LLcontext();
       $livecontext = $LLstart->setContext();
@@ -64,7 +74,11 @@ print_r($LLstart);
       
       $this->meidentity = $this->identityControl();
       $this->assumptionsSet();
-      $this->intentionManager($livecontext['resultspath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
+      $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
+      
+print_r($newdef);
+print_r($newdata);
+print_r($llnew);
    
  		} 
     
@@ -148,10 +162,10 @@ print_r($LLstart);
        //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
         // create intentionlogic  which will release logic to results, definitions and content sources?
 
-      //  start results path class
+        //  start results path class
         //$pathnew = new LLpath($path);
         
-                // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
+        // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
         // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic)
                   
          if($path['intention'] == 'newstart')
@@ -173,12 +187,13 @@ print_r($LLstart);
          $this->controlCore($this->livesource, $this->livedefinition);  
          }
          // make results
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['timebatch'], $path['filter'], $this->livelistsource, $this->avgofavg);
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
 print_r($resultspath);      
          $resultsdata = $resultspath->liveResultsdata();
+         $resultlinking = $resultspath->setdefinitionpathresults();
          
          // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path['display'], $resultsdata);
+         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
 print_r($displayPath);  
          }
        
@@ -188,14 +203,18 @@ print_r($displayPath);
          // pickup lifestlye definition and then decide a. produce results immediately or to up sources of content based on intent e.g. if real time wanted.
         
          // first need to see if any content in the universe has been updated and needs to be scored for this lifestyle definition selected?
+         // set live definition id
+         $this->livedefinition = 2;
            
           // make results
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path['logic'], $path['time'], $path['filter'] );
+        $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
+print_r($resultspath);      
          $resultsdata = $resultspath->liveResultsdata();
+         $resultlinking = $resultspath->setdefinitionpathresults();
          
          // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity,  $newdef->defin['wikipedia'], $this->lifestylemenu, $path['display'], $resultsdata);
-         
+         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+//print_r($displayPath);           
          }
         
         elseif($path['intention'] == 'controlpanel')
@@ -224,7 +243,7 @@ print_r($displayPath);
       $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
       $this->lifestyleword = $newdef->setlifestyleword();
       $this->lifestylemenu = $newdef->setlifestylemenu();
-print_r($newdef);
+
      }
    
      
@@ -237,7 +256,7 @@ print_r($newdef);
 		{
     // where is the data coming from?
       $newdata = new LLcontent($intention, $source); 
-print_r($newdata);
+
 //echo 'extract individual sources';
 //print_r($newdata->existsource);
 //echo 'livesource any content array';
@@ -260,7 +279,7 @@ print_r($newdata);
 //echo 'any def data';
       // idea here is to release the content sources and defintiions that are need to get results as quick as possible.  Do that work here then subsequent classes just process  
       $llnew = new LLCore($livesourcecontent, $livedef);
-print_r($llnew);
+
       // import input context instance, ie results window  output make the future.
       
       
@@ -285,5 +304,7 @@ print_r($llnew);
       $this->avgofavg = $newavgs->avgOFavgsComplete();
 print_r($newavgs);
     }
- 
+
+
+
 }  // closes class

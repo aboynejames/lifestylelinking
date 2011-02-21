@@ -365,7 +365,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 	
 	/* Social */
 	#extras .social {
-		float: right;
+		float: left;
 		width: 175px;
 	}
 	
@@ -376,12 +376,12 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 	}
 	
 		/* Icons */
-		.social a[href*='delicious.com'] {background-image: url('/llcore/display/images/delicious.png');}
-		.social a[href*='digg.com'] {background-image: url('/llcore//display/images/digg.png');}
-		.social a[href*='facebook.com'] {background-image: url('/llcore/display/images/facebook.png');}
-		.social a[href*='last.fm'], .social a[href*='lastfm.'] {background-image: url('/llcore/display/images/lastfm.png');}
-		.social a[href*='/feeds/'] {background-image: url('/llcore/display/images/rss.png');}
-		.social a[href*='twitter.com'] {background-image: url('/llcore/display/images/twitter.png');}
+		.social a[href*='delicious.com'] {background-image: url('/display/images/delicious.png');}
+		.social a[href*='digg.com'] {background-image: url('/display/images/digg.png');}
+		.social a[href*='facebook.com'] {background-image: url('/display/images/facebook.png');}
+		.social a[href*='last.fm'], .social a[href*='lastfm.'] {background-image: url('/display/images/lastfm.png');}
+		.social a[href*='/feeds/'] {background-image: url('/display/images/rss.png');}
+		.social a[href*='twitter.com'] {background-image: url('/display/images/twitter.png');}
 
 /*
 	About

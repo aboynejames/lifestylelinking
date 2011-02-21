@@ -93,7 +93,19 @@ print_r($this->avgdefid);
     { 
     
      $loadexisting =  $this->loadexistingAverages();
-     $this->existingdefavg[$this->avgdefid] = $loadexisting[$this->avgdefid];
+     
+         if($loadexisting['start'] == 'empty' )
+         {
+          // no average calculated for this lifestyle definition set to 1.
+          $this->existingdefavg[$this->avgdefid] = 1;
+         
+         }
+         else
+         {
+         
+         $this->existingdefavg[$this->avgdefid] = $loadexisting[$this->avgdefid];
+          
+         }
      
      return $this->existingdefavg;
     

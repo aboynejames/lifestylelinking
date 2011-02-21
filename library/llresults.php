@@ -30,6 +30,8 @@ class LLResults
     protected $postqualify;
     protected $resultsready;
     protected $lifestyleword;
+    protected $pathidset;
+    protected $resultsid;
     
     /**
      * Constructor 
@@ -41,17 +43,19 @@ class LLResults
      * @param  int  $individual    owner of frameworks id
      *
      */
-   public function __construct($resultsidentity, $lifestylebuild, $LLlogic, $timeperiod, $filter, $livelistsource, $liveavgofavg )
+   public function __construct($resultsidentity, $lifestylebuild, $inpath, $livelistsource, $liveavgofavg )
 		{
 		
     $this->personalizedid = $resultsidentity;
     $this->lifestylemenu = $lifestylebuild;
-    $this->linkinglogic = $LLlogic;
-    $this->pathperiod = $timeperiod;
-    $this->resultsfilter = $filter;
+    $this->pathtaken = $inpath;
+    $this->linkinglogic = $inpath['logic'];
+    $this->pathperiod = $inpath['timebatch'];
+    $this->resultsfilter = $inpath['filter'];
+    $this->starttime = $inpath['starttime'];
+    $this->endtime = $inpath['endtime'];
     $this->sourcesinresults = $livelistsource;
     $this->livecommaverage = $liveavgofavg;
-
     
     $this->resultsManager();
 
@@ -68,45 +72,87 @@ class LLResults
     //TODO construct a mechanism to figure out what is the best path to form results (resultspath class might work this out when build)
     
     // how are the results being form?  1. filter post on time?  2. lifestylelinking logic, 3. filtered/unfiltered ie in context post, any context post of LL sources
-    
+      
     // extract definition id from livedefinition
     $this->definitionidlive = key($this->lifestylemenu); 
     
      // make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
     // two types, first arrays of time, source post ids  and then the fuller content (but only those that make the results)
     // needs to be called here to get source posts authored time (should have this in seperate data to 'lighter' loading?
-    $this->loadresultsdata();
-    
+   
+        // if results already processed then get those and then update all info. in universe and show that in realtime?
+        if($this->pathtaken['intention'] == 'newstart')
+        {
+        
+            if(count($this->sourcesinresults) >= 1 )
+            {
+            
+            // create a unique results id and link it to the path and lifestyle definition 
+            $this->resultsid = $this->setresultsid();
+            
+            // a brand new path needing results
+            $this->loadsourceprepareddata();
+            
+                // pick out source/post that meet the time constraint
+            $this->resulttime();
+            
+            // apply lifestylelinking logic this will set normalization and groups required.
+            $this->applylifestylelinking($this->personalizedid, $this->linkinglogic, $this->lifestylemenu, $this->sourcesinresults, $this->livecommaverage, $this->definitionidlive);
+            
+            // prepare weighted listing of qualifying results
+            $this->makeresults();
+          
+            // publish raw JSON (ready for api export or delivery to display formatting before published to the web.
+            $this->resultsJSON();
+            }
+            else 
+            {
+            // all that can be done is display the one source data in results
+            
+            }
+          
+        }
+        else 
+        {
+          // results are already prepared (TODO but how long ago?  Need to be constantly updating)
+          $this->resultsready = LLJSON::importJSONdata($this->pathtaken['resultsid'], $stage='liveresults');  // load existing results array prepared
+          
+        
+        }
 
-    // pick out source/post that meet the time constraint
-    $this->resulttime();
-    
-    // apply lifestylelinking logic this will set normalization and groups required.
-    $this->applylifestylelinking($this->personalizedid, $this->linkinglogic, $this->lifestylemenu, $this->sourcesinresults, $this->livecommaverage, $this->definitionidlive);
-    
-    // prepare weighted listing of qualifying results
-    $this->makeresults();
-    
-    
-    // publish raw JSON (ready for api export or delivery to display formatting before published to the web.
-    //$this->resultsJSON();
-
-     
-      
+           
 		}   
-    
+
     /** 
      * 
      * 
      *
      */     
-		public function resulttime()
+		public function setresultsid ()
+		{
+      // set unique results id
+      $uniqueresultform = $this->pathtaken['pathid'].$this->pathtaken['endtime'];
+echo 'formresultsid'.$uniqueresultform;
+    $ram = sha1($uniqueresultform);
+    
+    //$shortjam = strlen($jam, 16);
+    $shortresults = substr($ram, 0, 16);
+    
+    return $shortresults;
+    
+    }
+
+
+
+    /** 
+     * 
+     * 
+     *
+     */     
+		public function resulttime ()
 		{
 			//  look at results array and limit to times selected via UI
-     $timenow = time(); 
-//echo $timenow.'now';      
-     $starttime = $timenow - $this->pathperiod;
-//echo $starttime.'startimmme';      
+
          // now extract list of  source post that satify this time period
          foreach($this->sourceposttime as $sid=>$post)
          {
@@ -114,7 +160,7 @@ class LLResults
             foreach($post as $pid=>$authortime)
             {
             
-                if($authortime >  $starttime && $authortime < $timenow)
+                if($authortime >  $this->starttime && $authortime < $this->endtime)
                 {
                 
                 $this->resultbatch[$sid][$pid] = $authortime;
@@ -122,8 +168,8 @@ class LLResults
                 }
             }
           }
-echo 'results making based on time filter';
-print_r($this->resultbatch); 
+//echo 'results making based on time filter';
+//print_r($this->resultbatch); 
       
     }
 
@@ -147,7 +193,7 @@ print_r($resultslinking);
      * 
      *
      */ 
-		public function loadresultsdata()
+		public function loadsourceprepareddata()
 		{
       // just memory to see what results JSON files are loaded, if this definitions results data is not in memory, load it ready for use
      // list of source and postids
@@ -157,7 +203,7 @@ print_r($resultslinking);
          foreach($this->sourcesinresults['source'] as $sid=>$sdetail )
          {
          
-          $this->resultsin[$sid] = LLJSON::importJSONdata($sid, $stage='results');
+          $this->resultsin[$sid] = LLJSON::importJSONdata($sid, $stage='sourceprepared');
         
          }
          
@@ -172,8 +218,8 @@ print_r($resultslinking);
                
               }
           }
-echo 'results source post data array';
-print_r($this->sourceposttime);
+//echo 'results source post data array';
+//print_r($this->sourceposttime);
     return $this->resultsin;
    
     } 
@@ -194,8 +240,8 @@ print_r($this->sourceposttime);
            // go through each source in order and see if post given (filter conditions to date)
                if(count($this->resultbatch[$sidorder]) > 0 )
                {
-    echo 'resultbatchextract'.$sidorder.'anynumberbefore';
-    print_r($this->resultbatch[$sidorder]);
+  //echo 'resultbatchextract'.$sidorder.'anynumberbefore';
+  //print_r($this->resultbatch[$sidorder]);
         
                  $sourefilterposts = $this->resultbatch[$sidorder];
                   // does each individual post in context for this lifestyle definitions (apply rules)
@@ -212,7 +258,7 @@ print_r($this->sourceposttime);
                       {
                   
                     // post score date for this
-    echo 'poststatspassedto resultcalc';
+//echo 'poststatspassedto resultcalc';
     //print_r($this->postdatalive[$sidorder][$sidorder][$pid][$this->definitionidlive]);
                     $this->postqualify[$sidorder][$pid] = $this->resultcalc($pid, $this->definitionidlive, $sidorder, $this->postdatalive[$sidorder][$sidorder][$pid][$this->definitionidlive]);
 
@@ -287,7 +333,7 @@ print_r($this->sourceposttime);
       {
        // will need to pick out the list of content ids /info. universe that are incluced in results.
        // pickout for each source the content for this results window per lifestyle definition
-          //echo '<br /><br />start build for defid'.$did.'and source'.$sid;
+//echo '<br /><br />start build for defid'.$did.'and source'.$sid;
                 $this->resultconids = '';
                 $this->scontids = '';                
                 
@@ -300,8 +346,8 @@ print_r($this->sourceposttime);
         
         $dataids['data'] = $this->resultconids;
         $dataids['ids'] = $this->scontids;
-        //print_r($dataids);
-        //echo 'end build array<br /><br />';
+//print_r($dataids);
+//echo 'end build array<br /><br />';
 
         return $dataids;
       }
@@ -315,23 +361,23 @@ print_r($this->sourceposttime);
         {
 
           // Does any content post contain top lifestyle definition word?  (this is pretty primitive, with CQ in use could select top unqiue words needs testing)
-echo 'resultscalcstarted';
-print_r($indsource);
-echo 'what has been passed';
+//echo 'resultscalcstarted';
+//print_r($indsource);
+//echo 'what has been passed';
           $topmm = $indsource['matched']['1'];
 
                             if ($topmm  >= 1 )
                             {
                               // should also try and qualify the positive context with  sourceTopfive and requencyScore why?  positive qualification(down side risk one off post from in context)
-echo 'topmatch??? <br /><br />';
+//echo 'topmatch??? <br /><br />';
                               $aftercalc = 1;
-print_r($aftercalc);
-echo 'one for topmatch';
+//print_r($aftercalc);
+//echo 'one for topmatch';
                             }
                             else
                             {
-echo 'does it have some context at all???????';
-print_r($indsource['scoring']['50']);
+//echo 'does it have some context at all???????';
+//print_r($indsource['scoring']['50']);
                                  if ($indsource['scoring']['50'] > 0)  //  has to have some context to qualify for two results 
                                 {
   //echo '<br /><br /> start two tests <br /><br />';
@@ -351,23 +397,23 @@ print_r($indsource['scoring']['50']);
                                        {
                                         $aftercalc = 1;
 //print_r($aftercalc);
-echo 'two none context test met, allow to be included for results';
+//echo 'two none context test met, allow to be included for results';
                                        }
                                       else 
                                       {
-echo 'failed two test';  //  note this and does this mean this post is on diff. def. not scored? probably or we got it wrong!
+//echo 'failed two test';  //  note this and does this mean this post is on diff. def. not scored? probably or we got it wrong!
                                       }
                                                
                                   }
 
                                   else
                                   {
-echo 'fails as has no top50 context at all';
+//echo 'fails as has no top50 context at all';
                                   }
                             }
-echo 'before aftercalc';
-print_r($aftercalc);
-echo 'end of calculation run<br /><br />';     
+//echo 'before aftercalc';
+//print_r($aftercalc);
+//echo 'end of calculation run<br /><br />';     
                         
        return $aftercalc;
        
@@ -581,14 +627,14 @@ echo 'end of calculation run<br /><br />';
      */ 
 		public function resultsdatahookup ($postresultrequired)
 		{
-echo 'hookup results';   
+//echo 'hookup results';   
 //print_r($postresultrequired);
 
         $resultsorder = 0;
       //integrate results source/post qualifying to content required for display
       foreach($postresultrequired as $sid=>$postsdata)
       {
-echo 'postresults';
+//echo 'postresults';
 //print_r($postsdata);
 
          foreach($postsdata as $pid=>$resultsin)
@@ -597,7 +643,7 @@ echo 'postresults';
               if($resultsin == 1)
               {
               $resultsorder ++;
-    echo $resultsorder.'end';
+//echo $resultsorder.'end';
               $resultscomplete[$resultsorder]['postdate'] = $this->resultsin[$sid]['posts'][$pid]['authordate'];
               $resultscomplete[$resultsorder]['blogname'] = $this->resultsin[$sid]['title'];
               $resultscomplete[$resultsorder]['blogurl'] = $this->resultsin[$sid]['link'];
@@ -622,7 +668,7 @@ echo 'postresults';
      */ 
 		public function blogrolldatahookup()
 		{
-echo 'blogroll hookup ';   
+//echo 'blogroll hookup ';   
             //integrate results source/post qualifying to content required for display
         
         $blogorder = 0;
@@ -648,10 +694,27 @@ echo 'blogroll hookup ';
 		public function resultsJSON ()
 		{
     
-    LLJSON::storeJSONdata($liveresults, $resultsid = 123, $stage='liveresults');
+    LLJSON::storeJSONdata($this->resultsready, $this->resultsid, $stage='liveresults');
 
 		}
-        
+
+    /**  
+     * 
+     * 
+     *
+     */ 
+		public function setdefinitionpathresults ()
+		{
+    
+    $setresultslink[$this->definitionidlive]['pathid'] = $this->pathtaken['pathid'];  // pathid for this definition
+    $setresultslink[$this->definitionidlive]['resultsid'] = $this->resultsid;  // resultsid for this definition.
+    $setresultslink[$this->definitionidlive]['time'] = $this->endtime;  //  time results were calculated
+    
+    
+    return $setresultslink;
+
+		}
+
     
     /**  
      * 

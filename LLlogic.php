@@ -37,6 +37,10 @@
  */
 
 
+/**
+ * @see installation class
+ */
+require_once "library/llinstallation.php";
 
 
 /**

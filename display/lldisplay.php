@@ -31,6 +31,8 @@
     protected $buildsections;
     protected $buildfooter;    
     protected $displaycontext;
+    protected $resultsurlstring;
+    protected $resultpathset;
     
     
     /**
@@ -43,14 +45,24 @@
      * @param 
      *
      */
-    public function __construct($meidentity,  $currentlifestyle, $lifestylemenu, $displayrequired, $resultspathdata)
+    public function __construct($meidentity,  $currentlifestyle, $lifestylemenu, $pathset, $resultspathdata, $siteurl, $resultlinking)
 		{
 		
     $this->identity = $meidentity;
     $this->selectedlifestyle = $currentlifestyle;
     $this->lifemenu = $lifestylemenu;
-    $this->diplaymedia = $displayrequired;
+    $this->resultpathset = $pathset;
+    $this->diplaymedia = $pathset['display'];
+    $this->contextfilter = $pathset['filter'];
+    $this->startpathtime = $pathset['starttime'];
+    $this->pathperiod = $pathset['timebatch'];
+    $this->endpathtime = $this->startpathtime - $this->pathperiod;
     $this->resultsdata = $resultspathdata;
+    $this->resultsurlstring = $pathset['pathurlstring']; 
+    $this->resultsurlstring = $pathset['pathscript']; 
+    $this->resultsurlstring = $pathset['pathid']; 
+    $this->sitedomain = $siteurl;
+    $this->resultlinking = $resultlinking;
     
     $this->displayManager();
       
@@ -94,7 +106,7 @@
     public function displayNavigation()
     {
      // lifestyle menu
-    $buildnavigation = new LLNavigation($this->selectedlifestyle, $this->lifemenu);
+    $buildnavigation = new LLNavigation($this->selectedlifestyle, $this->lifemenu, $this->resultpathset, $this->sitedomain, $this->resultlinking);
       
     }
 
@@ -106,7 +118,7 @@
     public function displaySections()
     {
      // what needs to displayed  blog posts, images, video, other formats of content
-      $buildsections= new LLsections($this->selectedlifestyle, $this->resultsdata);
+      $buildsections= new LLsections($this->selectedlifestyle, $this->resultsdata, $this->contextfilter, $this->startpathtime, $this->endpathtime);
       
     }
 
@@ -134,6 +146,35 @@
      //require_once "display/index.php";
           
     }
+
+    /**  
+     *  make absolute urls
+     * 
+     *
+     */ 
+    public function makesiteurl($relurl)
+    {
+     // form url from base and context
+     $buildurl = $newframework->baseurl.$relurl;
+     
+     return $buildurl;
+          
+    }
+
+    /**  
+     *  make results absolute urls
+     * 
+     *
+     */ 
+    public function resultsurl($relurl)
+    {
+     // form url from base and context
+     $buildurl = $newframework->baseurl.$relurl;
+     
+     return $buildurl;
+          
+    }
+
 
 	}  // closes class
 ?>
