@@ -20,7 +20,7 @@
 /***** Global *****/
 /* Body */
 	body {
-		background: #F5F4EF url('../images/bg.png');
+		background: #F5F4EF; /*url('../images/bg.png')*/
 		color: #000305;
 		font-size: 87.5%; /* Base font size: 14px */
 		font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -253,6 +253,18 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		-moz-border-radius-bottomleft: 5px;
 		-webkit-border-bottom-left-radius: 5px;
 	}
+	
+	#accountnav nav .menu-lifestyle
+	{
+		
+		
+	}	
+	
+	#accountnav nav .stream-lifestyle
+	{
+		
+		
+	}	
 
 
 /*
@@ -305,7 +317,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 	background: #fff;
 	margin-bottom: 10em;
 	overflow: hidden;
-	padding: 20px 20px;
+	padding: 2px 2px;
 	text-align: center;
 	width: 760px;
 	
@@ -315,6 +327,20 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 	-webkit-border-radius: 10px;
 }
 
+#ll
+{
+	background: #fff;
+	margin-bottom: 0em;
+	overflow: hidden;
+	padding: 20px 20px;
+	text-align: center;
+	width: 482px;
+	
+	
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
 
 #centerbox {
 		text-align: center;
@@ -502,3 +528,35 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	
 	#add-comment input[type='submit'] {float: right; margin: 0 .5em;}
 	#add-comment * {margin-bottom: .5em;}
+	
+	
+	/******* LOADING *******/
+	#loading
+	{
+	text-align: center;
+	visibility: hidden;
+	}
+
+	/******* LOADING *******/
+	
+	
+	/******* LL content section *******/
+	#content
+	{
+	text-align: center;
+	
+	}
+
+	/******* LL content section *******/
+	
+	
+	
+	/******* start testing area *******/
+	#start
+	{
+	text-align: center;
+	
+	}
+	
+	
+	
