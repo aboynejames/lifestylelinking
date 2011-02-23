@@ -22,11 +22,11 @@
  {
 
      protected $defpath;
-     public $defin;
-     public $loaddefinitions;
-     public $wiseDefinition;
-     public $defids;
-     public $setlivedefinition;
+     protected $defin;
+     protected $loaddefinitions;
+     protected $wiseDefinition;
+     protected $defids;
+     protected $setlivedefinition;
 
     /** Controls creating a new lifestyle Definition 
      *

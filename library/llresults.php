@@ -132,7 +132,7 @@ class LLResults
 		{
       // set unique results id
       $uniqueresultform = $this->pathtaken['pathid'].$this->pathtaken['endtime'];
-echo 'formresultsid'.$uniqueresultform;
+//echo 'formresultsid'.$uniqueresultform;
     $ram = sha1($uniqueresultform);
     
     //$shortjam = strlen($jam, 16);
@@ -182,7 +182,7 @@ echo 'formresultsid'.$uniqueresultform;
 		{
 			//  given the results required applys lifestylelinking to set normalization and peerGroups required to be contructured.
       $resultslinking = new LLlifestylelinking($perid, $theLLlogic, $thedefinition, $thesources, $theavgofavg, $setdefinition);
-print_r($resultslinking);
+//print_r($resultslinking);
       $this->linkingdata = $resultslinking->lldatareturn();
       $this->postdatalive = $resultslinking->returnscorestatdatalive();
       

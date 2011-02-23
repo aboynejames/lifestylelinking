@@ -53,55 +53,19 @@
     public function buildsections()
     {
       // what display media has been selected startpage, blogresults, photos, videos etc.
-      if(is_array($this->datatodisplay) == true )
-      {
-      
-      $this->lifestyleSummary();
-      $this->blogsections($this->datatodisplay);
-      $this->buildBlogroll($this->datatodisplay['peergroup']);
-      $this->personalizeSettings();
-      
-      }
-      
-      else
-      {
-      
-       $this->sectionstart();
-       
-       }
-    
-    
-    }
-
-    public function sectionstart()
-    {
-?>
-        <section id="llbox" class="body">
-
-        <img src="display/images/LLlogowhite.png"><br><br>
-
-        <form>
-          <input name="ll" type="search"  >
-          <input name="logic" type="hidden" value="single" >
-          <input name="intention" type="hidden" value="newstart" >
-          <input name="display" type="hidden" value="blogposts" >
-          <input name="pathtime" type="hidden" value="86400" >
-          <input name="make" type="hidden" value="past" >
-          <input name="filter" type="hidden" value="on" >
-          <input name="psource" type="hidden" value="" >
-          <input name="stream" type="hidden" value="10" >
-          <input name="pathid" type="hidden" value="" >
-          <input name="resultsid" type="hidden" value="" >
+         // if(is_array($this->datatodisplay) == true )
+          //{
           
-          <br>
-            <input type="submit" value="Start lifestylelinking">
-        </form>
-
-        </section><!-- /#content -->
-
-<?php
-    }
+          $this->lifestyleSummary();
+    //      $this->blogsections($this->datatodisplay);
+      //    $this->buildBlogroll($this->datatodisplay['peergroup']);
+          $this->personalizeSettings();
+          
+         // }
+      
     
+    }
+
     /**
      *
      *

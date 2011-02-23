@@ -18,15 +18,12 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-	class LLDisplay 
+	class LLapidataDisplay 
 	{
 
 	// handles connection between context
-	// build menus and navigition
-  // presentation templates
-  // themes
-  // context ll, definitions, time, media, display, device, portability
-
+    
+    
     /**
      * Constructor 
      *
@@ -37,10 +34,10 @@
      * @param 
      *
      */
-    public function __construct()
+    public function __construct($meidentity, $lifestyleword, $lifestylemenu, $path, $resultsdata, $baseurl, $resultlinking)
 		{
 		
-    $this->displayManager();
+    $this->apidatadisplayManager();
       
    
  		} 
@@ -50,53 +47,42 @@
      * 
      *
      */ 
-    public function displayManager()
+    public function apidatadisplayManager()
     {
-
-    include('display/index.php');
   
-
+    //include('display/index.php');
+  
+    $this->displayNavigation();
+    $this->displaySections();
     
     }
 
-    /**  builds header
+    /**  navigation
      *
      * 
      *
      */ 
-    public function displayHeader()
+    public function displayNavigation()
     {
 
      // pull together head html, css templete, rdf link etc
-     $buildheader = new LLHeader();
+     $buildheader = new LLNavigation($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking);
       
     }
 
-    /**  builds footer
+    /**  builds sections
      *
      * 
      *
      */ 
-    public function displayFooter()
+    public function displaySections()
     {
      // displays the footer
-    $buildfooter = new LLFooter();
+    $buildfooter = new LLSections($selectedlifestyle, $resultsdata, $contextfilter, $startpathtime, $endpathtime);
       
     }
     
-
-    /**  where webpage is published
-     *
-     * 
-     *
-     */ 
-    public function publish()
-    {
-     // include the start index.php display for (eventually different templates will have different starting positions
-     //require_once "display/index.php";
-          
-    }
-
+    
     /**  
      *  make absolute urls
      * 

@@ -18,79 +18,342 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-class apimanagement
+class LLapi
 {
-
-// handles plugin of rssfeeder, wikipediaapi, (others flickr, zendyoutube) (other admin pubhubsub, rss, rdf, widgets, opensocial, fbconnect any on the web)
-// for each api, offer a plugin ie with basic framework code or as a service e.g..third party website/service e.g. janrainIDlogin, FBconnect, pubhubsub, superfeedr, firehose of data etc.
-
-		protected $apiStart; // array of api status ie. whic api and whether install or third party
-    protected $apiSetup;
-    
-   public function __construct($apiSetup)
+  
+    //protected $resultspath; 
+    //protected $frameworkSetup; // install or default settings for framework
+      protected $individual;
+   // protected $identitysource;
+    //protected $lifestyle;  // input from individual
+      protected $meidentity;
+      protected $livesource;
+      protected $livedefinition;
+      protected $livelistsource;
+      protected $avgofavg;
+      protected $lifestyleword;
+      protected $sitesetup;
+      protected $livedefid; 
+      
+     // const GLOBAL_URL = 'mepath.com';
+      public $baseurl;
+      
+    /**
+     * Constructor 
+     *
+     * Setup of new or existing API Framework settings 
+     *
+     * Data input from the UI
+     *
+     * @param 
+     *
+     */
+    public function __construct()
 		{
-			$this->apiStart = $apiSetup;
-		} 
+		      
+      $LLstart = new LLcontext();
+      $livecontext = $LLstart->setContext();
+//print_r($LLstart);
+      $this->individual = $livecontext['individual'];
+      
+      //$this->meidentity = $this->identityControl();
+      $this->assumptionsSet();
+      $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
+      
+//print_r($newdef);
+//print_r($newdata);
+//print_r($llnew);
+   
+ 		} 
     
-
-
-
-    // extract information on whether install or as a service bein used
-    public function localOrservice()
-		{
-      // if local install code for download into framework  or hook into third party api
-    foreach ($this->apiStart as $service=>$serviceName)
-    {
-    
-    // produce list of api and whether to use them installed or third party api
-    // use this info. to call further functions below.
-    // an install array('0'=> 'wikipedia', '1'=>rssFeedreader ') installed  array for thirdpary('0'=> 'third1', '1'=> 'third2') NB. then identity of api becomes an issue map 
-    
-    }  // closes foreach
-        
+    /** Tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
+     *
+     *
+     */
+      public function identityControl()
+      {
+      // what personalization can we apply based upon indentity ie. has the user added a blog that they own/ are self link themselves too? (will require UI/controlpanel input)
+  
+           if($this->individual == 'average' )
+           {
+            
+            $meframeworkid = 'average';
+           // then unidentified user
+           return $meframeworkid;
+           
+           }
           
+          else
+          {
+          // user has added a blog,  link that blog to a source id in context of this framework  (more challenging when using import rdf peertopeer data, there number id will be different so need to parse  FOAF or url  TODO need to find a way to allocated blogid to each framework and keep sync)
+          $meframeworkid = array("frameid"=>123, "blog"=>"theblogupdated or rdf, FOAF, openid or FBconnect or opensocial etc more the better e.g delicious account, twitter, linkedin, quora, flickr etc etc.");
+          
+          return $meframeworkid;
+          
+          }
+          
+     
+      }
+    
+    /** load in current experimentation assumptions
+     *
+     * The default assumption active in the frawework
+     *
+     */ 
+      public function assumptionsSet()
+      {
+      global $aset;
+      // uses llapi class include api classes or plug into third party servies
+      $aset = new LLassumptions();
+      
+      // pass the lifestylelinking science
+      //$aset->LLlogic($this->frameworkSetup['science']);
+      
+      //$aset->loadAssumptions();
+
+      //$this->intentionlogic = $aset->loadAssumptions();
+ 
+        // active the appropriate apis local or from the web
+        $this->apiStatus();
+        
+      }
+
+      
+    /** Co ordinates apis plugin that feed data in and out of the whole framework  
+     *
+     * (installed feedreader, wikipedia api or pluged in as a service? will know from install.)
+     *
+     */
+      public function apiStatus()
+      {
+			// uses  llapi class include api classes or plug into third party servies 
+      //$apinew = new LLapi();
+      
+      // any RDF linking established?   if so establish connection
+      $rdfconnect = new LLrdf();
+      
+      }
+
+    /** Establish the starting indienty of definitions and content sources
+     *
+     * setup resultpath object, definition object, content objects and get all data in universe upto date and pass that to core in priority of resultspath (process per source, this source list will be prioritised by the LLlogic that is this individuals science for this framework
+     * What has already but processed by core?  What need to go into LLcore?
+     *
+     */
+      public function intentionManager($path, $definition, $sourcecontent)
+      {
+      
+       //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
+        // create intentionlogic  which will release logic to results, definitions and content sources?
+
+        //  start results path class
+        //$pathnew = new LLpath($path);
+        
+        // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
+        // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic)
+                  
+         if($path['intention'] == 'newstart')
+         {
+         // in this mode one definition needs displayed, if results not ready for this then apply LL to produce all neccessary data to display results as quickly as possible
+//echo 'newstart  intention manager has been called';
+//print_r($definition);
+         //  from start page UI
+         $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     
+          
+          // content
+         $this->contentControl($path['intention'], $sourcecontent);
+         
+         $this->controlAverages($this->livedefid);
+         
+         // feed core
+         if(isset($this->livesource) && isset($this->livedefinition))
+         {
+         $this->controlCore($this->livesource, $this->livedefinition);  
+         }
+         // make results
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
+//print_r($resultspath);      
+         $resultsdata = $resultspath->liveResultsdata();
+         $resultlinking = $resultspath->setdefinitionpathresults();
+         
+         // given user display selection (could be to export via api or display in their framework 
+         $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+//print_r($apidisplayPath);  
+  
+
+         }
+       
+         elseif($path['intention'] == 'results')
+         {
+         
+         // pickup lifestlye definition and then decide a. produce results immediately or to up sources of content based on intent e.g. if real time wanted.
+        
+         // first need to see if any content in the universe has been updated and needs to be scored for this lifestyle definition selected?
+         // set live definition id
+         $this->livedefinition = 2;
+           
+          // make results
+        $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
+//print_r($resultspath);      
+         $resultsdata = $resultspath->liveResultsdata();
+         $resultlinking = $resultspath->setdefinitionpathresults();
+         
+         // given user display selection (could be to export via api or display in their framework 
+         $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+//print_r($apidisplayPath); 
+          }
+        
+        elseif($path['intention'] == 'controlpanel')
+         {
+          // batch updating via control panel or CRON,  need to pickup all definitions and all sources (figure out what is not up to date and update those needing)
+          //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
+          
+         }
+         
+      
+
+      }
+      
+      
+      
+      
+     /** Controls creating a new lifestyle Definition 
+     *
+     * After adding markup is clean from the defintion words 
+     *
+     */
+      public function definitionControl($intention, $indefinition)
+		{
+			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
+      $newdef = new LLdefinitions($intention, $indefinition);
+      $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
+      $this->livedefid = $newdef->setlivedefinition;
+      $this->lifestyleword = $newdef->setlifestyleword();
+      $this->lifestylemenu = $newdef->setlifestylemenu();
+print_r($newdef);
+     }
+   
+     
+    /** Controls adding new content sources to the Framework
+     *
+     * After adding mark up is clean from source content words
+     *
+     */ 
+      public function contentControl($intention, $source)
+		{
+    // where is the data coming from?
+      $newdata = new LLcontent($intention, $source); 
+
+//echo 'extract individual sources';
+//print_r($newdata->existsource);
+//echo 'livesource any content array';
+      $this->livesource = $newdata->wiseContent;
+//print_r($this->livesource);
+      $this->livelistsource = $newdata->loadcontent;
     }
+
+    /** Control the data going into LLcore
+     *
+     * Fed into core on a per content sources basis (and as many definitions that need scoring)
+     * 
+     */
+      public function controlCore($livesourcecontent, $livedef)
+		{
+//echo 'core called with this source content';
+//print_r($livesourcecontent);
+//echo ' any content???';
+//print_r($livedef);
+//echo 'any def data';
+      // idea here is to release the content sources and defintiions that are need to get results as quick as possible.  Do that work here then subsequent classes just process  
+      $llnew = new LLCore($livesourcecontent, $livedef);
+
+      // import input context instance, ie results window  output make the future.
+      
+      
+      // from raw data feed json or rdf php array (see easy rdf code look at using)
+
+    }
+ 
+ 
+     /** 
+     *
+     * 
+     * 
+     */
+      public function controlAverages($setdefinition)
+		{
+
+      // manages the average of average calculations (or updated within core if that path chosen) 
+      // extract the definition id number      
+      //$defenitionid = key($setdefinition);
+      
+      $newavgs = new LLavgOfavg($setdefinition);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
+      $this->avgofavg = $newavgs->avgOFavgsComplete();
+//print_r($newavgs);
+    }
+
+
+
+
+    /**
+     * Constructor * 
+     *
+     * 
+     *
+     */
+/*    public function __construct()
+		{
+    echo 'LLapi  called and active';
+    
+    include 'api/index.php';
+    $this->aipmanager();
+    
+    }
+    
+    /**
+     *
+     *
+     *
+     */
+    public function aipManager()
+		{
+
+
+
+      $this->displayNavigation();
+      $this->displaySections();
+      
+                
+                
+    }
+
+
+    /**  builds navigation
+     *
+     * 
+     *
+     */ 
+    public function displayNavigation()
+    {
+     // lifestyle menu
+    $buildnavigation = new LLNavigation($this->selectedlifestyle, $this->lifemenu, $this->resultpathset, $this->sitedomain, $this->resultlinking);
+      
+    }
+
+    /**  builds sections
+     *
+     * 
+     *
+     */ 
+    public function displaySections()
+    {
+     // what needs to displayed  blog posts, images, video, other formats of content
+      $buildsections= new LLsections($this->selectedlifestyle, $this->resultsdata, $this->contextfilter, $this->startpathtime, $this->endpathtime);
+      
+    }
+
 
     
-    /** wikipedia include class
-     *
-     * local install or as a service from the web?
-     *
-     */  
-    public function wikipediAPI()
-		{
-			
-     include_once('apis/wikipedia.php'); 
-      
-    }
-    
-    /** rss/atom feed reader / parser
-     *
-     * local install or as a service from the web?
-     *
-     */  
-    public function rssFeedreader()
-		{
-			
-     include_once('apis/feedreader/install.php'); 
-      
-    }
-
-    // other to add potentiall,  openis, FBconnect, pubhubsubdub, easyRDF, fickr photo, youtube videos, api all media available on web.
-
-
-    /** other api services
-     *
-     * any other apps local or online service to integrate
-     *
-     */  
-    public function thirdPartyAPI()
-		{
-      // use this function to hook up to third part APIS
-			// takes input from locaOrservice function above
-      
-    }
-
 
 
 }  // closes class

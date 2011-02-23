@@ -95,7 +95,7 @@ class LLlifestylelinking
       $this->melife['normdata'] = $newNormalization->normalizeComplete();
       $this->scorestatdatalive = $newNormalization->sourceScorestatsData();
 //print_r($this->matrix['normdata']);      
-print_r($newNormalization);            
+//print_r($newNormalization);            
 		}
     
     /**  
@@ -110,7 +110,7 @@ print_r($newNormalization);
       // will get more complicated as  logic will equal  this source has order of lifestyle 1. swimming, 2, skiing, 3. hillwalking,  then filter on that basis in that priority, could be top 5 top10   this will require a how new science to be developed (give User UI filter tools mean time and discovery engine./platform will find out connect in orders and wieights of lifestyle defintions connections  definitions to DNA ie how all life is connected) 
       
 			$peerlist = new LLgroups($this->meidentity, $this->currentdefinition, $this->melife['normdata']);
-print_r($peerlist);      
+//print_r($peerlist);      
       $this->peerdata = $peerlist->groupsComplete();
 		}
  

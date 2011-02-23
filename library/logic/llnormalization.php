@@ -61,8 +61,8 @@ class LLnormalization
       // need to take each individual definition average
       // first extract out the average data from the sources (local, network, whole universe)
       $this->loadedaverages = $this->loadaveragedata($this->indivsourceids);
-echo 'loaded matrix data start';
-print_r($this->loadedaverages);
+//echo 'loaded matrix data start';
+//print_r($this->loadedaverages);
         
        // need to add a loop foreach individual identity source 
         foreach($this->avgavgcomm as $did=>$avgv)
@@ -132,7 +132,7 @@ print_r($this->loadedaverages);
     //$indivavg = $this->indivavg[$sid][$did]['3'];
     $diffsum = (($sourceavg-$avgDef)/$avgDef)*100;
     $diffpercent = round($diffsum, 2);
-echo 'percent'.$diffpercent;
+//echo 'percent'.$diffpercent;
     $this->normalMe[$sid][$did] = $diffpercent;
     
     }

@@ -1,4 +1,5 @@
 <?php
+    $buildfooter = new LLFooter();
 /**
  * LifestyleLinking
  *
@@ -67,6 +68,9 @@
     
     </body>
     </html>
+    
+     <div id="hmt"></div>
+     <div id="hmtt"></div>
 <?php
     }
 

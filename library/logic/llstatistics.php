@@ -25,10 +25,10 @@ class LLstatistics
       $this->sourceid = $sid;
       $this->statsarray = $matrix;
       $this->definitions = $defstoscore;
-echo 'matrix array passed to stats'; 
-print_r($this->statsarray);
-echo 'def passed to stats';
-print_r($this->definitions);
+//echo 'matrix array passed to stats'; 
+//print_r($this->statsarray);
+//echo 'def passed to stats';
+//print_r($this->definitions);
       $this->statisticsManager();
   	}
 

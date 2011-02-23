@@ -1,4 +1,5 @@
 <?php
+    $buildheader = new LLHeader();
 /**
  * LifestyleLinking
  *
@@ -49,11 +50,11 @@
         public function startHeader ()
         {
          //stitches together all header functions
-        $headerparts = $this->headertitle();
-        $headerparts .= $this->stylesheet($template = 'default');
-        $headerparts .= $this->headeridfix();
-
-        //return $headerparts;
+        $this->headertitle();
+        $this->stylesheet($template = 'default');
+        //$this->headeridfix();
+        $this->javascript();
+       
 
         }
 
@@ -89,7 +90,7 @@
             <!--[if lt IE 7]>
 
               <link rel="stylesheet" type="text/css" media="all" href="css/ie6.css"/><![endif]-->
-            </head>
+          
             
             <body id="index" class="home">
   <?php
@@ -115,6 +116,22 @@
         
             echo $style;
             
+        }
+        
+      /** javascript jquery include
+         * 
+         *
+         * 
+         */
+        public function javascript()
+        {
+ ?>     
+            <script type="text/javascript" src="display/css/jquery.js"></script>
+            
+            <script type="text/javascript" src="display/css/menu.js"></script>
+         
+            </head>
+ <?php                       
         }
         
        /** RDF url link

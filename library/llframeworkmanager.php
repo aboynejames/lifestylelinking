@@ -38,8 +38,8 @@ class LLframeworkmanager
       protected $lifestyleword;
       protected $sitesetup;
       
+     // const GLOBAL_URL = 'mepath.com';
       public $baseurl;
-      
       
     /**
      * Constructor 
@@ -54,31 +54,20 @@ class LLframeworkmanager
    public function __construct()
 		{
 		
-      //$this->resultspath = $resultspath; 
-      //$this->frameworkSetup = $inputSetup;
-      //$this->individual = $individual;
-      //$this->lifestyle = $iddefinition;
-      //$this->identitysource = $idsources;
+    
+ 
       if(!isset($this->baseurl))
       {
-      echo 'install again';
+//echo 'install again';
       $LLinstall = new LLinstallation(); 
       $this->sitesetup = $LLinstall->websiteset();
       $this->baseurl = $this->sitesetup['baseurl'];
       }
       
-      $LLstart = new LLcontext();
-      $livecontext = $LLstart->setContext();
-print_r($LLstart);
-      $this->individual = $livecontext['individual'];
+            //$this->meidentity = $this->identityControl();
       
-      $this->meidentity = $this->identityControl();
-      $this->assumptionsSet();
-      $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
-      
-print_r($newdef);
-print_r($newdata);
-print_r($llnew);
+         $display = new LLDisplay();
+
    
  		} 
     
@@ -111,28 +100,6 @@ print_r($llnew);
      
       }
     
-    /** load in current experimentation assumptions
-     *
-     * The default assumption active in the frawework
-     *
-     */ 
-      public function assumptionsSet()
-      {
-      global $aset;
-      // uses llapi class include api classes or plug into third party servies
-      $aset = new LLassumptions();
-      
-      // pass the lifestylelinking science
-      //$aset->LLlogic($this->frameworkSetup['science']);
-      
-      //$aset->loadAssumptions();
-
-      //$this->intentionlogic = $aset->loadAssumptions();
- 
-        // active the appropriate apis local or from the web
-        $this->apiStatus();
-        
-      }
 
       
     /** Co ordinates apis plugin that feed data in and out of the whole framework  
@@ -143,167 +110,12 @@ print_r($llnew);
       public function apiStatus()
       {
 			// uses  llapi class include api classes or plug into third party servies 
-      $apinew = new apimanagement($livecontext['startAPI']);
+      //$apinew = new LLapi();
       
       // any RDF linking established?   if so establish connection
       $rdfconnect = new LLrdf();
       
       }
-
-    /** Establish the starting indienty of definitions and content sources
-     *
-     * setup resultpath object, definition object, content objects and get all data in universe upto date and pass that to core in priority of resultspath (process per source, this source list will be prioritised by the LLlogic that is this individuals science for this framework
-     * What has already but processed by core?  What need to go into LLcore?
-     *
-     */
-      public function intentionManager($path, $definition, $sourcecontent)
-      {
-      
-       //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
-        // create intentionlogic  which will release logic to results, definitions and content sources?
-
-        //  start results path class
-        //$pathnew = new LLpath($path);
-        
-        // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
-        // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic)
-                  
-         if($path['intention'] == 'newstart')
-         {
-         // in this mode one definition needs displayed, if results not ready for this then apply LL to produce all neccessary data to display results as quickly as possible
-//echo 'newstart  intention manager has been called';
-//print_r($definition);
-         //  from start page UI
-         $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     
-          
-          // content
-         $this->contentControl($path['intention'], $sourcecontent);
-         
-         $this->controlAverages($this->livedefinition);
-         
-         // feed core
-         if(isset($this->livesource) && isset($this->livedefinition))
-         {
-         $this->controlCore($this->livesource, $this->livedefinition);  
-         }
-         // make results
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
-print_r($resultspath);      
-         $resultsdata = $resultspath->liveResultsdata();
-         $resultlinking = $resultspath->setdefinitionpathresults();
-         
-         // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
-print_r($displayPath);  
-         }
-       
-         elseif($path['intention'] == 'results')
-         {
-         
-         // pickup lifestlye definition and then decide a. produce results immediately or to up sources of content based on intent e.g. if real time wanted.
-        
-         // first need to see if any content in the universe has been updated and needs to be scored for this lifestyle definition selected?
-         // set live definition id
-         $this->livedefinition = 2;
-           
-          // make results
-        $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
-print_r($resultspath);      
-         $resultsdata = $resultspath->liveResultsdata();
-         $resultlinking = $resultspath->setdefinitionpathresults();
-         
-         // given user display selection (could be to export via api or display in their framework 
-         $displayPath = new LLDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
-//print_r($displayPath);           
-         }
-        
-        elseif($path['intention'] == 'controlpanel')
-         {
-          // batch updating via control panel or CRON,  need to pickup all definitions and all sources (figure out what is not up to date and update those needing)
-          //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
-          
-         }
-         
-      
-
-      }
-      
-      
-      
-      
-     /** Controls creating a new lifestyle Definition 
-     *
-     * After adding markup is clean from the defintion words 
-     *
-     */
-      public function definitionControl($intention, $indefinition)
-		{
-			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
-      $newdef = new LLdefinitions($intention, $indefinition);
-      $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
-      $this->lifestyleword = $newdef->setlifestyleword();
-      $this->lifestylemenu = $newdef->setlifestylemenu();
-
-     }
-   
-     
-    /** Controls adding new content sources to the Framework
-     *
-     * After adding mark up is clean from source content words
-     *
-     */ 
-      public function contentControl($intention, $source)
-		{
-    // where is the data coming from?
-      $newdata = new LLcontent($intention, $source); 
-
-//echo 'extract individual sources';
-//print_r($newdata->existsource);
-//echo 'livesource any content array';
-      $this->livesource = $newdata->wiseContent;
-//print_r($this->livesource);
-      $this->livelistsource = $newdata->loadcontent;
-    }
-
-    /** Control the data going into LLcore
-     *
-     * Fed into core on a per content sources basis (and as many definitions that need scoring)
-     * 
-     */
-      public function controlCore($livesourcecontent, $livedef)
-		{
-//echo 'core called with this source content';
-//print_r($livesourcecontent);
-//echo ' any content???';
-//print_r($livedef);
-//echo 'any def data';
-      // idea here is to release the content sources and defintiions that are need to get results as quick as possible.  Do that work here then subsequent classes just process  
-      $llnew = new LLCore($livesourcecontent, $livedef);
-
-      // import input context instance, ie results window  output make the future.
-      
-      
-      // from raw data feed json or rdf php array (see easy rdf code look at using)
-
-    }
- 
- 
-     /** 
-     *
-     * 
-     * 
-     */
-      public function controlAverages($setdefinition)
-		{
-
-      // manages the average of average calculations (or updated within core if that path chosen) 
-      // extract the definition id number      
-      $defenitionid = key($setdefinition);
-      
-      $newavgs = new LLavgOfavg($defenitionid);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
-      $this->avgofavg = $newavgs->avgOFavgsComplete();
-print_r($newavgs);
-    }
 
 
 

@@ -31,8 +31,8 @@ class LLgroups
       $this->meidstatus = $meidentity;
       $this->currentdefid = $currentdefinition;
       $this->normalinput = $normalizeddata;
-echo 'innto groups';
-print_r($this->normalinput);
+//echo 'innto groups';
+//print_r($this->normalinput);
       $this->groupManager();
 
     }

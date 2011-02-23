@@ -67,10 +67,10 @@
     // has information to tag data with so the right combintation of path through core is captured and recorded.
     // ie is this first time use of this data, update, or returning of the whole from a different starting point? 
     // core runs on a PER SOURCE basis (exept break for avgofavg update/calc) before resuming on per source basis, results aggregate data qualifying for results windows from indiv sources.
-echo 'wiseContent in core manager';
-print_r($this->wiseContent);
-echo 'wiseDefintion in core manager';
-print_r($this->wiseDefinition);
+//echo 'wiseContent in core manager';
+//print_r($this->wiseContent);
+//echo 'wiseDefintion in core manager';
+//print_r($this->wiseDefinition);
 
        // use this manager function to call other core functions
        
@@ -96,8 +96,8 @@ print_r($this->wiseDefinition);
               //$this->calculateLLNormalisation();
               
             }
-echo ' the matrix to be stored';
-print_r($this->matrix);
+//echo ' the matrix to be stored';
+//print_r($this->matrix);
         // store all the matrix data
         $this->storeMatrixstats($sid, $this->matrix); 
         

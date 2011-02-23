@@ -38,17 +38,18 @@
      */
    public function __construct($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking)
 		{
-		
-    $this->lifestylelive = $selectedlifestyle['wikipedia'];
- echo 'passednavigation';
- print_r($selectedlifestyle);
+    
+     $this->tempmenu();
+/*    $this->lifestylelive = $selectedlifestyle['wikipedia'];
+ //echo 'passednavigation';
+ //print_r($selectedlifestyle);
     $this->lifemenu = $lifestylemenu;
     $this->resultstringpath = $resultpath;
     $this->domainurl = $sitedomain;
     $this->resultlinking = $resultlinking;
     
     $navigation = $this->buildnavigation();
-    
+   */ 
  		} 
 
     /**
@@ -62,7 +63,7 @@
         if(is_array($this->lifemenu) == true)
         {
         
-        $this->navigation();
+   //     $this->navigation();
         $this->formurllifestyleurlstrings($this->lifestylelive, $this->lifemenu);
         $this->navigationLifestyle($this->lifestylelive, $this->lifestylemenudata);
         
@@ -71,7 +72,7 @@
         else
         {
         
-        $this->navigation();
+     //   $this->navigation();
           
         }
 
@@ -89,9 +90,16 @@
 ?>    
     <header id="accountnav" class="body">
 	
-  	<nav><ul>
-		<li class="active"><a href="#">login</a></li>
-	   </ul></nav>
+  	<nav>
+			<ul class="menu-lifestyle">
+				  <li class="active">
+                <a class="menu-text" text="Signin" title="signin" href="api/index.php?signin">Sign In</a>
+            </li>
+            <li class="active">
+                <a class="menu-text" text="start" title="start" href="api/index.php?ll=start">Start</a>
+            </li> 
+			</ul>  
+     </nav>
   
   </header><!-- /#banner -->
 
@@ -189,6 +197,31 @@ print_r($this->lifestylemenudata);
      */
     public function navigationLifestyle ($menulive, $lifestylemenu)
     {
+    
+    
+$amingfor ='          <header id="banner" class="body">
+
+        <nav>
+			<ul class="stream-lifestyle">
+				  <li class="stream-lifestyle stream-lifestyle-skiing live" >
+                <a class="lifestyle-text" text="Skiing lifestyle" title="home" href="api/index.php?ll=Skiing">Skiing</a>
+            </li>
+				  <li class="stream-lifestyle stream-lifestyle-Swimming">
+                <a class="lifestyle-text" text="Swimming lifestyle" title="news" href="api/index.php?ll=Swimming">Swimming</a>
+            </li>
+            <li class="stream-lifestyle stream-lifestyle-Hill Walking">
+               <a class="lifestyle-text" text="Hillwalking lifestyle" title="interviews" href="api/index.php?ll=HIllwalking">Hill Walking</a>
+            </li>
+            <li class="stream-lifestyle stream-lifestyle-Fiddling">
+                <a class="lifestyle-text" text="Fiddling lifestyle" title="external" href="api/index.php?ll=Fiddling">Fiddling</a>
+            </li>
+			</ul>
+			<span class="clear"></span>
+      </nav>
+		
+    </header>'; 
+    
+    
 ?>
       <header id="banner" class="body">
        <nav><ul>
@@ -225,6 +258,35 @@ print_r($this->lifestylemenudata);
     
     }
 
+
+public function tempmenu ()
+{
+
+?>
+          <header id="banner" class="body">
+
+        <nav>
+			<ul class="stream-lifestyle">
+				  <li class="stream-lifestyle stream-lifestyle-skiing live" >
+                <a class="lifestyle-text" text="Skiing lifestyle" title="home" href="api/index.php?ll=Skiing&intention=results">Skiing</a>
+            </li>
+				  <li class="stream-lifestyle stream-lifestyle-Swimming">
+                <a class="lifestyle-text" text="Swimming lifestyle" title="news" href="api/index.php?ll=Swimming&intention=results">Swimming</a>
+            </li>
+            <li class="stream-lifestyle stream-lifestyle-Hill Walking">
+               <a class="lifestyle-text" text="Hillwalking lifestyle" title="interviews" href="api/index.php?ll=HIllwalking&intention=results">Hill Walking</a>
+            </li>
+            <li class="stream-lifestyle stream-lifestyle-Fiddling">
+                <a class="lifestyle-text" text="Fiddling lifestyle" title="external" href="api/index.php?ll=Fiddling&intention=results">Fiddling</a>
+            </li>
+			</ul>
+			<span class="clear"></span>
+      </nav>
+		
+    </header>'
+ 
+<?php 
+    }
         
 
 } // closes class

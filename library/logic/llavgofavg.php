@@ -38,8 +38,8 @@ class LLavgOfavg
 		{
       
       $this->avgdefid = $averageid;  // the live source content average live in Core
-echo 'new average data required';
-print_r($this->avgdefid);
+//echo 'new average data required';
+//print_r($this->avgdefid);
       
       $this->AvgofAvgManager(); 
       
@@ -59,6 +59,8 @@ print_r($this->avgdefid);
      {
      // get data into mememory
       $this->averageofaverages = $this->getavgofavglive();
+      
+      $this->storeAvgOfAvg();
      
      }
      
@@ -139,8 +141,8 @@ print_r($this->avgdefid);
         
         // import existing source average date for this defintion
         $existingavgs =  $this->loadexistingAverages();
-echo 'existing averageofaverage data';
-print_r($existingavgs);
+//echo 'existing averageofaverage data';
+//print_r($existingavgs);
         // live source matrixstatsdata is the source avg data passed to the constructor
         if($existingavgs ['start'] !== 'empty')
         {
@@ -236,8 +238,8 @@ print_r($existingavgs);
      	public function avgOFavgsComplete()
 		{
       // loadup exlcluded works if not alreadyloaded
-echo 'avg of avg to pass to core';
-print_r($this->averageofaverages);
+//echo 'avg of avg to pass to core';
+//print_r($this->averageofaverages);
       return $this->averageofaverages;
   
     }  

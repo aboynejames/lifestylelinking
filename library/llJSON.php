@@ -59,7 +59,6 @@ class LLJSON
 
       $ourFileName = $deffile;
       
-           
       $ourFileHandle = fopen($ourFileName, 'w') or die("can't open file");
       fwrite($ourFileHandle, $jsondef) or die('Could not write to file'); 
       fclose($ourFileHandle);

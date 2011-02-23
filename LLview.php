@@ -36,6 +36,11 @@
  * @version    $Id$
  */
 
+/**
+ * @see site class
+ */
+require_once "display/site.php";
+
 
 /**
  * @see LLDisplay class
@@ -43,14 +48,19 @@
 require_once "display/lldisplay.php";
 
 /**
+ * @see LLapidataDisplay class
+ */
+require_once "display/llapidatadisplay.php";
+
+/**
  * @see LLHeader class
  */
-require_once "display/header.php";
+//require_once "display/header.php";
 
 /**
  * @see LLFooter class
  */
-require_once "display/footer.php";
+//require_once "display/footer.php";
 
 /**
  * @see LLNavigation class
@@ -58,6 +68,6 @@ require_once "display/footer.php";
 require_once "display/navigation.php";
 
 /**
- * @see LLheader class
+ * @see sections class
  */
 require_once "display/sections.php";

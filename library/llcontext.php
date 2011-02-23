@@ -91,7 +91,7 @@
             else
             {
             
-            $this->displayPath = new LLDisplay($meidentity, $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata);
+            $this->displayPath = new LLDisplay($meidentity, $lifestyleword, $currentlifestyle, $path, $resultsdata, $this->baseurl, $resultlinking);
             
             }
         }
@@ -99,7 +99,7 @@
        else
        {
        // dispay start UI
-       $this->displayPath = new LLDisplay($meidentity, $currentlifestyle, $lifestylemenu, $displayrequired, $resultsdata);
+       $this->displayPath = new LLDisplay($meidentity, $lifestyleword, $currentlifestyle, $path, $resultsdata, $this->baseurl, $resultlinking);
 //echo 'echo start display';
        }
        

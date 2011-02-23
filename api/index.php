@@ -22,10 +22,10 @@ require_once "LLlogic.php";
 require_once "LLview.php";
 
 try{
-
+//print_r($_SERVER);
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
-$newframework = new LLframeworkmanager();
-//print_r($newframework); 
+$newapicall = new LLapi();
+print_r($newapicall); 
 
 }  // closes try
 
@@ -40,9 +40,3 @@ exit();
 } // closes err catch
 
 ?>
-
-
-
-
-
-

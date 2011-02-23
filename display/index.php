@@ -1,11 +1,9 @@
 <?php
-session_start();
+//print_r($_SERVER);
+site::includeTemplate('header.php');
 
-echo $header;
+site::includeTemplate('body.php');  // basic page html for ajax injection
 
-echo $navigation;
+site::includeTemplate('footer.php');
 
-echo $sections;
-
-echo $footer;
-
+?>
