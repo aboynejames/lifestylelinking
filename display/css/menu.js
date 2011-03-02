@@ -75,24 +75,29 @@ var starthtml = unescape(startbox);
 	//Manage click events
 	$("#apicall").click(function(e){
   
-  		e.preventDefault();
-
-
+        e.preventDefault();
         
-            var $tgt = $(e.target);
+        var $tgt = $(e.target);
         if ($tgt.is("a.lifestyle-text")) {
 
-            link = $($tgt).attr("title");
+            //link = $($tgt).attr("title");
             /*$("#hmt").text(link);	*/
-            url =   $($tgt).attr("href");
-            $("#hmt").text(url);	
+            //url =   $($tgt).attr("href");
+            
+            //show the loading bar
+            showLoading();
+            //load selected section
+            
+            url = $($tgt).attr("href");
+            $("#hmt").text(url);
+            apicall.load(url, hideLoading);
 
-		//show the loading bar
-		showLoading();
-		//load selected section
+$("#hmt").text(url);	
 
           }
  
+ 
+ /*
 	   switch(link){
         case "home": 
 				apicall.slideUp();
@@ -120,6 +125,8 @@ var starthtml = unescape(startbox);
 				break;
         
         }
+        
+        */
 
     });
 
