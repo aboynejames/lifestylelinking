@@ -19,10 +19,20 @@ var starthtml = unescape(startbox);
         
         showLoading();
 
+//  need to use javascript to process form input
         var startll = $("input#ll").val();
-         /* var formin = $(this).attr("value");  */
-         /*  whatdata =   $(this).attr("href"); */
-         var urlform = "api/index.php?ll=" + startll + "&intention=newstart" ;
+        var startlogic = $("input#logic").val();
+        var startintention = $("input#intention").val();
+        var startdisplay = $("input#display").val();
+        var startpathtime = $("input#pathtime").val();
+        var startmake = $("input#make").val();
+        var startfilter = $("input#filter").val();
+        var startpsource = $("input#psource").val();
+        var startstream = $("input#stream").val();
+        var startpathid = $("input#pathid").val();
+        var startresultsid = $("input#resultsid").val();
+
+         var urlform = "api/index.php?ll=" + startll + "&intention=newstart" + "&logic=" + startlogic + "&display=" + startdisplay + "&pathtime=" + startpathtime + "&make=" + startmake + "&filter=" + startfilter + "&psource=" + startpsource + "&stream=" + startstream + "&pathid=" + startpathid + "&resultsid=" + startresultsid;
          apicall.load(urlform, hideLoading);
          $("#hmtt").text(urlform);	
 

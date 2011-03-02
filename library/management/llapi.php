@@ -53,16 +53,13 @@ class LLapi
 		      
       $LLstart = new LLcontext();
       $livecontext = $LLstart->setContext();
-//print_r($LLstart);
+//print_r($livecontext);
       $this->individual = $livecontext['individual'];
       
       //$this->meidentity = $this->identityControl();
       $this->assumptionsSet();
       $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
       
-//print_r($newdef);
-//print_r($newdata);
-//print_r($llnew);
    
  		} 
     
@@ -226,11 +223,13 @@ class LLapi
 		{
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       $newdef = new LLdefinitions($intention, $indefinition);
-      $this->livedefinition[$newdef->setlivedefinition] = $newdef->existdef[$newdef->setlivedefinition];
-      $this->livedefid = $newdef->setlivedefinition;
-      $this->lifestyleword = $newdef->setlifestyleword();
-      $this->lifestylemenu = $newdef->setlifestylemenu();
-print_r($newdef);
+      
+      $defdatalive = $newdef->returnDefinition();
+      $this->livedefinition =  $defdatalive['livedefinition'];
+      $this->livedefid = $defdatalive['livedefid'];
+      $this->lifestyleword = $defdatalive['lifestyleword'];
+      $this->lifestylemenu = $defdatalive['lifestylemenu'];
+//print_r($defdatalive);
      }
    
      

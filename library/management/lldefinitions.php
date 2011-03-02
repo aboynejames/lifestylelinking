@@ -130,6 +130,9 @@
       //echo ' before call to wikipedia';
       $this->startNewdefinition($newdefarray); 
       
+     $this->setlivedefinitionid = 1;
+     $this->defids[1] = $newdef['wikipedia'];
+
       }
       
       else
@@ -158,13 +161,15 @@
          
          $this->startNewdefinition($newdefarray);
          
+         $this->setlivedefinitionid = $newdefid;
+         
          }
          
          else
          {
          // already in framework
          // attached a defid to the 'live' definition
-         $this->setlivedefinition = $defcheck;
+         $this->setlivedefinitionid = $defcheck;
       
          }
      }
@@ -325,15 +330,21 @@
      }
 
 
-     /** Returns a clean definition 
+     /** Returns required data back to API manager
      *
      *  an array of words 
      *
      */
-		public function cleanedDefinition()
+		public function returnDefinition()
     {
      
-     return $this->cleanDefinition;
+      $livedefdata['livedefinition'] = $this->wiseDefinition;
+      $livedefdata['livedefid'] = $this->setlivedefinitionid;
+      $livedefdata['lifestyleword'] = $this->defin;
+      $livedefdata['lifestylemenu'] = $this->defids;
+      
+      return $livedefdata;
+    
 		}
 
 
