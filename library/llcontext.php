@@ -258,16 +258,100 @@
       public function startInfoUniverse($psourceurl)
       {
         // TODO felsh out info for this inputurl, is it a blog, find rss feed, any rdf, been process in another spawning ground or PeertoPeer RDF?
+	
+	// 1. have list of default blog urls to test/kick start
+	// 2. api call to existing rss feed
+	// 3. autocrawl based on own url
+	// 4. peertopeer network effect based on input definition
         
+	//  url add one at a time from UI
         //$startidentitysource = '';
-        //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
-      //$startidentitysource =array('url'=>$psourceurl, 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );//, '     2'=>'http://lifestylelinking.blogspot.com'); //, '1'=>'2');
-        $startidentitysource =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
-        // set starting context
+	if (isset($psourceurl))
+	{
+	  
+	$startidentitysource =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
+	
+	// incremental additions ie url will need to be added to the master list of content urls (ie for saving)
+	
+	}
+	
+	// now how many urls in content information universe?
+	if(count($startidentitysource) <= 1)
+	{
+	 // go through data reach options
+	 // default
+	 $startidentitysource .= starturllist();
+	 
+	 // api call
+	 //existingurlcall();
+	 
+	 // autocrawl
+	 //autocrawlblogs();
+	 
+	 // peertopeer network effect
+	 //ptopnetworkeffect()
+
+	}
+	
         return $startidentitysource;
         
       }   
       
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function starturllist()
+    {
+	
+	$startlist =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
+        $startlist =array('url'=>'http://lifestylelinking.blogspot.com', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        $startlist =array('url'=>'http://www.wildsnow.com/', 'rss'=>'http://www.wildsnow.com/index.php?feed=rss2', 'rdf'=>'', 'sourceid'=>'' );
+	$startlist =array('url'=>'http://utahbackcountryskiing.blogspot.com/', 'rss'=>'http://utahbackcountryskiing.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        $startlist =array('url'=>'http://blog.themountaindepartment.com/', 'rss'=>'http://feeds.feedburner.com/TheSkiingDepartment', 'rdf'=>'', 'sourceid'=>'' );
+        $startlist =array('url'=>'http://wendellmoore.blogspot.com/', 'rss'=>'http://wendellmoore.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );	
+	
+	return $startlist; 
+    
+    }
+
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function existingurlcall()
+    {
+	// googlereader, yahoo, bloglines, others?
+	// data aggregators,  datasift, kinetics(dundee)
+    
+    }
+    
+     /** 
+     *
+     * 
+     *
+     */ 
+    public function  autocrawlblogs()
+    {
+	// need to put crawl into a class
+      
+    
+    }   
+
+    /** 
+     *
+     * 
+     *
+     */ 
+    public function ptopnetworkeffect()
+    {
+	// need to investigate telehash project code/service
+	
+    
+    }
+
     /** 
      *
      * 

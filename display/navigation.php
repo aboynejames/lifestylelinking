@@ -39,8 +39,8 @@
    public function __construct($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking)
 		{
     
-     $this->tempmenu();
-/*    $this->lifestylelive = $selectedlifestyle['wikipedia'];
+     //$this->tempmenu();
+    $this->lifestylelive = $selectedlifestyle['wikipedia'];
  //echo 'passednavigation';
  //print_r($selectedlifestyle);
     $this->lifemenu = $lifestylemenu;
@@ -49,7 +49,7 @@
     $this->resultlinking = $resultlinking;
     
     $navigation = $this->buildnavigation();
-   */ 
+
  		} 
 
     /**
@@ -224,7 +224,8 @@ $amingfor ='          <header id="banner" class="body">
     
 ?>
       <header id="banner" class="body">
-       <nav><ul>
+       <nav>
+       <ul class="stream-lifestyle">
 <?php
 //print_r($lifestylemenu);
         $lifemenu = '';
@@ -235,13 +236,15 @@ $amingfor ='          <header id="banner" class="body">
       if($menulive == $lifestyle['lifestyle'])
       {
       
-      $lifemenu .=     '<li class="active"><a href="'.$lifestyle['pathurl'].'">'.$lifestyle['lifestyle'].'</a></li>';
+      $lifemenu .= '<li  class="stream-lifestyle stream-lifestyle-'.$lifestyle['lifestyle'].'-live">';
+      $lifemenu .= '<a href="'.$lifestyle['pathurl'].'">'.$lifestyle['lifestyle'].'</a></li>';
       
       }
       
       else
       {
       
+      $lifemenu .= '<li  class="stream-lifestyle stream-lifestyle-'.$lifestyle['lifestyle'].'">';
       $lifemenu .= '<li><a href="'.$lifestyle['pathurl'].'">'.$lifestyle['lifestyle'].'</a></li>';
        
        }

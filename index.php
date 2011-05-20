@@ -2,7 +2,7 @@
 /**
  * LifestyleLinking
  *
- * Demo of the user interface 
+ * Demo of the user interface ux 
  *
  *
  * @package    LifestyleLinking Open Source Project
