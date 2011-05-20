@@ -304,7 +304,7 @@
      */ 
     public function starturllist()
     {
-	
+	// test list of urls
 	$startlist =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
         $startlist =array('url'=>'http://lifestylelinking.blogspot.com', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
         $startlist =array('url'=>'http://www.wildsnow.com/', 'rss'=>'http://www.wildsnow.com/index.php?feed=rss2', 'rdf'=>'', 'sourceid'=>'' );
