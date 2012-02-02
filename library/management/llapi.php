@@ -49,7 +49,7 @@ class LLapi
      *
      */
     public function __construct()
-		{
+   {
 		      
       $LLstart = new LLcontext();
       $livecontext = $LLstart->setContext();
@@ -61,9 +61,9 @@ class LLapi
       $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
       
    
- 		} 
+    } 
     
-    /** Tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
+     /** Tag identity  and definition (input stats about content/definitions, first time or update)  probably done as a result of def and identity content input process
      *
      *
      */
@@ -140,34 +140,44 @@ class LLapi
       public function intentionManager($path, $definition, $sourcecontent)
       {
       
+      // this is a heavy duty function and needs to be split to achieve these goals
+      // a identify what definition is live or  is it new start, newly added or updated?
+      // b identify which range of sources are prioritised?  new start, update, rescore, how many sources to update, add or rescore?
+      // c handle management of data flows ie. api call to wikipedia, rssfeeds (blog source to rssfeedreader via api), ptopLL sharing.
+      
        //  what is the path telling the framework, results required, daily update or change of def scoring of LifestyleLinking logic?
         // create intentionlogic  which will release logic to results, definitions and content sources?
-
+	
+	// first decide what prioritises are and share that will data flows, core processing
         //  start results path class
         //$pathnew = new LLpath($path);
         
-        // process the new lifestyle  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
-        // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic)
+        // context class will provide information on  1.  load/add defintition, 2. sources of content if a. none, promt to add (1.manual input, 2. input rssfeeder e.g. google, yahoo via api, 3. autocrawl, 4. rdf peertopeer ), 3. load and ready data for results, 4. raw results, 5 display theme selected/location for data
+        
                   
          if($path['intention'] == 'newstart')
          {
          // in this mode one definition needs displayed, if results not ready for this then apply LL to produce all neccessary data to display results as quickly as possible
-//echo 'newstart  intention manager has been called';
-//print_r($definition);
-         //  from start page UI
+	//echo 'newstart  intention manager has been called';
+	//print_r($definition);
+	
+	//  this needs to decide if first use, new added, or updated and the priority of processing through framework ie. user directed or background auto-update?  
          $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     
           
-          // content
+          // content, prioritises which sources to add or update, set initial reach limit and keep going and update when new top ranking are found.
+	  // first stage is to see if info. from universe needs updated before results (if framework data exists, process that while update is going on ie. upload all relevant data to memeory if not already in and prep. peer lists based on LifestyleLinking Logic)
          $this->contentControl($path['intention'], $sourcecontent);
          
+	 //  constantly updating from local framework or ptop shared averages
          $this->controlAverages($this->livedefid);
          
-         // feed core
+         // feed core, manages the priority and background process of whole universe
          if(isset($this->livesource) && isset($this->livedefinition))
          {
          $this->controlCore($this->livesource, $this->livedefinition);  
          }
-         // make results
+	 
+         // make display data/presentation code for results, 
          $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
 //print_r($resultspath);      
          $resultsdata = $resultspath->liveResultsdata();
@@ -220,7 +230,7 @@ class LLapi
      *
      */
       public function definitionControl($intention, $indefinition)
-		{
+     {
 			// 1st core data - extract input definition(s)  kick to life api manager->wikipedia class -> form array of data captured, identity, structure stats, the raw text split
       $newdef = new LLdefinitions($intention, $indefinition);
       
@@ -239,7 +249,7 @@ class LLapi
      *
      */ 
       public function contentControl($intention, $source)
-		{
+     {
     // where is the data coming from?
       $newdata = new LLcontent($intention, $source); 
 
@@ -257,7 +267,7 @@ class LLapi
      * 
      */
       public function controlCore($livesourcecontent, $livedef)
-		{
+     {
 //echo 'core called with this source content';
 //print_r($livesourcecontent);
 //echo ' any content???';
@@ -280,7 +290,7 @@ class LLapi
      * 
      */
       public function controlAverages($setdefinition)
-		{
+     {
 
       // manages the average of average calculations (or updated within core if that path chosen) 
       // extract the definition id number      
@@ -315,7 +325,7 @@ class LLapi
      *
      */
     public function aipManager()
-		{
+   {
 
 
 

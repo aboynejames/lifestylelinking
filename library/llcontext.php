@@ -39,11 +39,11 @@
      *
      */
    public function __construct()
-		{
+  {
 		
     $this->startLL();
     
- 		} 
+  } 
     
     
     /** gather starting info.
@@ -202,8 +202,8 @@
      * 
      *
      */     
-		public function makeuniqueid ($pathin, $startimein) 
-		{
+	public function makeuniqueid ($pathin, $startimein) 
+	{
     
     $uniquepathform = $pathin.$starttimein;
 
@@ -266,9 +266,9 @@
         
 	//  url add one at a time from UI
         //$startidentitysource = '';
-	if (isset($psourceurl))
+	if (strlen($psourceurl) > 2 )
 	{
-	  
+echo 'psourceinput';	  
 	$startidentitysource =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
 	
 	// incremental additions ie url will need to be added to the master list of content urls (ie for saving)
@@ -276,11 +276,12 @@
 	}
 	
 	// now how many urls in content information universe?
-	if(count($startidentitysource) <= 1)
+	if(isset($startidentitysource))
 	{
 	 // go through data reach options
 	 // default
-	 $startidentitysource .= starturllist();
+echo 'list of starting urls';	 
+	 $startidentitysource = starturllist();
 	 
 	 // api call
 	 //existingurlcall();

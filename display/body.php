@@ -30,7 +30,7 @@ navigation ()
   	<nav>
 			<ul class="menu-lifestyle">
 				  <li class="active">
-                <a class="menu-text" text="Signin" title="signin" href="api/index.php?signin">Sign In</a>
+                <a class="menu-text" text="Signin" title="signin" href="api/index.php?ll=signin">Sign In</a>
             </li>
             <li class="active">
                 <a class="menu-text" text="start" title="start" href="api/index.php?ll=start">Start</a>

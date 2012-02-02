@@ -1,5 +1,5 @@
 
- 		$(document).ready(function(){
+$(document).ready(function(){
     
     
     // $("#apicall").text(" ")
@@ -41,11 +41,11 @@ var starthtml = unescape(startbox);
 
   $("a.menu-text").click(function(e){
   
-  		e.preventDefault();
-    
-		//show the loading bar
-		//showLoading();
-		//load selected section
+	e.preventDefault();
+
+	//show the loading bar
+	//showLoading();
+	//load selected section
   	linkt = $(this).attr("title");
        /*$("#hmt").text(linkt);	*/
     urlt =   $(this).attr("href");

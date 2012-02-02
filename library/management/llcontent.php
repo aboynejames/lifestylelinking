@@ -102,7 +102,7 @@ class LLcontent
      *
      */
     public function autocontent()
-		{
+   {
       //NB. source content url and results data or even full download of everything but enourage sharing of min to save data repication
     
      // api to rssfeed reader (various on web)
@@ -129,7 +129,7 @@ class LLcontent
      *
      */
     public function loadExistingcontent()
-		{
+   {
 			//echo 'load existing definitions <br /><br />';
       // query local json txt, mysql, couchdb or RDF
       // local text files for now
@@ -469,8 +469,8 @@ class LLcontent
      *  clean the new content data  
      *
      */  
-		public function buildContent($sid, $cid, $newcontentpost)
-		{
+	public function buildContent($sid, $cid, $newcontentpost)
+	{
 
 
 			// Create a LLDataCleanser object
