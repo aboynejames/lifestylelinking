@@ -40,6 +40,8 @@ class LLframeworkmanager
       
      // const GLOBAL_URL = 'mepath.com';
       public $baseurl;
+      public $couchconnect;
+      public $couch_dsn;
       
     /**
      * Constructor 
@@ -51,18 +53,29 @@ class LLframeworkmanager
      * @param  int  $individual    owner of frameworks id
      *
      */
-   public function __construct()
-		{
+	public function __construct()
+	{
 		
-    
+	// has the couchdb database been setup?
+       if(!isset($this->couchconnect))
+        {
+	
+	$this->couchconnect =  'lifestylelinking';
+	$this->couch_dsn = "http://localhost:5984/";
+	
+	}
  
       if(!isset($this->baseurl))
       {
 //echo 'install again';
-      $LLinstall = new LLinstallation(); 
+      $LLinstall = new LLinstallation( $this->couch_dsn, $this->couchconnect); 
       $this->sitesetup = $LLinstall->websiteset();
       $this->baseurl = $this->sitesetup['baseurl'];
+      
+      
       }
+      
+
       
             //$this->meidentity = $this->identityControl();
       

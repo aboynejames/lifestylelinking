@@ -88,7 +88,7 @@ class LLwordWisdom
                       //print_r($wordsorder);
 
                       // contains array of words order by frequency they scored, highest first, limited to fifty?
-                      $this->wiseData[1] = array_slice($wordsorder, 0, $this->wiselength);
+                      $this->wiseData = array_slice($wordsorder, 0, $this->wiselength);
                       
                       }
             }

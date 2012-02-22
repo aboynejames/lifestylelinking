@@ -18,8 +18,8 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-	class LLNavigation
-	{
+class LLNavigation
+{
   
   
     public $navigation;
@@ -36,21 +36,21 @@
      * @param  
      *
      */
-   public function __construct($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking)
-		{
+	public function __construct($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking)
+	{
     
-     //$this->tempmenu();
-    $this->lifestylelive = $selectedlifestyle['wikipedia'];
- //echo 'passednavigation';
- //print_r($selectedlifestyle);
-    $this->lifemenu = $lifestylemenu;
-    $this->resultstringpath = $resultpath;
-    $this->domainurl = $sitedomain;
-    $this->resultlinking = $resultlinking;
-    
-    $navigation = $this->buildnavigation();
+	//$this->tempmenu();
+	$this->lifestylelive = $selectedlifestyle['wikipedia'];
+	//echo 'passednavigation';
+	//print_r($selectedlifestyle);
+	$this->lifemenu = $lifestylemenu;
+	$this->resultstringpath = $resultpath;
+	$this->domainurl = $sitedomain;
+	$this->resultlinking = $resultlinking;
 
- 		} 
+	$navigation = $this->buildnavigation();
+
+	} 
 
     /**
      *
@@ -59,15 +59,17 @@
      */
     public function buildnavigation ()
     {
-    
+echo 'lifestylemenuindisplay';
+print_r($this->lifemenu);   
         if(is_array($this->lifemenu) == true)
         {
         
    //     $this->navigation();
         $this->formurllifestyleurlstrings($this->lifestylelive, $this->lifemenu);
         $this->navigationLifestyle($this->lifestylelive, $this->lifestylemenudata);
-        
-        }
+        $this->addnewlifestyledefinition ();
+       
+       }
         
         else
         {
@@ -178,7 +180,7 @@ print_r($reformpathquerystring);
              else
              {
               // new results need to be processed
-              $this->lifestylemenudata[$lid]['pathurl'] = $baseurl.$startscriptpath.'?ll='.$lifestyleword.'&logic=single&intention=newstart&display=blogposts&pathtime=86400&make=past&filter=on&psource=&stream=10&pathid=&resultsid=';
+              $this->lifestylemenudata[$lid]['pathurl'] = $baseurl.$startscriptpath.'?ll='.$lifestyleword.'&logic=single&intention=results&display=blogposts&pathtime=86400&make=past&filter=on&psource=&stream=10&pathid=&resultsid=';
               $this->lifestylemenudata[$lid]['lifestyle'] = $lifestyleword;
              
              }
@@ -260,6 +262,26 @@ $amingfor ='          <header id="banner" class="body">
 <?php
     
     }
+    
+    
+    
+	public function addnewlifestyledefinition ()
+	{
+	
+	
+?>
+<strong>new</strong>
+ <form id="addnewlife" action=""  method="post">
+
+<input type="text" id="life_def" name="ll" />
+<p><input id="addnew-life" type="submit" name="submitBtn" value="Add new lifestyle" /> </p>
+
+</form>
+	
+	
+<?php	
+	}
+    
 
 
 public function tempmenu ()

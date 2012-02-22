@@ -27,6 +27,7 @@
         protected $identitydefintion;
         protected $identitysource;
         protected $pathstring;
+	protected $ldmenu;
   
     /**
      * Constructor 
@@ -172,7 +173,7 @@
         $startresultspath['filter'] = $intentioninput['filter'];  
         $startresultspath['pathurlstring'] = $this->resultstringcapture();
         $startresultspath['pathscript'] = $this->resultscriptpath();
-        $startresultspath['resultsid'] = $intentioninput['resultsid'];;
+        $startresultspath['resultsid'] = $intentioninput['resultsid'];
         
             // is the 16 ID code already in the url?  if yes, results for this lifestyle have been calculated before, use them and update for new info.
             if($intentioninput['pathid'])
@@ -246,6 +247,30 @@
 
         // goes through functions to match input text to wikipedia word and manage interaction to get to that stage(TODO)
 
+	// set session/cookie
+	// if cookie already set then add new lifestyle to menu array and reset cookie
+	if(isset($_COOKIE['lifedefmenu']))
+	{
+	
+	$this->ldmenu =  json_decode($_COOKIE["lifedefmenu"], true);
+	// TODO need to check the lifestyle defintiion has not been added before.
+	$this->ldmenu[] = $uiinput;
+	$ldjson = json_encode($this->ldmenu);
+	
+	// reset the cookie
+	setcookie("lifedefmenu", '');
+	
+	setcookie("lifedefmenu", $ldjson);
+	}
+	else
+	{
+	$this->ldmenu[] = $uiinput;
+	$ldjson = json_encode($this->ldmenu);
+	// first time setting of cookie
+	setcookie("lifedefmenu", $ldjson);
+	
+	}
+	
         return $startidentitydefintion;
         
       } 
@@ -268,20 +293,21 @@
         //$startidentitysource = '';
 	if (strlen($psourceurl) > 2 )
 	{
+	// new url added via the UI add to source content list.
 echo 'psourceinput';	  
-	$startidentitysource =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
+	$startidentitysource['newcontent'] =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
 	
 	// incremental additions ie url will need to be added to the master list of content urls (ie for saving)
 	
+	
+	
 	}
 	
-	// now how many urls in content information universe?
-	if(isset($startidentitysource))
-	{
+	// what about existing URL in framework or is it first time use and need to kick start with new content sources?
 	 // go through data reach options
 	 // default
 echo 'list of starting urls';	 
-	 $startidentitysource = starturllist();
+	 $startidentitysource =  $this->starturllist();
 	 
 	 // api call
 	 //existingurlcall();
@@ -292,7 +318,6 @@ echo 'list of starting urls';
 	 // peertopeer network effect
 	 //ptopnetworkeffect()
 
-	}
 	
         return $startidentitysource;
         
@@ -306,12 +331,12 @@ echo 'list of starting urls';
     public function starturllist()
     {
 	// test list of urls
-	$startlist =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
-        $startlist =array('url'=>'http://lifestylelinking.blogspot.com', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
-        $startlist =array('url'=>'http://www.wildsnow.com/', 'rss'=>'http://www.wildsnow.com/index.php?feed=rss2', 'rdf'=>'', 'sourceid'=>'' );
-	$startlist =array('url'=>'http://utahbackcountryskiing.blogspot.com/', 'rss'=>'http://utahbackcountryskiing.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
-        $startlist =array('url'=>'http://blog.themountaindepartment.com/', 'rss'=>'http://feeds.feedburner.com/TheSkiingDepartment', 'rdf'=>'', 'sourceid'=>'' );
-        $startlist =array('url'=>'http://wendellmoore.blogspot.com/', 'rss'=>'http://wendellmoore.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );	
+	$startlist[1] =array('url'=>'http://www.aboynejames.co.uk/wordpress', 'rss'=>'http://www.aboynejames.co.uk/wordpress/feed/', 'rdf'=>'', 'sourceid'=>'' );
+        $startlist[2] =array('url'=>'http://lifestylelinking.blogspot.com/', 'rss'=>'http://lifestylelinking.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        //$startlist[3] =array('url'=>'http://www.wildsnow.com/', 'rss'=>'http://www.wildsnow.com/index.php?feed=rss2', 'rdf'=>'', 'sourceid'=>'' );
+	//$startlist[4] =array('url'=>'http://utahbackcountryskiing.blogspot.com/', 'rss'=>'http://utahbackcountryskiing.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );
+        //$startlist[5] =array('url'=>'http://blog.themountaindepartment.com/', 'rss'=>'http://feeds.feedburner.com/TheSkiingDepartment', 'rdf'=>'', 'sourceid'=>'' );
+        //$startlist[6] =array('url'=>'http://wendellmoore.blogspot.com/', 'rss'=>'http://wendellmoore.blogspot.com/feeds/posts/default', 'rdf'=>'', 'sourceid'=>'' );	
 	
 	return $startlist; 
     
@@ -366,6 +391,7 @@ echo 'list of starting urls';
       $livecontext['individual'] = $this->individual;
       $livecontext['identitydefintion'] = $this->identitydefintion;
       $livecontext['identitysource'] = $this->identitysource;
+      $livecontext['lifestylemenuset'] = $this->ldmenu;
       
       return $livecontext;
       

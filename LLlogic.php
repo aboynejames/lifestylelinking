@@ -48,10 +48,18 @@ require_once "library/llinstallation.php";
  */
 require_once "library/exceptions.php";
 
+
 /**
  * @see LLframeworkmanager class
  */
 require_once "library/llframeworkmanager.php";
+
+
+/**
+ * @see LLcouchdb class
+ */
+require_once "library/llcouchdb.php";
+
 
 /**
  * @see LLcontext class

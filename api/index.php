@@ -20,12 +20,14 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . '../');
 require_once "LLlogic.php";
 require_once "LLview.php";
+require_once "LLcouchdb.php";
 
 try{
 //print_r($_SERVER);
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
 $newapicall = new LLapi();
 print_r($newapicall); 
+echo 'apiclassobject';
 
 }  // closes try
 

@@ -18,8 +18,8 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-	class LLSections
-	{
+class LLSections
+{
   
     public $sections;
         /**
@@ -33,8 +33,9 @@
      *
      */
    public function __construct($selectedlifestyle, $resultsdata, $contextfilter, $startpathtime, $endpathtime)
-		{
-
+   {
+//echo 'insectiondisplay';
+//print_r($resultsdata);
     $this->lifestylelive = $selectedlifestyle;
     $this->datatodisplay = $resultsdata;
     $this->filterstatus = $contextfilter;
@@ -43,7 +44,7 @@
     
     $this->buildsections();
     
- 		} 
+    } 
 
     /**
      *
@@ -56,10 +57,10 @@
          // if(is_array($this->datatodisplay) == true )
           //{
           
-          $this->lifestyleSummary();
-    //      $this->blogsections($this->datatodisplay);
-      //    $this->buildBlogroll($this->datatodisplay['peergroup']);
-          $this->personalizeSettings();
+	$this->lifestyleSummary();
+	$this->blogsections($this->datatodisplay);
+	$this->buildBlogroll($this->datatodisplay['peergroup']);
+	$this->personalizeSettings();
           
          // }
       

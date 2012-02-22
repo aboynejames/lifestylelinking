@@ -29,33 +29,34 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-	class LLCore  {
+class LLCore  {
 	
-		protected $cleanContent; // array of words from content
-    protected $defstoscore;
-		protected $cleanDefinition; // cleaned version of Wiki definiton
-    public $matrix;
+	protected $cleanContent; // array of words from content
+	protected $defstoscore;
+	protected $cleanDefinition; // cleaned version of Wiki definiton
+	public $matrix;
   //  protected $statistics;
-    public $avgofavg;
-    protected $lifeGroup;
-    protected $results;
-    protected $coreobject;
-    protected $wiseContent;
-    protected $wiseDefinition;
+	public $avgofavg;
+	protected $lifeGroup;
+	protected $results;
+	protected $coreobject;
+	protected $wiseContent;
+	protected $wiseDefinition;
+    
     /**
      * Constructor 
      *
      *
      */
-   public function __construct($sourcecontent, $defslive)
-		{
+	public function __construct($sourcecontent, $defslive)
+	{
 		 
       $this->wiseContent = $sourcecontent;  // only the content need to produce results or update
       $this->wiseDefinition = $defslive;  /// only the def should come in that need to be process to get results or update done the quickets/most efficient
       
       $this->LLcoremanager();
       
-		} 
+	} 
 
     /** Control how all the stages of core are handled
      *
@@ -74,32 +75,33 @@
 
        // use this manager function to call other core functions
        
-
-       
-       
            // what sources are 'live' for this path?  What definitions are 'live' ie. one def. from startUI or batch of UI for update of LL for all sources
            foreach($this->wiseContent as $sid=>$postwisewords)
            {
-            // matrix
-              $this->createLLMatrix($sid, $postwisewords);
+		// matrix
+		$this->createLLMatrix($sid, $postwisewords);
 
-            // statistics
-              $this->calculateLLStats($sid);
+		// statistics
+		$this->calculateLLStats($sid);
             
-            // TODO: break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports avgs?
-                   // load existing community AverageofAverage values for the 'live' defintion
-              //$newavgs = new LLavgOfavg($this->matrix['avg']);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
-              //$this->avgofavg = $newavgs->avgOFavgsComplete();
+		// TODO: break to make choice on avgofavg  required for normalization, select local avgofavg. or call out to other apps. or relevant spawning hub e.g mepath.com for sports avgs?
+		// load existing community AverageofAverage values for the 'live' defintion
+		$newavgs = new LLavgOfavg($this->matrix['avg'], $this->wiseDefinition);  // need to load all existing avg. data, do this here our within LLavgOfavg class? 
+		$this->avgofavg = $newavgs->avgOFavgsComplete();
 
            
-           // normalization
-              //$this->calculateLLNormalisation();
-              
-            }
+		// normalization
+		$this->calculateLLNormalisation($sid);
+
+
 //echo ' the matrix to be stored';
 //print_r($this->matrix);
-        // store all the matrix data
-        $this->storeMatrixstats($sid, $this->matrix); 
+		// store all the matrix data
+		$this->storeMatrixstats($sid, $this->matrix); 
+
+
+            }
+
         
         } // closes function
 	
@@ -133,21 +135,22 @@
      * matched words a ranked for frequency importance and allocate votes based on definition word weighting
      *
      */ 
-    public function createLLMatrix($sid, $postwisewords)
-		{
-			// score matrix
-			// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
-			// Use arrays instead of database
+	public function createLLMatrix($sid, $postwisewords)
+	{
+	// score matrix
+	// sub processes,    word frequency, def and posts(input) match top20 and top50 (create code to test/experiment no. of words and matching logic)
+	// Use arrays instead of database
 //echo 'wisedef array??';
 //print_r($this->wiseDefinition);
-      $newmatrix = new LLmatrix($sid, $postwisewords, $this->wiseDefinition); 
+	$newmatrix = new LLmatrix($sid, $postwisewords, $this->wiseDefinition); 
       // start matrix
       //$newmatrix->startLLmatrix();
       //$newmatrix->matrixManager();
-      $this->matrix = $newmatrix->matrixComplete();
-      //print_r($this->matrix);
+	$this->matrix = $newmatrix->matrixComplete();
+//echo 'matrix from coreeee class';
+//print_r($this->matrix);
 
-		}
+	}
     
     /** Start the statistics class that aggregates data on a content source
      *
@@ -156,16 +159,31 @@
      * Frequency that a source score for each definition
      *
      */ 
-		public function calculateLLStats($sid)
-		{
-			// Take code from old core/logic/mestats.php
-			// Use arrays instead of database
+	public function calculateLLStats($sid)
+	{
+	// Take code from old core/logic/mestats.php
+	// Use arrays instead of database
       $newstats = new LLstatistics($sid, $this->matrix, $this->wiseDefinition);
       //$newstats->statisticsManager($sid);
       $this->matrix['avg'] = $newstats->statisticsComplete();
       //print_r($this->matrix['avg']);
       
-		}
+	}
+
+	/** 
+	*  normalise each source based on avgofavg for a definition(s)
+	* 
+	*
+	*/ 
+	public function calculateLLNormalisation ($sid)
+	{
+	//
+	$newnorm = new LLnormalization($this->avgofavg, $this->matrix['avg'], $sid, $this->wiseDefinition);
+	$this->matrix['normalized'] = $newnorm->normalizeComplete();
+echo 'normalizzzed';
+print_r($this->matrix['normalized']);
+      
+	}
 
     /** Store per source its matrix, stats, normalized data
      *
@@ -173,13 +191,24 @@
      *
      *
      */     
-		public function storeMatrixstats($sid, $matrixstats)
-		{
-			//  store per source the data created in core
-      LLJSON::storeJSONdata($matrixstats, $sid, $contentstage='matrix');
+	public function storeMatrixstats($sid, $matrixstats)
+	{
+	//  store per source the data created in core
+    //  LLJSON::storeJSONdata($matrixstats, $sid, $contentstage='matrix');
+      
+      	$this->couchconnect =  'lifestylelinking';
+	$this->couch_dsn = "http://localhost:5984/";
+   
+	$JSONmatrix['matrixstats'] = $matrixstats;
+   
+	// may need to form JSON array first or do it a couchdb class
+	// need to update a specific document
+	
+	$couchdocset = new LLcouchdb($this->couch_dsn, $this->couchconnect, $JSONmatrix);	
+	$couchdocset->saveCOUCHdoc();
       
       
-		}
+	}
 
     /** Creates list of order sources base on 'distance' from avg.ofavg for each definition 
      *
@@ -187,10 +216,10 @@
      * 
      *
      */ 
-		public function calculateLLgroups()
-		{
-			// Take code from old core/logic/social.php and pre ie social folder two files
-			// Use arrays instead of database
+	public function calculateLLgroups()
+	{
+	// Take code from old core/logic/social.php and pre ie social folder two files
+	// Use arrays instead of database
       // order list of identities by LLorder based on each definition
       $newGroups = new LLgroups($this->matrix['normdata']);
       //$newGroups->groupManager();
@@ -227,14 +256,14 @@
     public function saveSource()
     {
     // list of data that need to be held
-    $this->coreobject = $this->wiseDefinition;
-    $this->coreobject = $this->wiseContent;
+    //$this->coreobject = $this->wiseDefinition;
+    //$this->coreobject = $this->wiseContent;
     $this->coreobject = $this->matrix;
-    $this->coreobject = $this->matrix['avg'];
-    $this->coreobject = $this->avgofavgs;
-    $this->coreobject = $this->matrix['normdata'];
-    $this->coreobject = $this->lifeGroup;
-    $this->coreobject = $this->results;
+    //$this->coreobject = $this->matrix['avg'];
+    //$this->coreobject = $this->avgofavgs;
+   // $this->coreobject = $this->matrix['normdata'];
+    //$this->coreobject = $this->lifeGroup;
+    //$this->coreobject = $this->results;
     
     //print_r($this->coreobject);
     return $this->coreobject;
@@ -244,6 +273,6 @@
 
 
     
-	}  // closes llcore class
+}  // closes llcore class
 
 ?>

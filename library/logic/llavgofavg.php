@@ -24,66 +24,48 @@ class LLavgOfavg
   // calculates average of average for any given definition (note definitions could be wikipedia or unverisal measurement + an identity e.g. blood pressure data)
   // perform on a per framework basis and in context of all decentralized LLdata in the universe
   
-  	protected $avgdefid;	
-    protected $existingdefavg;
-    protected $averageofaverages;
-    
-     /**
-     *  
-     *
-     *  
-     *
-     */   
-    public function __construct($averageid)
-		{
+	protected $avgdefid;	
+	protected $existingdefavg;
+	protected $averageofaverages;
+	protected $definitionarray;
+	
+	/**
+	*	  
+	*
+	*	  
+	*
+	*/   
+	public function __construct($averagedef, $wiseDefinitionin)
+	{
       
-      $this->avgdefid = $averageid;  // the live source content average live in Core
+	$this->avgdefid = $averagedef;  // the live source content average live in Core
 //echo 'new average data required';
 //print_r($this->avgdefid);
+	$this->definitionarray = $wiseDefinitionin;
+	$this->AvgofAvgManager(); 
       
-      $this->AvgofAvgManager(); 
-      
-     }
+	}
 	
-     /**
-     *  
-     *
-     *  
-     *
-     */   
-   public function AvgofAvgManager ()
-		{
-     
-     // need to get avgofavg data into memory?  or performing an update of a community average for an individual definition?
-     if($this->avgdefid)
-     {
-     // get data into mememory
-      $this->averageofaverages = $this->getavgofavglive();
-      
-      $this->storeAvgOfAvg();
-     
-     }
-     
-    
-   // check for community avgofavgs numbers from the network
-    //$this->networkAvgofAvgs();
-    
-        // need up date framework average for a lifestyledefintion (TODO needs reviewing)
-        /*else
-        {
-            $avgstart = $this->buildAvgofAvg();
-                  
-              foreach($avgstart['aggscore'] as $did=>$davgs)
-              {
-              
-               $this->calculateAvgofAvg($did, $avgstart);
-              
-              }
-              
-             $this->storeAvgOfAvg();
-        }
-        */
-    }
+	/**
+	*  
+	*
+	*  
+	*
+	*/   
+	public function AvgofAvgManager ()
+	{
+	//  need to check that the 'current' avgofavg might be in update and live in an object?
+	
+	//otherwise, query couchdb view and perform avgofavg calculations and set them live
+	$this->averageofaverages = $this->formAVGOFAVGdata ();
+ 
+	    
+	   // check for community avgofavgs numbers from the network
+	    //$this->networkAvgofAvgs();
+	    
+	    
+	    
+	}
      
     /**
      *  
@@ -94,25 +76,58 @@ class LLavgOfavg
     public function getavgofavglive ()
     { 
     
-     $loadexisting =  $this->loadexistingAverages();
-     
-         if($loadexisting['start'] == 'empty' )
-         {
-          // no average calculated for this lifestyle definition set to 1.
-          $this->existingdefavg[$this->avgdefid] = 1;
-         
-         }
-         else
-         {
-         
-         $this->existingdefavg[$this->avgdefid] = $loadexisting[$this->avgdefid];
-          
-         }
-     
-     return $this->existingdefavg;
+    
+    }
+
+    /**
+     *  
+     *
+     *  
+     *
+     */    
+    public function formAVGOFAVGdata ()
+    { 
+    
+    // what definition name?
+	
+	foreach($this->definitionarray as $dkey=>$klists)
+	{
+	$dkey;
+	}
+
+    
+    
+    // setup couchview (if not set up)
+  //   $client = new couchClient ('http://localhost:5984','lifestylelinking');
+/*     
+    $view_fn="function(doc) {
+	if(doc.matrixstats['avg'])
+	{
+
+	emit(doc.matrixstats['avg'], null);
+	}
+}";
+	$design_doc->_id = '_design/avgofavgs';
+	$design_doc->language = 'javascript';
+	$design_doc->views = array ( 'by_avgofavgs'=> array ('map' => $view_fn ) );
+	$client->storeDoc($design_doc);
+*/
+	// query couchdb  view called
+//	$result = $client->getView('avgofavgs','by_avgofavgs');
+echo 'couchdb object daataa  avvvvofavvvvg';	 
+//print_r($result);
+	 
+	 
+	 $liveaverages = array($dkey=>array("davg"=> 20 , "dfscoreavg"=> 0.76 ));
+	 
+	return $liveaverages;
+    
     
     }
      
+
+
+
      /**
      *  
      *
@@ -136,28 +151,17 @@ class LLavgOfavg
      *
      */   
   	public function buildAvgofAvg ()
-		{
+	{
         // find out latest avg avg data, extra from existing array data held in core or will this be done before entering this class? need to think
         
         // import existing source average date for this defintion
-        $existingavgs =  $this->loadexistingAverages();
+ //       $existingavgs =  $this->loadexistingAverages();
 //echo 'existing averageofaverage data';
 //print_r($existingavgs);
         // live source matrixstatsdata is the source avg data passed to the constructor
-        if($existingavgs ['start'] !== 'empty')
-        {
-        $communitystats = array_merge($this->avgraw, $existingavgs);
-        
-        }
-        
-        else
-        {
-        
-        $communitystats = $this->avgraw;
-        
-        }
-    
-
+ 
+ 
+ 
            foreach($communitystats  as $sid=>$dids)
           {
 //print_r($sid);
@@ -180,30 +184,15 @@ class LLavgOfavg
 
     } 
     
-   /**
-     *  
-     *
-     *  
-     *
-     */   
-  	public function loadexistingAverages()
-		{ 
-      // load the lifestyleaverages JSON file to see if existing average data exists
-          
-    $existingaverages = LLJSON::importJSONdata($sid = 0, $stage='lifestyleaverage');
-           
-    return $existingaverages;
     
-    }
-    
-     /**
-     *  
-     *
-     *  
-     *
-     */   
+	/**
+	*  
+	*
+	*  
+	*
+	*/   
   	public function calculateAvgofAvg ($did, $avgstart)
-		{
+	{
       // takes above array and performs average calculation ie. sum of no. averages / no. of averages per a definition
      //  sum averages
 //print_r($avgstart); 
@@ -213,34 +202,21 @@ class LLavgOfavg
       // divide by total no. of averages
       $this->averageofaverages[$did] = ($avgavgsum/$noavgs);
       
-    }
+	}
 
-    /**
-     *  
-     *
-     *  
-     *
-     */  
-     public function storeAvgOfAvg()
-		{
-          // store source content data
-      LLJSON::storeJSONdata($this->averageofaverages, $did = 0, $contentstage='lifestyleaverage');
     
-    
-    }
-    
-    /**
-     *  
-     *
-     *  
-     *
-     */  
+	/**
+	*  
+	*
+	*  
+	*
+	*/  
      	public function avgOFavgsComplete()
-		{
-      // loadup exlcluded works if not alreadyloaded
+	{
+	// loadup exlcluded works if not alreadyloaded
 //echo 'avg of avg to pass to core';
 //print_r($this->averageofaverages);
-      return $this->averageofaverages;
+	return $this->averageofaverages;
   
     }  
     

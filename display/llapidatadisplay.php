@@ -18,8 +18,8 @@
  * @copyright  Copyright (c) 2010 James Littlejohn
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */	
-	class LLapidataDisplay 
-	{
+class LLapidataDisplay 
+{
 
 	// handles connection between context
     
@@ -34,13 +34,22 @@
      * @param 
      *
      */
-    public function __construct($meidentity, $lifestyleword, $lifestylemenu, $path, $resultsdata, $baseurl, $resultlinking)
-		{
-		
-    $this->apidatadisplayManager();
-      
-   
- 		} 
+	public function __construct($meidentity, $lifestyleword, $lifestylemenu, $path, $resultsdata, $baseurl, $resultlinking)
+	{
+//echo 'intodisplayapi';
+//print_r($resultsdata);
+	$this->livemeidentity = $meidentity;
+	$this->livelifestyleword = $lifestyleword;
+	$this->livelifestylemenu = $lifestylemenu;
+	$this->livepath = $path;
+	$this->livebaseurl = $baseurl;
+	$this->liveresultlinking = $resultlinking;
+	$this->resrawcontent = $resultsdata;
+
+
+	$this->apidatadisplayManager();
+         
+	} 
     
     /**  manages building of a webpage or formatted data segment
      *
@@ -66,7 +75,7 @@
     {
 
      // pull together head html, css templete, rdf link etc
-     $buildheader = new LLNavigation($selectedlifestyle, $lifestylemenu, $resultpath, $sitedomain, $resultlinking);
+     $buildheader = new LLNavigation($this->livelifestyleword, $this->livelifestylemenu, $this->livepath, $this->livebaseurl, $this->liveresultlinking);
       
     }
 
@@ -78,7 +87,7 @@
     public function displaySections()
     {
      // displays the footer
-    $buildfooter = new LLSections($selectedlifestyle, $resultsdata, $contextfilter, $startpathtime, $endpathtime);
+    $buildfooter = new LLSections($this->livelifestyleword, $this->resrawcontent, $contextfilter, $startpathtime, $endpathtime);
       
     }
     

@@ -43,6 +43,8 @@
           $this->charperwordlength = $aset->assumptions['characterperwordmax'];
           $this->minlength = $aset->assumptions['wordlength'];
           $this->data = $dataToBeCleaned;
+//echo 'clean data in';
+//print_r($this->data);
         }
 
    /**  cleans markup

@@ -19,8 +19,8 @@ class LLstatistics
      *  
      *
      */ 
-    public function __construct($sid, $matrix, $defstoscore)
-		{
+	public function __construct($sid, $matrix, $defstoscore)
+	{
     // new data 
       $this->sourceid = $sid;
       $this->statsarray = $matrix;
@@ -45,7 +45,7 @@ class LLstatistics
     // what def ids are being scored? (find out and loop around) for now each content post is scored for all definitions,
     
                   
-                  $votes = $this->formScorearray ($this->sourceid, $this->definitions);
+                  $votes = $this->formScorearray ();
                   //print_r($votes);
                   foreach ($this->definitions as $did=>$durl)
                   {
@@ -66,54 +66,56 @@ class LLstatistics
      *  
      *
      */
-    public function formScorearray ($sid, $defids)
+    public function formScorearray ()
     {
 //echo 'form';
 //print_r($this->statsarray[1][1][1]['scoring'][50]);
          //foreach($conSet as $sid=>$cid)
           //{
           
-                foreach($defids as $did=>$durl)
+                foreach($this->definitions as $did=>$dwords)
                 {
                 
-                        foreach($this->statsarray[$sid] as $ccid=>$ar)
+                        foreach($this->statsarray[$this->sourceid][$did] as $ccid=>$ar)
                         {
                         //echo 'sid'.$sid;
                         //echo 'cid'.$ccid;
                         //echo 'did'.$did;
                         //print_r($this->statsarray[$sid][$ccid][$did]['scoring'][50]);
                         //print_r($this->statsarray[$sid][$ccid][$did]['scoring'][1]);
-                        $top50[$sid][$did][$ccid] = $this->statsarray[$sid][$ccid][$did]['scoring'][50];
-                        $topmatch[$sid][$did][$ccid] = $this->statsarray[$sid][$ccid][$did]['matched'][1];
+                        $top50[$this->sourceid][$did][$ccid] = $this->statsarray[$this->sourceid][$did][$ccid]['scoring'][50];
+                        $topmatch[$this->sourceid][$did][$ccid] = $this->statsarray[$this->sourceid][$did][$ccid]['matched'][1];
                         //print_r($top50);
                         }
                 }
                 
            //}
+//echo 'tooopfffifty';
 //print_r($top50);
+//echo 'toooopmatch';
 //print_r($topmatch);
       
      $statinput['sco'] = $top50;
      $statinput['mat'] = $topmatch;
-     //print_r($statinput);
+//print_r($statinput);
       return $statinput;
 
     }
 
 
-    /**
-     *  
-     *
-     *  
-     *
-     */
-    public function  statcalulator ($sid, $did, $votes)
-    {
+	/**
+	*	  
+	*
+	*	  
+	*
+	*/
+	public function  statcalulator ($sid, $did, $votes)
+	{
     //echo 'votes array';
     //print_r($votes);
-    $gotdata = '';
+	$gotdata = '';
 
-    $gotdata = count($this->statsarray[$sid]);
+	$gotdata = count($this->statsarray[$sid]);
    
               if ($gotdata  > 0 )  {
 
@@ -210,12 +212,12 @@ class LLstatistics
             // build to create insert sql string.
             //$this->statsSummary[] .= 1;
             //$this->statsSummary[] .= 1; 
-            $this->statsSummary[$sid][$did][] .= $meavcount; 
-            $this->statsSummary[$sid][$did][] .= $meavsum;
-            $this->statsSummary[$sid][$did][] .= $meavscposcou;
-            $this->statsSummary[$sid][$did][] .= $avgscore;
-            $this->statsSummary[$sid][$did][] .= $scavg;
-            $this->statsSummary[$sid][$did][] .= $topmat;            
+            $this->statsSummary[$sid][$did]['posts'] .= $meavcount; 
+            $this->statsSummary[$sid][$did]['totalscore'] .= $meavsum;
+            $this->statsSummary[$sid][$did]['scoreposts'] .= $meavscposcou;
+            $this->statsSummary[$sid][$did]['avgscore'] .= $avgscore;
+            $this->statsSummary[$sid][$did]['scorefreq'] .= $scavg;
+            $this->statsSummary[$sid][$did]['topmatch'] .= $topmat;            
             //$this->statsSummary[] .= $scoredate;
              
  
@@ -228,12 +230,12 @@ class LLstatistics
      *
      */
   	public function statisticsComplete()
-		{
+	{
       // loadup exlcluded works if not alreadyloaded
       //print_r($this->statsSummary);
       return $this->statsSummary;
   
-    } 
+	} 
 
 
 

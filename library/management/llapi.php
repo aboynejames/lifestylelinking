@@ -38,6 +38,7 @@ class LLapi
      // const GLOBAL_URL = 'mepath.com';
       public $baseurl;
       
+      
     /**
      * Constructor 
      *
@@ -50,16 +51,18 @@ class LLapi
      */
     public function __construct()
    {
+   
+	
 		      
       $LLstart = new LLcontext();
       $livecontext = $LLstart->setContext();
 //print_r($livecontext);
       $this->individual = $livecontext['individual'];
+      $this->lifestylemenu = $livecontext['lifestylemenuset'];
       
       //$this->meidentity = $this->identityControl();
       $this->assumptionsSet();
       $this->intentionManager($livecontext['lifestylepath'], $livecontext['identitydefintion'], $livecontext['identitysource']);
-      
    
     } 
     
@@ -169,7 +172,7 @@ class LLapi
          $this->contentControl($path['intention'], $sourcecontent);
          
 	 //  constantly updating from local framework or ptop shared averages
-         $this->controlAverages($this->livedefid);
+         //$this->controlAverages($this->livedefinition);
          
          // feed core, manages the priority and background process of whole universe
          if(isset($this->livesource) && isset($this->livedefinition))
@@ -178,16 +181,17 @@ class LLapi
          }
 	 
          // make display data/presentation code for results, 
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg);
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg, $this->livecorematrix);
 //print_r($resultspath);      
          $resultsdata = $resultspath->liveResultsdata();
          $resultlinking = $resultspath->setdefinitionpathresults();
          
          // given user display selection (could be to export via api or display in their framework 
          $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
-//print_r($apidisplayPath);  
-  
+//echo 'displayobject';
+//print_r($apidisplayPath); 
 
+  
          }
        
          elseif($path['intention'] == 'results')
@@ -207,6 +211,7 @@ class LLapi
          
          // given user display selection (could be to export via api or display in their framework 
          $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+//echo 'displayobject';
 //print_r($apidisplayPath); 
           }
         
@@ -214,7 +219,39 @@ class LLapi
          {
           // batch updating via control panel or CRON,  need to pickup all definitions and all sources (figure out what is not up to date and update those needing)
           //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
-          
+	  
+	  // and ll variable is set   double check the lifestyle definition has not been entered before then, add the definition,  score against existing sources content and produce resutls
+//echo 'controlpanel adddddddddddd';
+	//  this needs to decide if first use, new added, or updated and the priority of processing through framework ie. user directed or background auto-update?  
+         $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     	  
+	  
+	  // next need to put live content source data into live memory and get the content for Core from couchDB
+	$client = new couchClient ('http://localhost:5984','lifestylelinking');
+
+	$result = $client->asArray()->getView('livesource','by_livesource');
+echo 'livesource controlpannnnnel';
+print_r($result[rows][0][key]);
+	 $this->livesource = $result[rows][0][key]; 
+	  
+	  
+	  
+                   // feed core, manages the priority and background process of whole universe
+         if(isset($this->livesource) && isset($this->livedefinition))
+         {
+echo 'controlpanelcore';	 
+         $this->controlCore($this->livesource, $this->livedefinition);  
+         }
+	 
+         // make display data/presentation code for results, 
+         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg, $this->livecorematrix);
+//print_r($resultspath);      
+         $resultsdata = $resultspath->liveResultsdata();
+         $resultlinking = $resultspath->setdefinitionpathresults();
+         
+         // given user display selection (could be to export via api or display in their framework 
+         $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+//echo 'displayobject';
+//print_r($apidisplayPath); 
          }
          
       
@@ -238,8 +275,9 @@ class LLapi
       $this->livedefinition =  $defdatalive['livedefinition'];
       $this->livedefid = $defdatalive['livedefid'];
       $this->lifestyleword = $defdatalive['lifestyleword'];
-      $this->lifestylemenu = $defdatalive['lifestylemenu'];
-//print_r($defdatalive);
+      //$this->lifestylemenu = $defdatalive['lifestylemenu'];
+echo 'definitionobject';
+print_r($this->lifestyleword);
      }
    
      
@@ -256,9 +294,21 @@ class LLapi
 //echo 'extract individual sources';
 //print_r($newdata->existsource);
 //echo 'livesource any content array';
-      $this->livesource = $newdata->wiseContent;
+      $this->livesource = $newdata-> wiseContentlive();
 //print_r($this->livesource);
-      $this->livelistsource = $newdata->loadcontent;
+     // $this->livelistsource = $newdata->loadcontent;
+     
+     // store livescore to couchdb  as temp. while figure out how to hold in memory
+	$this->couchconnect =  'lifestylelinking';
+	$this->couch_dsn = "http://localhost:5984/";
+   
+	$JSONlivesource['livesourcesaved'] =  $this->livesource;
+   
+	// may need to form JSON array first or do it a couchdb class
+	$couchdocset = new LLcouchdb($this->couch_dsn, $this->couchconnect, $JSONlivesource);	
+	$couchdocset->saveCOUCHdoc();
+     
+     
     }
 
     /** Control the data going into LLcore
@@ -277,7 +327,7 @@ class LLapi
       $llnew = new LLCore($livesourcecontent, $livedef);
 
       // import input context instance, ie results window  output make the future.
-      
+      $this->livecorematrix =  $llnew->saveSource();
       
       // from raw data feed json or rdf php array (see easy rdf code look at using)
 

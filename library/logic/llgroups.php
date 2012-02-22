@@ -25,12 +25,12 @@ class LLgroups
     protected $currentdefid;
     protected $peerGroup;
 
-    public function __construct($meidentity, $currentdefinition, $normalizeddata)
-		{
+	public function __construct($currentdefinition)
+	{
     
-      $this->meidstatus = $meidentity;
-      $this->currentdefid = $currentdefinition;
-      $this->normalinput = $normalizeddata;
+//	$this->meidstatus = $meidentity;
+	$this->currentdefid = $currentdefinition;
+//	$this->normalinput = $normalizeddata;
 //echo 'innto groups';
 //print_r($this->normalinput);
       $this->groupManager();
@@ -46,7 +46,7 @@ class LLgroups
     {
       // pickup llLogic ie. default single defintion linking this can be 1. assume annon user therefore 'average' used or 2. blog url added personalize on their placing to average.
       
-        $this->buildPeergroups($this->currentdefid, $this->normalinput);
+        $this->buildPeergroups();
           
           //$this->grouplistlogicapplied();, $defgrouparray);
           
@@ -76,23 +76,36 @@ class LLgroups
      * 
      *
      */ 
-    public function buildPeergroups($did, $defgrouparray)
+    public function buildPeergroups()
     {
      // given all the identities, list them in an order based on 'normalized distance from average'
 //echo 'buld group';
-//print_r($dids);
 
-        foreach($defgrouparray as $sid=>$normdata)
-        {
-//print_r($normdata);
-//echo $normdata[$did];
-         $extractnormdata[$sid] = $normdata[$did]; 
-        
-        }
-        
-         
-        arsort($extractnormdata);
-        $this->peerGroup = $extractnormdata;
+	// call couchDB to form normalized data for this definition
+	
+	$client = new couchClient ('http://localhost:5984','lifestylelinking');
+	// query couchdb  view called
+	$resultpeer = $client->getView('normalized','by_normalized');
+//echo 'build peergroup data';
+//print_r($resultpeer);
+//print_r($resultpeer->rows);
+
+foreach($resultpeer->rows as $pkey=>$oo)
+{
+
+	foreach($oo->key as $da=>$do)
+	{
+
+	$normlife[$da] = $do->Skiing;
+
+	}
+
+}         
+//print_r($normlife);
+	arsort($normlife);
+//echo 'after ssssorttttt';
+//print_r($normlife);	
+        $this->peerGroup = $normlife;
 
 /*
         foreach($dids as $did=>$davgs)
@@ -111,8 +124,8 @@ class LLgroups
      * 
      *
      */ 
-     public function grouplistlogicapplied()
-		{
+	public function grouplistlogicapplied()
+	{
       // given lifestylelinking and meidenity tailor source that are linked.
      
          if(isset($meid) == 1 )
@@ -135,20 +148,20 @@ class LLgroups
      * 
      *
      */ 
-     public function groupsComplete()
-		{
+	public function groupsComplete()
+	{
       //print_r($this->peerGroup);
       return $this->peerGroup;
   
-    } 
+	} 
 
      /**  
      *
      * 
      *
      */ 
-     public function personalizeGroupsources()
-		{
+	public function personalizeGroupsources()
+	{
 
         //how many source are in full lifestylefeedgroup
         $indpeers = count($this->peerGroup);

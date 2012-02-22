@@ -21,8 +21,9 @@
 class LLinstallation
 {
 	
-    protected $websitesettings;
-   
+  protected $websitesettings;
+  protected $couch_dsn;
+  protected $couch_db;
    
     /**
      * Constructor 
@@ -30,12 +31,16 @@ class LLinstallation
      *  
      *
      */
-   public function __construct()
-		{
+	public function __construct($incouch_dsn, $incouch_db)
+	{
     
-    $this->setbaseurl();
+	$this->couch_dsn = $incouch_dsn;
+	$this->couch_db = $incouch_db;
+	
+	$this->setbaseurl();
+	$this->setcouchdb();
     
-    }
+	}
     
     /** 
      *
@@ -50,7 +55,23 @@ class LLinstallation
       
         
     }  
-      
+
+    /** 
+     *  Create couchdb database if first time use
+     * 
+     *
+     */ 
+    public function setcouchdb ()
+    {
+    
+	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	//$couchset->createCOUCHdatabase();
+        $this->websitesettings['couchdb'] = $this->couch_db;
+	
+    }  
+
+
+
     /** 
      *
      * 
@@ -63,9 +84,6 @@ class LLinstallation
     
     }
     
-    
-      
-     
       
       
 }
