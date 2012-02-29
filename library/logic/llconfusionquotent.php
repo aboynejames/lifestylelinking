@@ -282,7 +282,7 @@ class LLconfusionQuotent
 
               } // closes foreach
 
-              print_r($defmatpair);
+print_r($defmatpair);
 
 
       } // closes function

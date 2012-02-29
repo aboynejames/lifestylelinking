@@ -180,8 +180,8 @@ class LLCore  {
 	//
 	$newnorm = new LLnormalization($this->avgofavg, $this->matrix['avg'], $sid, $this->wiseDefinition);
 	$this->matrix['normalized'] = $newnorm->normalizeComplete();
-echo 'normalizzzed';
-print_r($this->matrix['normalized']);
+//echo 'normalizzzed';
+//print_r($this->matrix['normalized']);
       
 	}
 

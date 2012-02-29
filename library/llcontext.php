@@ -294,7 +294,7 @@
 	if (strlen($psourceurl) > 2 )
 	{
 	// new url added via the UI add to source content list.
-echo 'psourceinput';	  
+//echo 'psourceinput';	  
 	$startidentitysource['newcontent'] =array('url'=>$psourceurl, 'rss'=>'', 'rdf'=>'', 'sourceid'=>'' );
 	
 	// incremental additions ie url will need to be added to the master list of content urls (ie for saving)
@@ -306,7 +306,7 @@ echo 'psourceinput';
 	// what about existing URL in framework or is it first time use and need to kick start with new content sources?
 	 // go through data reach options
 	 // default
-echo 'list of starting urls';	 
+//echo 'list of starting urls';	 
 	 $startidentitysource =  $this->starturllist();
 	 
 	 // api call

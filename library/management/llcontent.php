@@ -342,9 +342,9 @@ class LLcontent
 			    // Strip slashes if magic quotes is enabled (which automatically escapes certain characters)
 			   // if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 			    //{
-echo 'strip';
+//echo 'strip';
 			      $nfeedurl = stripslashes($surlin);
-echo $nfeedurl;
+//echo $nfeedurl;
 			    //}
 
 			    // Use the URL that was passed to the page in SimplePie

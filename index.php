@@ -26,8 +26,8 @@ try{
 
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
 $newframework = new LLframeworkmanager();
-print_r($newframework); 
-echo 'startingmanager';
+//print_r($newframework); 
+//echo 'startingmanager';
 }  // closes try
 
 

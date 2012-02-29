@@ -229,8 +229,8 @@ class LLapi
 	$client = new couchClient ('http://localhost:5984','lifestylelinking');
 
 	$result = $client->asArray()->getView('livesource','by_livesource');
-echo 'livesource controlpannnnnel';
-print_r($result[rows][0][key]);
+//echo 'livesource controlpannnnnel';
+//print_r($result[rows][0][key]);
 	 $this->livesource = $result[rows][0][key]; 
 	  
 	  
@@ -238,7 +238,7 @@ print_r($result[rows][0][key]);
                    // feed core, manages the priority and background process of whole universe
          if(isset($this->livesource) && isset($this->livedefinition))
          {
-echo 'controlpanelcore';	 
+//echo 'controlpanelcore';	 
          $this->controlCore($this->livesource, $this->livedefinition);  
          }
 	 
@@ -276,8 +276,8 @@ echo 'controlpanelcore';
       $this->livedefid = $defdatalive['livedefid'];
       $this->lifestyleword = $defdatalive['lifestyleword'];
       //$this->lifestylemenu = $defdatalive['lifestylemenu'];
-echo 'definitionobject';
-print_r($this->lifestyleword);
+//echo 'definitionobject';
+//print_r($this->lifestyleword);
      }
    
      

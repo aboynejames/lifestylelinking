@@ -59,8 +59,8 @@ class LLNavigation
      */
     public function buildnavigation ()
     {
-echo 'lifestylemenuindisplay';
-print_r($this->lifemenu);   
+//echo 'lifestylemenuindisplay';
+//print_r($this->lifemenu);   
         if(is_array($this->lifemenu) == true)
         {
         
@@ -116,16 +116,16 @@ print_r($this->lifemenu);
      */
     public function formurllifestyleurlstrings ($menulive, $lifestylemenu)
     {
- echo 'liveresultlinking';
-print_r($this->resultlinking); 
+//echo 'liveresultlinking';
+//print_r($this->resultlinking); 
       $baseurl =  $this->domainurl;
-echo 'baseurl=='.$baseurl;      
+//echo 'baseurl=='.$baseurl;      
       $startscriptpath = $this->resultstringpath['pathscript'];
       $currentpathquerystring = $this->resultstringpath['pathurlstring'];
-echo 'currrent string url';
-print_r($this->resultstringpath);
+//echo 'currrent string url';
+//print_r($this->resultstringpath);
       parse_str($currentpathquerystring, $reformpathquerystring);
-print_r($reformpathquerystring);
+//print_r($reformpathquerystring);
       // reform query path string url for  intention and resultsid
           foreach($reformpathquerystring as $llq=>$qvalue)
           {
@@ -185,8 +185,8 @@ print_r($reformpathquerystring);
              
              }
         }
-echo 'finished url data';         
-print_r($this->lifestylemenudata);
+//echo 'finished url data';         
+//print_r($this->lifestylemenudata);
     
     return $this->lifestylemenudata;
     

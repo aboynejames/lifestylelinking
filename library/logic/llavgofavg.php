@@ -114,7 +114,7 @@ class LLavgOfavg
 */
 	// query couchdb  view called
 //	$result = $client->getView('avgofavgs','by_avgofavgs');
-echo 'couchdb object daataa  avvvvofavvvvg';	 
+//echo 'couchdb object daataa  avvvvofavvvvg';	 
 //print_r($result);
 	 
 	 

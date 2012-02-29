@@ -57,8 +57,8 @@ class LLResults
 	$this->sourcesinresults = $livelistsource;
 	$this->livecommaverage = $liveavgofavg;
 	$this->livematrixcurrent = $livematrix;
-echo 'live matrix in resultttts';
-print_r($this->livematrixcurrent);    
+//echo 'live matrix in resultttts';
+//print_r($this->livematrixcurrent);    
 	$this->resultsManager();
 
 	} 
@@ -77,7 +77,7 @@ print_r($this->livematrixcurrent);
       
 	// extract definition id from livedefinition
 	$this->definitionidlive = key($this->lifestylemenu); 
-echo 'definition live in resultttttts'.$this->definitionidlive;   
+//echo 'definition live in resultttttts'.$this->definitionidlive;   
 	// make sure relevant data is live in memory if not co ordinate other class to get all data ready to go, updated and LL logic flexibility
 	// two types, first arrays of time, source post ids  and then the fuller content (but only those that make the results)
 	// needs to be called here to get source posts authored time (should have this in seperate data to 'lighter' loading?
@@ -102,8 +102,8 @@ $this->sourcesinresults = 2;
 
 		    //  given time window,  and whether filter is on or off and LLlogic build array of relevant data
 		    $this->livescoreldef = $this->buildresultsarray($this->definitionidlive);
-	echo 'livescoredefdata';
-	print_r($this->livescoreldef);
+//echo 'livescoredefdata';
+//print_r($this->livescoreldef);
 		    // prepare weighted listing of qualifying results
 		    $this->makeresults();
 		  
@@ -167,8 +167,8 @@ $this->sourcesinresults = 2;
 	$client = new couchClient ('http://localhost:5984','lifestylelinking');
 	// query couchdb  view called
 	$resulttime = $client->asArray()->startkey($this->starttime)->endkey($this->endtime)->getView('postdate','by_postdate');
-echo 'couchdb date list of posts';
-print_r($resulttime);
+//echo 'couchdb date list of posts';
+//print_r($resulttime);
 	// use list of time relevant post to ...
 	
 	// need to covert this into an array of source and postids.
@@ -178,8 +178,8 @@ print_r($resulttime);
 		$sourcepostsq[$oo['value'][0]][] =  $oo['value'][1]; 
 		
 		}
-echo 'timeresults by source and postid';
-print_r($sourcepostsq);
+//echo 'timeresults by source and postid';
+//print_r($sourcepostsq);
 	
 	$this->resultbatch = $sourcepostsq;
 	
@@ -231,7 +231,7 @@ print_r($sourcepostsq);
 			
 			
 			}
-echo 'afffffffffffffffffffffffffff';
+//echo 'afffffffffffffffffffffffffff';
 //print_r($dataids);
 
 
@@ -255,8 +255,8 @@ echo 'afffffffffffffffffffffffffff';
       $resultslinking = new LLlifestylelinking( $this->linkinglogic);
 //print_r($resultslinking);
       $this->linkingdata = $resultslinking->lldatareturn();
-echo 'peer groups plus any ordering based on LL logic figured out';
-print_r($this->linkingdata);
+//echo 'peer groups plus any ordering based on LL logic figured out';
+//print_r($this->linkingdata);
       //$this->postdatalive = $resultslinking->returnscorestatdatalive();
       
       }
@@ -282,8 +282,8 @@ print_r($this->linkingdata);
 		
 		}
 
-echo 'arrayqualifybypostid';
-print_r($prid);
+//echo 'arrayqualifybypostid';
+//print_r($prid);
      
 	return $prid;
    
@@ -329,8 +329,8 @@ print_r($prid);
 
 					foreach($qposts as $qnid=>$qpid)
 					{
-echo 'sourceiiiiiiiiiiiiiiiiiiiiiid'.$qsource;
-echo 'postcalac'.$qpid;
+//echo 'sourceiiiiiiiiiiiiiiiiiiiiiid'.$qsource;
+//echo 'postcalac'.$qpid;
 					$this->postqualify[$qsource][$qpid] = $this->resultcalc($this->livescoreldef[$qsource][0][$qpid], $this->livescoreldef[$qsource][1]);
 					
 					}
@@ -340,8 +340,8 @@ echo 'postcalac'.$qpid;
 			    
 			}
 			      
-echo 'qualiffffying posts';
-print_r($this->postqualify);
+//echo 'qualiffffying posts';
+//print_r($this->postqualify);
                   }
                }
       //    }
@@ -404,10 +404,10 @@ print_r($this->postqualify);
         {
 
           // Does any content post contain top lifestyle definition word?  (this is pretty primitive, with CQ in use could select top unqiue words needs testing)
-echo 'resultscalcstarted';
-print_r($indscore);
-echo 'resultscalcstatssssss';
-print_r($indstats);
+//echo 'resultscalcstarted';
+//print_r($indscore);
+//echo 'resultscalcstatssssss';
+//print_r($indstats);
 //echo 'what has been passed';
           $topmm = $indscore['matched'][1];
 
@@ -672,8 +672,8 @@ print_r($indstats);
      */ 
 	public function resultsdatahookup ($postresultrequired)
 	{
-echo 'hookup results';   
-print_r($postresultrequired);
+//echo 'hookup results';   
+//print_r($postresultrequired);
 	// given the source and posts qualifying for results, get the source content in memory.
 	
 	foreach($postresultrequired as $ksource=>$qspostarr)
@@ -694,7 +694,7 @@ print_r($postresultrequired);
 		// eat the last ||
 		$postlist = substr($postlist,0,(strLen($postlist)-2));
 
-echo $postlist;
+//echo $postlist;
 
 
 		$blogname = $ksource;
@@ -731,8 +731,8 @@ echo $postlist;
 		$client->storeDoc($design_doc);
 
 		$result = $client->getView('resultsperblog','by_resultsperblog');
-echo 'resultscontentttttt';
-print_r($result);
+//echo 'resultscontentttttt';
+//print_r($result);
 
 
 			foreach($result->rows as $qspid=>$qdetail )

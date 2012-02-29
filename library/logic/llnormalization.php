@@ -41,13 +41,13 @@ class LLnormalization
 	$this->livematrixavg = $matrixavglive;
 	$this->indivsourceids = $listofsourcestonormalize;
 	$this->setdefinition = $definitionlive;
-print_r($this->avgavgcomm);
-echo 'in normalization';
-print_r($this->livematrixavg);
-echo 'indv avg';
-print_r($this->indivsourceids);
-echo 'setdef';
-print_r($this->setdefinition);
+//print_r($this->avgavgcomm);
+//echo 'in normalization';
+//print_r($this->livematrixavg);
+//echo 'indv avg';
+//print_r($this->indivsourceids);
+//echo 'setdef';
+//print_r($this->setdefinition);
 
 
 	$this->normalizationManager();

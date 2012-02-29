@@ -26,8 +26,8 @@ try{
 //print_r($_SERVER);
 //  LLframeworkmanager set to life inputs, identity individuals, definitions, identify content sources (& post from those sources)
 $newapicall = new LLapi();
-print_r($newapicall); 
-echo 'apiclassobject';
+//print_r($newapicall); 
+//echo 'apiclassobject';
 
 }  // closes try
 

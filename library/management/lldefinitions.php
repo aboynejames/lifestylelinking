@@ -38,7 +38,7 @@
       // always check for a. new definiitions, b, updates to definitions (that are proven to be better or of individuals request) 
       $this->defpath = $intentionpath; 
       $this->defin = $indefinition;
-echo $this->defin.'what has come in???';      
+//echo $this->defin.'what has come in???';      
       $this->definitionManager();
       
 	}
@@ -124,8 +124,8 @@ echo $this->defin.'what has come in???';
 	$builddef['definition'] = $this->defin['wikipedia'];
 	$builddef['sourcewords'] = $this->cleanDefinition;
 	$builddef['wisewords'] = $this->wiseDefinition;
-echo 'def data pre couchinsert';
-print_r($builddef);
+//echo 'def data pre couchinsert';
+//print_r($builddef);
 // convert to JSON
 //$JSONbuilddef =  json_encode($builddef);
 //echo $JSONbuilddef ;
