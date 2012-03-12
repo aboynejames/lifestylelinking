@@ -99,7 +99,6 @@ class LLinstallation
 		$design_doc->views = array ( 'by_livesource'=> array ('map' => $view_fn ) );
 		$couchset->storeDoc($design_doc);
 
-	
     }  
 
 
@@ -133,7 +132,6 @@ class LLinstallation
 		$design_doc->language = 'javascript';
 		$design_doc->views = array ( 'by_postdate'=> array ('map' => $view_fn ) );
 		$couchset->storeDoc($design_doc);
-
 	
     }  
 
@@ -164,7 +162,6 @@ class LLinstallation
 		$design_doc->views = array ( 'by_normalized'=> array ('map' => $view_fn ) );
 		$couchset->storeDoc($design_doc);
 
-	
     }  
 
 
