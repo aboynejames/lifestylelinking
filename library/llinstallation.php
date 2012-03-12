@@ -68,7 +68,7 @@ class LLinstallation
     {
     
 	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
-	//$couchset->createCOUCHdatabase();
+	$couchset->createCOUCHdatabase();
         $this->websitesettings['couchdb'] = $this->couch_db;
 	
     }  
@@ -82,7 +82,7 @@ class LLinstallation
     public function setcouchdblivesource ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
 	$setlivesource = "function(doc) {
 	if(doc.livesourcesaved)
 {
@@ -110,7 +110,7 @@ class LLinstallation
     public function setcouchdbpostdate ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
 	$setpostdate = "function(doc) {
 	if(doc.source['posts'] )
 	{
@@ -144,7 +144,7 @@ class LLinstallation
     public function setcouchdbnormalized ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset =  new couchClient($this->couch_dsn, $this->couch_db);
 	$setnormalized = "function(doc) {
 	if(doc.matrixstats['normalized'] )
 	{
