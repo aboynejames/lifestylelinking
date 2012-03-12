@@ -212,7 +212,7 @@ $this->sourcesinresults = 2;
 }
 		";
 
-		  $client = new couchClient ('http://localhost:5984','lifestylelinking');
+		$client = new couchClient ('http://localhost:5984','lifestylelinking');
 		 
 
 		$view_fn= $scoredataldef;

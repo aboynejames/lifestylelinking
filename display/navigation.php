@@ -68,6 +68,7 @@ class LLNavigation
         $this->formurllifestyleurlstrings($this->lifestylelive, $this->lifemenu);
         $this->navigationLifestyle($this->lifestylelive, $this->lifestylemenudata);
         $this->addnewlifestyledefinition ();
+	$this->addnewcontentsource ();
        
        }
         
@@ -264,7 +265,11 @@ $amingfor ='          <header id="banner" class="body">
     }
     
     
-    
+    /**
+     *
+     *
+     *
+     */    
 	public function addnewlifestyledefinition ()
 	{
 	
@@ -273,7 +278,7 @@ $amingfor ='          <header id="banner" class="body">
 <strong>new</strong>
  <form id="addnewlife" action=""  method="post">
 
-<input type="text" id="life_def" name="ll" />
+<input type="text" id="life_def" name="lldef" />
 <p><input id="addnew-life" type="submit" name="submitBtn" value="Add new lifestyle" /> </p>
 
 </form>
@@ -282,6 +287,33 @@ $amingfor ='          <header id="banner" class="body">
 <?php	
 	}
     
+
+
+	/**
+	*
+	*
+	*
+	*/    
+	public function addnewcontentsource ()
+	{
+	
+	
+?>
+<strong>new</strong>
+ <form id="addnewcontent" action=""  method="post">
+
+<input type="text" id="life_content" name="llcont" />
+<p><input id="addnew-content" type="submit" name="submitBtn" value="Add new content feed" /> </p>
+
+</form>
+	
+	
+<?php	
+	}
+    
+
+
+
 
 
 public function tempmenu ()

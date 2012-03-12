@@ -56,7 +56,7 @@ class LLapi
 		      
       $LLstart = new LLcontext();
       $livecontext = $LLstart->setContext();
-//print_r($livecontext);
+print_r($livecontext);
       $this->individual = $livecontext['individual'];
       $this->lifestylemenu = $livecontext['lifestylemenuset'];
       
@@ -217,41 +217,104 @@ class LLapi
         
         elseif($path['intention'] == 'controlpanel')
          {
-          // batch updating via control panel or CRON,  need to pickup all definitions and all sources (figure out what is not up to date and update those needing)
-          //  control panel being used to personalized setting or control updates, sources, definitions, api's themes etc.
-	  
-	  // and ll variable is set   double check the lifestyle definition has not been entered before then, add the definition,  score against existing sources content and produce resutls
-//echo 'controlpanel adddddddddddd';
-	//  this needs to decide if first use, new added, or updated and the priority of processing through framework ie. user directed or background auto-update?  
-         $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     	  
-	  
-	  // next need to put live content source data into live memory and get the content for Core from couchDB
-	$client = new couchClient ('http://localhost:5984','lifestylelinking');
 
-	$result = $client->asArray()->getView('livesource','by_livesource');
-//echo 'livesource controlpannnnnel';
-//print_r($result[rows][0][key]);
-	 $this->livesource = $result[rows][0][key]; 
+	// manual input of new lifestyle definitions and new content sources
+	
+		if(isset($path['lldef']))
+		{
+		// new definitions
+
+		//  this needs to decide if first use, new added, or updated and the priority of processing through framework ie. user directed or background auto-update?  
+		 $this->definitionControl($path['intention'], $definition);  //  intention, iLLlogic,     	  
+		  
+		  // next need to put live content source data into live memory and get the content for Core from couchDB
+		$client = new couchClient ('http://localhost:5984','lifestylelinking');
+
+		$result = $client->asArray()->getView('livesource','by_livesource');
+	//echo 'livesource controlpannnnnel';
+	//print_r($result[rows][0][key]);
+		 $this->livesource = $result[rows][0][key]; 
+		  
+		}
+		elseif(isset($path['llcont']))
+		{
+		// new content source 
+		// need to prioritise the live lifestyle defintion, data mine the new content on it then all others in the framework.
+		
+		// query couchdb to get live defintion data.
+
+$getlivedefintion = "function(doc) {
+
+
+	if(doc.definition == '".$definition."')
+	{
+
+	emit(doc.definition, doc.wisewords);
+	
+	}
+
+}
+		";
+
+		$client = new couchClient ('http://localhost:5984','lifestylelinking');
+		 
+
+		$view_fn= $getlivedefintion;
+		$design_doc->_id = '_design/livedefinition';
+		$design_doc->language = 'javascript';
+		$design_doc->views = array ( 'by_livedefinition'=> array ('map' => $view_fn ) );
+		$client->storeDoc($design_doc);
+
+		$result = $client->asArray()->getView('livedefinition','by_livedefinition');
+//print_r($result);
+
+			foreach($result['rows'] as $s=>$q )
+			{
+
+			$getdatawisewords = $q['value'][$definition];
+			
+			
+			}
+print_r($getdatawisewords);
+	
+	$doc = $client->getDoc('_design/livedefinition');
+
+	$result = $client->deleteDoc($doc);
+
+
+
+		$this->livedefinition = $getdatawisewords;
+		
+		
+		
+		$this->contentControl($path['intention'], $path['life_content']);
+		
+		
+		}
 	  
-	  
-	  
-                   // feed core, manages the priority and background process of whole universe
-         if(isset($this->livesource) && isset($this->livedefinition))
-         {
+	// feed core, manages the priority and background process of whole universe
+	 if(isset($this->livesource) && isset($this->livedefinition))
+	 {
 //echo 'controlpanelcore';	 
-         $this->controlCore($this->livesource, $this->livedefinition);  
-         }
+	 $this->controlCore($this->livesource, $this->livedefinition);  
+	 }
 	 
-         // make display data/presentation code for results, 
-         $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg, $this->livecorematrix);
+	 // make display data/presentation code for results, 
+	 $resultspath = new LLResults($this->meidentity, $this->livedefinition, $path, $this->livelistsource, $this->avgofavg, $this->livecorematrix);
 //print_r($resultspath);      
-         $resultsdata = $resultspath->liveResultsdata();
-         $resultlinking = $resultspath->setdefinitionpathresults();
-         
-         // given user display selection (could be to export via api or display in their framework 
-         $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
+	 $resultsdata = $resultspath->liveResultsdata();
+	 $resultlinking = $resultspath->setdefinitionpathresults();
+	 
+	 // given user display selection (could be to export via api or display in their framework 
+	 $apidisplayPath = new LLapidataDisplay($this->meidentity, $this->lifestyleword, $this->lifestylemenu, $path, $resultsdata, $this->baseurl, $resultlinking);
 //echo 'displayobject';
 //print_r($apidisplayPath); 
+
+
+
+
+	
+	
          }
          
       

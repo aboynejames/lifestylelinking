@@ -150,7 +150,30 @@ $("#hmt").text(urlprofile);
 	 apicall.load(urlprofile, hideLoading);
 	 
 	  }	
-    
+
+	  
+    	else if ($tgt.is("#addnew-content")) {
+
+	//show the loading bar
+	showLoading();
+	//load selected section            
+	url = $($tgt).attr("href");
+		
+	var urlcontentstart = 'api/index.php?intention=controlpanel&logic=single&display=blogposts&pathtime=86400&make=past&filter=on&psource=&stream=10&pathid=&resultsid=&';
+//  api/index.php?ll=Skiing&intention=controlpanel&logic=single&display=blogposts&pathtime=86400&make=past&filter=on&psource=&stream=10&pathid=&resultsid=
+		
+		
+	var urlcprofile = $("form#addnewcontent").serialize();
+
+	var urlncprofile = urlcontentstart + urlcprofile;	
+
+$("#hmt").text(urlcprofile); 	 
+	 
+	 apicall.load(urlncprofile, hideLoading);
+	 
+	  }	
+
+	  
 
     });
 
