@@ -2,7 +2,7 @@
 /**
  * LifestyleLinking
  *
- * Installatio of the LL framework
+ * Installation of the LL framework
  *
  *
  * @package    LifestyleLinking Open Source Project
@@ -38,10 +38,21 @@ class LLinstallation
 	$this->couch_db = $incouch_db;
 	
 	$this->setbaseurl();
+
+	// check if the couchdb exists
+	$clientcouch = new couchClient ('http://localhost:5984','myphpdemo');
+ 
+	$setcouch = $clientcouch->databaseExists();
+ echo $setcouch.'setettetetetet';   
+	if($setcouch != 1 )
+	{
+
 	$this->setcouchdb();
 	$this->setcouchdblivesource();
 	$this->setcouchdbpostdate ();
 	$this->setcouchdbnormalized();
+	
+	}
 	
 	}
     
@@ -70,6 +81,7 @@ class LLinstallation
 	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
 	$couchset->createCOUCHdatabase();
         $this->websitesettings['couchdb'] = $this->couch_db;
+	
 	
     }  
 
