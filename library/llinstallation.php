@@ -74,7 +74,7 @@ class LLinstallation
     }  
 
 
-    /** 
+   /** 
      *  Create standard livesource view
      * 
      *
@@ -82,7 +82,7 @@ class LLinstallation
     public function setcouchdblivesource ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
 	$setlivesource = "function(doc) {
 	if(doc.livesourcesaved)
 {
@@ -97,9 +97,8 @@ class LLinstallation
 		$design_doc->_id = '_design/livesource';
 		$design_doc->language = 'javascript';
 		$design_doc->views = array ( 'by_livesource'=> array ('map' => $view_fn ) );
-		$client->storeDoc($design_doc);
+		$couchset->storeDoc($design_doc);
 
-	
     }  
 
 
@@ -111,7 +110,7 @@ class LLinstallation
     public function setcouchdbpostdate ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
 	$setpostdate = "function(doc) {
 	if(doc.source['posts'] )
 	{
@@ -132,8 +131,7 @@ class LLinstallation
 		$design_doc->_id = '_design/postdate';
 		$design_doc->language = 'javascript';
 		$design_doc->views = array ( 'by_postdate'=> array ('map' => $view_fn ) );
-		$client->storeDoc($design_doc);
-
+		$couchset->storeDoc($design_doc);
 	
     }  
 
@@ -146,7 +144,7 @@ class LLinstallation
     public function setcouchdbnormalized ()
     {
     
-	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
+	 $couchset =  new couchClient($this->couch_dsn, $this->couch_db);
 	$setnormalized = "function(doc) {
 	if(doc.matrixstats['normalized'] )
 	{
@@ -162,9 +160,8 @@ class LLinstallation
 		$design_doc->_id = '_design/normalized';
 		$design_doc->language = 'javascript';
 		$design_doc->views = array ( 'by_normalized'=> array ('map' => $view_fn ) );
-		$client->storeDoc($design_doc);
+		$couchset->storeDoc($design_doc);
 
-	
     }  
 
 
