@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<yc:status xmlns:yc="urn:yahoo:content:v3.0" return="0" code="ERROR_API_DEPRECATED">
+  <yc:text>Deprecated API.</yc:text>
+</yc:status>

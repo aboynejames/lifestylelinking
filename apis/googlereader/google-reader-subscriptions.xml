@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>aboynejames subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline text="aboynejames" title="aboynejames" type="rss"
+            xmlUrl="http://feeds.feedburner.com/aboynejames" htmlUrl="http://aboynejames.blogspot.com/"/>
+        <outline text="aboynejames" title="aboynejames" type="rss"
+            xmlUrl="http://www.aboynejames.co.uk/wordpress/?feed=rss2" htmlUrl="http://www.aboynejames.co.uk/wordpress"/>
+        <outline text="Epeus Epigone" title="Epeus Epigone" type="rss"
+            xmlUrl="http://epeus.blogspot.com/feeds/posts/default" htmlUrl="http://epeus.blogspot.com/"/>
+        <outline text="Google Blog Search: swimming training"
+            title="Google Blog Search: swimming training" type="rss"
+            xmlUrl="http://blogsearch.google.com/blogsearch_feeds?hl=en&amp;q=swimming+training&amp;ie=utf-8&amp;output=atom" htmlUrl="http://blogsearch.google.com/blogsearch?hl=en&amp;q=swimming+training&amp;ie=utf-8"/>
+        <outline text="lifestylelinking" title="lifestylelinking"
+            type="rss"
+            xmlUrl="http://lifestylelinking.blogspot.com/feeds/posts/default" htmlUrl="http://lifestylelinking.blogspot.com/"/>
+        <outline text="mepath.com  lifestlye linking"
+            title="mepath.com  lifestlye linking" type="rss"
+            xmlUrl="http://75.101.138.19/lifestylelinking/rsscode/index.php?lifestyleid=13" htmlUrl="http://75.101.138.19/lifestylelinking/rsscode/index.php"/>
+        <outline
+            text="The Audacity of Marathoning: Confessions in Training"
+            title="The Audacity of Marathoning: Confessions in Training"
+            type="rss"
+            xmlUrl="http://feeds.feedburner.com/blogspot/AbpY" htmlUrl="http://bensrunningblog.blogspot.com/"/>
+    </body>
+</opml>

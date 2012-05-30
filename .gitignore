@@ -1,0 +1,4 @@
+# ignore the local json text files
+api/cache/*
+api/data/*
+couchdb/adminsetup.php
