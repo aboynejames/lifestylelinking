@@ -2,7 +2,7 @@
 /**
  * LifestyleLinking
  *
- * Installatio of the LL framework
+ * Installation of the LL framework
  *
  *
  * @package    LifestyleLinking Open Source Project
@@ -38,11 +38,25 @@ class LLinstallation
 	$this->couch_db = $incouch_db;
 	
 	$this->setbaseurl();
+
+	// check if the couchdb exists
+	$clientcouch = new couchClient ('http://localhost:5984','myphpdemo');
+ 
+	$setcouch = $clientcouch->databaseExists();
+ echo $setcouch.'setettetetetet';   
+	if($setcouch != 1 )
+	{
+
 	$this->setcouchdb();
 	$this->setcouchdblivesource();
 	$this->setcouchdbpostdate ();
 	$this->setcouchdbnormalized();
 	
+<<<<<<< HEAD
+=======
+	}
+	
+>>>>>>> 205535ead4cfd05f87acf2322efdc2a1f505844c
 	}
     
     /** 
@@ -68,9 +82,101 @@ class LLinstallation
     {
     
 	 $couchset = new LLcouchdb($this->couch_dsn, $this->couch_db, $data = null);
-	//$couchset->createCOUCHdatabase();
+	$couchset->createCOUCHdatabase();
         $this->websitesettings['couchdb'] = $this->couch_db;
 	
+	
+    }  
+
+
+    /** 
+     *  Create standard livesource view
+     * 
+     *
+     */ 
+    public function setcouchdblivesource ()
+    {
+    
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
+	$setlivesource = "function(doc) {
+	if(doc.livesourcesaved)
+{
+
+  emit(doc.livesourcesaved, null);
+
+}
+}
+		";
+
+		$view_fn= $setlivesource;
+		$design_doc->_id = '_design/livesource';
+		$design_doc->language = 'javascript';
+		$design_doc->views = array ( 'by_livesource'=> array ('map' => $view_fn ) );
+		$couchset->storeDoc($design_doc);
+
+    }  
+
+
+    /** 
+     *  Create standard blog post date view
+     * 
+     *
+     */ 
+    public function setcouchdbpostdate ()
+    {
+    
+	 $couchset = new couchClient($this->couch_dsn, $this->couch_db);
+	$setpostdate = "function(doc) {
+	if(doc.source['posts'] )
+	{
+
+
+		 for ( var index in doc.source['posts'] )
+		 {
+			emit(doc.source['posts'][index]['authordate'],[doc.source['link'], index]);
+		 }
+
+
+	}
+
+}
+		";
+		 
+		$view_fn= $setpostdate;
+		$design_doc->_id = '_design/postdate';
+		$design_doc->language = 'javascript';
+		$design_doc->views = array ( 'by_postdate'=> array ('map' => $view_fn ) );
+		$couchset->storeDoc($design_doc);
+	
+    }  
+
+
+    /** 
+     *  Create standard  view
+     * 
+     *
+     */ 
+    public function setcouchdbnormalized ()
+    {
+    
+	 $couchset =  new couchClient($this->couch_dsn, $this->couch_db);
+	$setnormalized = "function(doc) {
+	if(doc.matrixstats['normalized'] )
+	{
+
+	emit(doc.matrixstats['normalized'], null);
+
+	}
+
+}
+		";
+		 
+		$view_fn= $setnormalized;
+		$design_doc->_id = '_design/normalized';
+		$design_doc->language = 'javascript';
+		$design_doc->views = array ( 'by_normalized'=> array ('map' => $view_fn ) );
+		$couchset->storeDoc($design_doc);
+
     }  
 
 

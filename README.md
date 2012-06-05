@@ -28,7 +28,7 @@ Requirements
 ------------
 
 * PHP 5.2.12
-* MYSQL 5 (optional)
+* CouchDB
 * many API (optional)
 
 
