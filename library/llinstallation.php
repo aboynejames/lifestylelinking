@@ -40,10 +40,10 @@ class LLinstallation
 	$this->setbaseurl();
 
 	// check if the couchdb exists
-	$clientcouch = new couchClient ('http://localhost:5984','myphpdemo');
+	$clientcouch = new couchClient ('http://localhost:5984','lifestylelinking');
  
 	$setcouch = $clientcouch->databaseExists();
- echo $setcouch.'setettetetetet';   
+// echo $setcouch.'setettetetetet';   
 	if($setcouch != 1 )
 	{
 
