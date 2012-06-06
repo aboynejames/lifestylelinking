@@ -21,7 +21,7 @@ class llframeworkmanagerTest extends PHPUnit_Framework_TestCase
 
     public function testLLinstallation ()
     {
-        $x = new LLinstallation();
+        $x = new LLinstallation('lifestylelinking', 'http://localhost:5984/');
 	$x->baseurl = 'lifestylelinking';
         $this->assertEquals('lifestylelinking', $x->baseurl);
 
