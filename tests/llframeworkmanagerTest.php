@@ -11,6 +11,7 @@ class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
 
     public function testLLframework() {
         $x = new LLframeworkmanager();
+	$x->baseurl = 'lifestylelinking';
 //        $this->assertEquals(1, $x->demo(1));
 	$this->assertClassHasAttribute('individual', $x);
     }    
