@@ -1,12 +1,13 @@
 <?php
 
-require_once("lifestylelinking/llframeworkmanager.php");
+require_once("lifestylelinking/library/llframeworkmanager.php");
 
 class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
 
-    public function startLLframework() {
+    public function testLLframework() {
         $x = new LLframeworkmanager();
 //        $this->assertEquals(1, $x->demo(1));
+	$this->assertClassHasAttribute('individual', $x);
     }
 }
 
