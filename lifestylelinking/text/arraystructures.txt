@@ -1,0 +1,51 @@
+
+Framework Object
+
+1. definitions  input from wikipedia api, string to be clean
+    clean defintion array = framework name - defset  definitionid - a number   list of individual words as authored - each numbered 0 to ..
+
+2. source content
+    clearn source content array = framework name - contSet   souriceid - number  contentitemid - number   list of individual words - order they were authored
+    
+    
+Core Object
+
+Input -  cleanDefinition  &  cleanContent arrays  
+
+1.  wiseDefinition array =   definitionid - number   list of words - [1]  list of top 50 definition words
+
+
+2  wiseContent array =  sourceid - number   contentid - number   list of words - [1]  top 50 list of words
+
+
+
+matrix array contains
+
+(scoring) sourcieid - contentid - defid  - matched & scoring - values
+
+(statistics) avg - sourceid  - defids - values
+
+(normalization) normdata - sourceid - defids - values
+
+-----------------------------------------
+
+(defintition average of averages) avgofavgs   definid - a number   value of group average
+
+
+(groups) lifeGroup    sourceid - a number   list of defitions in order of top to bottom - numbers
+
+
+(results)  results    definitionid - sourceid - [1] -  contentid  - [in]  - value 1 if qualified for results
+
+
+
+
+
+Results logic
+
+
+Do on a per defintions basis >   segment array on a per definition/per source basis (ie those in the results window set) >   then perform results logic calcuations on a per source basis  1. top match word in post?  yes include, if no.  (include if a. def. is into source top five  AND  freq. score avg. for this def. is over 0.75)  pass this rule then will make results list.
+
+
+segment build array =   data  - sourceid -  contentid -  matched & scoring
+                                ids   contentids for an individual source  values
