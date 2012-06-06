@@ -9,13 +9,23 @@ require_once "lifestylelinking/LLcouchdb.php";
 
 class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
 
+/*
     public function testLLframework() {
         $x = new LLframeworkmanager();
 	$x->baseurl = 'lifestylelinking';
 //        $this->assertEquals(1, $x->demo(1));
 	$this->assertClassHasAttribute('individual', $x);
     }    
-    
+*/
+
+    public function testLLinstallation() {
+        $x = new ();
+	$x->baseurl = 'lifestylelinking';
+        $this->assertEquals('lifestylelinking', $x->baseurl);
+
+    }
+
+
 }
 
 ?>
