@@ -1,6 +1,11 @@
 <?php
 
-require_once("lifestylelinking/library/llframeworkmanager.php");
+//set_include_path(get_include_path() . PATH_SEPARATOR . '../');
+//print_r($jam);
+require_once "lifestylelinking/LLlogic.php";
+require_once "lifestylelinking/LLview.php";
+require_once "lifestylelinking/LLcouchdb.php";
+
 
 class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
 
@@ -8,7 +13,8 @@ class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
         $x = new LLframeworkmanager();
 //        $this->assertEquals(1, $x->demo(1));
 	$this->assertClassHasAttribute('individual', $x);
-    }
+    }    
+    
 }
 
 ?>

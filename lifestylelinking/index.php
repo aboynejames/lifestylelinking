@@ -18,7 +18,7 @@
  */
 // stitch together header and content.
 set_include_path(get_include_path() . PATH_SEPARATOR . '../');
-require_once "lifestylelinking/LLlogic.php";
+require_once "LLlogic.php";
 require_once "LLview.php";
 require_once "LLcouchdb.php";
 
