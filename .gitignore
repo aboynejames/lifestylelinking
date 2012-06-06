@@ -1,0 +1,5 @@
+# ignore the local json text files
+lifestylelinking/api/cache/*
+lifestylelinking/api/data/*
+lifestylelinking/couchdb/adminsetup.php
+build/*
