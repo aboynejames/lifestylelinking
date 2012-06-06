@@ -7,7 +7,8 @@ require_once "lifestylelinking/LLview.php";
 require_once "lifestylelinking/LLcouchdb.php";
 
 
-class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
+class llframeworkmanagerTest extends PHPUnit_Framework_TestCase
+{
 
 /*
     public function testLLframework() {
@@ -18,8 +19,9 @@ class llframeworkmanagerTest extends PHPUnit_Framework_TestCase {
     }    
 */
 
-    public function testLLinstallation() {
-        $x = new ();
+    public function testLLinstallation ()
+    {
+        $x = new LLinstallation();
 	$x->baseurl = 'lifestylelinking';
         $this->assertEquals('lifestylelinking', $x->baseurl);
 
