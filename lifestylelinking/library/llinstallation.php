@@ -37,7 +37,7 @@ class LLinstallation
 	$this->couch_dsn = $incouch_dsn;
 	$this->couch_db = $incouch_db;
 	
-//	$this->setbaseurl();
+	//$this->setbaseurl();
 
 	// check if the couchdb exists
 	$clientcouch = new couchClient ('http://localhost:5984','lifestylelinking');

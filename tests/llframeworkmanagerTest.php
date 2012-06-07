@@ -10,6 +10,19 @@ require_once "lifestylelinking/LLcouchdb.php";
 class llframeworkmanagerTest extends PHPUnit_Framework_TestCase
 {
 
+protected $firstinstall;
+
+	protected function setUp() 
+	{
+	
+	$this->firstinstall = new LLinstallation('lifestylelinking', 'http://localhost:5984/');
+	$this->firstinstall->baseurl = 'lifestylelinking';
+	
+	
+	
+	}
+
+
 /*
     public function testLLframework() {
         $x = new LLframeworkmanager();
@@ -21,9 +34,9 @@ class llframeworkmanagerTest extends PHPUnit_Framework_TestCase
 
     public function testLLinstallation ()
     {
-        $x = new LLinstallation('lifestylelinking', 'http://localhost:5984/');
-	$x->baseurl = 'lifestylelinking';
-        $this->assertEquals('lifestylelinking', $x->baseurl);
+        //$x = new LLinstallation('lifestylelinking', 'http://localhost:5984/');
+	$expected = $this->firstinstall->baseurl;
+        $this->assertEquals('lifestylelinking', $expected);
 
     }
 
