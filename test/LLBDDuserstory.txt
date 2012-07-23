@@ -1,0 +1,17 @@
+1. Display a blank html page but complete with HTML header title  'LifestyleLinking - open source project.
+
+Given the url  http://localhost:8866/ is visited
+
+When the page is displayed
+
+Then the page title should be 'LifestyleLinking - open source project.
+
+2. On a webpage select a from of indentity (initiall delicious), sign into that account and display back a tagcloud of their top 50 words. Then the user will drag one of those words to the LLFlow area of the display to be presented with content (blog posts).
+
+Given I have not selected an identity
+
+When I select and login to an identity
+
+Then I should see a tag cloud to represent my delicous identity
+
+Then I should drag a word to the LLflow area box and content blog post will be presented.
