@@ -1,0 +1,37 @@
+{
+    "name" : "LifestyleLinking",
+    "description" : "datamine yourself and connecting to all other life",
+    "homepage": "http://www.lifestylelinking.net>",
+    "version" : "0.0.1",
+    "author" : "James Littlejohn <james@aboynejames.co.uk> (https://twitter.com/aboynejames)",
+    "keywords": [
+        "lifestylelinkling",
+        "connecting",
+        "personalized",
+        "information"
+    ],
+    "contributors": [
+        "some soon",
+        "and then some more",
+        "maybe a community"
+    ],
+"scripts" : {
+        "test" : "node_modules/.bin/buster-test -r specification"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aboynejames/lifestylelinking"
+    },
+    "bugs": {
+        "url": "https://github.com/aboynejames/lifestylelinking/issues"
+    },
+    "main": "./src/index.js",
+    "license": "MIT (http://)",
+    "devDependencies" : {
+        "buster" : ">=0.6.1"
+    },
+    "engines" : {
+        "node" : ">=0.6"
+    }
+}
+
