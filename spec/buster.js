@@ -1,9 +1,21 @@
 var config = module.exports;
 
-config["Backbone unit specs"] = {
-  rootPath: "../",
-  environment: "browser",
-  specs: [
-    "spec/**/*-spec.js"
-  ]
+config["Tests"] = {
+	rootPath: "../",
+    tests: ["spec/*-spec.js"]
 };
+
+config["Browser tests"] = {
+    extends: "Tests",
+    environment: "browser",
+		sources: [
+        "src/*.js"      // Glob patterns supported
+    ],
+};
+
+config["Node tests"] = {
+    extends: "Tests",
+    environment: "node"
+};
+
+	
