@@ -9,5 +9,5 @@
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 * @version    $Id$
 */
-var server = require("./server");
+//var server = require("./server");
 
