@@ -4,7 +4,7 @@
 
 var casper = require("casper").create();
 
-var baseUrl = "http://www.mepath.co.uk:8822/";
+var baseUrl = "http://www.mepath.co.uk:8123";
 
 casper.test.comment("Scenario: A user can view the home page");
 
