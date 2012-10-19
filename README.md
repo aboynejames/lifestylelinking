@@ -11,6 +11,11 @@ The project home is located at <http://www.lifestylelinking.net/>
 
 Wireframing UI located at <https://moqups.com/aboynejames/pzJN9Wyt/>
 
+Build Status (Travis) Jenkins CI is used to run CapserJS and BusterJS.
+----------------
+
+[![Build Status](https://secure.travis-ci.org/aboynejames/lifestylelinking.png)](http://travis-ci.org/aboynejames/lifestylelinking)
+
 
 ### Example ###
 
