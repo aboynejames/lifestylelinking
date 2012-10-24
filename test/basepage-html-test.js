@@ -34,7 +34,7 @@ casper.then(function() {
 
 casper.run(function() {
 // need for exporting xml xunit/junit style
-  this.test.renderResults(true, 0, 'reports/test-casper.xml');
+  this.test.renderResults(true, 0, 'reports/test-casper2.xml');
   this.test.done();
 	this.exit(); 
 });
