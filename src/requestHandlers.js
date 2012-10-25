@@ -16,11 +16,49 @@ function start(fullpath, response) {
 
   fs.readFile('./view/llhomepage.html', function(err, data) {
 	response.writeHead(200, {"Content-Type": "text/html"});
-	//response.write(data);
-	response.end(data);
-	});	
-     
+	response.write(data);
+	response.end();
+	});
+	
 }
 
+/**
+* add the css files
+*
+*/
+function cssmain(fullpath, response) {
+console.log("Request handler 'css' was called.");
+
+	var data  = '';
+
+	if(fullpath[2] == 'main.css')
+	{
+
+		fs.readFile('./css/main.css', function(err, data) {
+			response.writeHead(200, {"Content-Type": "text/css"});
+			response.end(data);
+		});
+  }
+	else if(fullpath[2] == 'reset.css')
+	{
+		
+		fs.readFile('./css/reset.css', function(err, data) {
+			response.writeHead(200, {"Content-Type": "text/css"});
+			response.end(data);
+		});		
+		
+	}
+	else if(fullpath[2] == 'global-forms.css')
+	{
+
+		fs.readFile('./css/global-forms.css', function(err, data) {
+			response.writeHead(200, {"Content-Type": "text/css"});
+			response.end(data);
+		});		
+		
+	}
+	
+}
 
 exports.start = start;
+exports.cssmain = cssmain;

@@ -17,6 +17,7 @@ var util = require('util');
 var handle = {};
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;	
+handle["/css"] = requestHandlers.cssmain;	
 	
 server.start(router.route, handle);
 

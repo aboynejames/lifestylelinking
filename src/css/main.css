@@ -437,7 +437,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 /*
 	Footer
 *****************/
-#contentinfo {padding-bottom: 2em; text-align: center;}
+.cloneme {padding-bottom: 2em; text-align: center;}
 
 /***** Sections *****/
 /* Blog */
