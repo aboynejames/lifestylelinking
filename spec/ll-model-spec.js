@@ -1,12 +1,18 @@
-buster.spec.expose(); // Make some functions global
+if ( typeof require != "undefined") {
+    var buster = require("buster");
+}
 
-describe("A module", function () {
-    it("states the obvious", function () {
-        expect(true).toEqual(true);
-    });
-		
-		    it("states the the second assert in the first test", function () {
-        assert.equals(32, 32);
-    });
-		
+buster.testCase("Multi-environment", {
+    "runs in all environments": function () {
+        assert(true);
+    },
+
+    "sub context": {
+        requiresSupportFor: { "DOM": typeof document != "undefined" },
+
+        "only runs in browser-like environments": function () {
+            // ...
+					assert(true);
+        }
+    }
 });
