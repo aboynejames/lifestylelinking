@@ -14,7 +14,7 @@ function start(fullpath, response) {
 
 	var data  = '';
 
-  fs.readFile('./display/llhomepage.html', function(err, data) {
+  fs.readFile('./view/llhomepage.html', function(err, data) {
 	response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
 	  response.end(data);

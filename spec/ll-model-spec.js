@@ -1,5 +1,12 @@
+/*
 if ( typeof require != "undefined") {
-    var buster = require("buster");
+	var buster = require("buster");
+	var util = require('util');
+	var http = require('http');
+	var url = require("url");
+	var server = require("../src/server.js");
+	var router = require("../src/router.js");
+	var requestHandlers = require("../src/requestHandlers.js");
 }
 
 buster.testCase("Multi-environment", {
@@ -16,3 +23,4 @@ buster.testCase("Multi-environment", {
         }
     }
 });
+*/

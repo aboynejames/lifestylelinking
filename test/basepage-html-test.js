@@ -4,7 +4,7 @@
 
 var casper = require("casper").create();
 
-var baseUrl = "http://localhost/ll/lifestylelinking/src/view/llhomepage.html";
+var baseUrl = "http://localhost:8881";
 
 casper.test.comment("Scenario: A base layout of the first html page sections");
 
@@ -28,7 +28,7 @@ casper.then(function() {
 
 casper.then(function() {
 	this.test.comment('clone footer sectionmarkup repsent');
-	casper.test.assertExists('.clone', 'the element exists');
+	casper.test.assertExists('.cloneme', 'the element exists');
 	
 });
 
