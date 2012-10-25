@@ -10,7 +10,6 @@ function route(handle, pathname, response, request) {
 
 console.log("About to route a request for " + pathname);
 
-	var firstpath = '';
 	var firstpath=pathname.split("/"); 
 
 	var pathlive = '/'+firstpath[1];

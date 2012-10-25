@@ -14,7 +14,7 @@ var router = require("./router");
 var requestHandlers = require("./requestHandlers");
 var util = require('util');
 
-var handle = {}
+var handle = {};
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;	
 	
