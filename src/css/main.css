@@ -121,14 +121,14 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 /*
 	Header
 *****************/
-#banner {
+.identity {
 	margin: 0 auto;
 	padding: 0.0em 0 0 0;
 }
 
-	/* Banner */
-	#banner h1 {font-size: 3.571em; line-height: .6;}
-	#banner h1 a:link, #banner h1 a:visited {
+	/* identity header navigation */
+	.identity h1 {font-size: 3.571em; line-height: .6;}
+	.identity h1 a:link, #banner h1 a:visited {
 		color: #000305;
 		display: block;
 		font-weight: bold;
@@ -136,16 +136,16 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		text-decoration: none;
 		width: 427px;
 	}
-	#banner h1 a:hover, #banner h1 a:active {
+	.identity h1 a:hover, #banner h1 a:active {
 		background: none;
 		color: #C74350;
 		text-shadow: none;
 	}
 	
-	#banner h1 strong {font-size: 0.36em; font-weight: normal;}
+	.identity h1 strong {font-size: 0.36em; font-weight: normal;}
 	
 	/* Main Nav */
-	#banner nav {
+	.identity nav {
 		background: #000305;
 		font-size: 1.143em;
 		height: 40px;
@@ -160,24 +160,24 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		-webkit-border-radius: 5px;
 	}
 	
-	#banner nav ul {list-style: none; margin: 0 auto; width: 800px;}
-	#banner nav li {float: left; display: inline; margin: 0;}
+	.identity nav ul {list-style: none; margin: 0 auto; width: 800px;}
+	.identity nav li {float: left; display: inline; margin: 0; color:#fff}
 	
-	#banner nav a:link, #banner nav a:visited {
+	.identity nav a:link, #banner nav a:visited {
 		color: #fff;
 		display: inline-block;
 		height: 30px;
 		padding: 5px 1.5em;
 		text-decoration: none;
 	}
-	#banner nav a:hover, #banner nav a:active,
-	#banner nav .active a:link, #banner nav .active a:visited {
+	.identity nav a:hover, #banner nav a:active,
+	.identity nav .active a:link, #banner nav .active a:visited {
 		background: #C74451;
 		color: #fff;
 		text-shadow: none !important;
 	}
 	
-	#banner nav li:first-child a {
+	.identity nav li:first-child a {
 		border-top-left-radius: 5px;
 		-moz-border-radius-topleft: 5px;
 		-webkit-border-top-left-radius: 5px;

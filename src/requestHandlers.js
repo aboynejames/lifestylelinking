@@ -57,8 +57,29 @@ console.log("Request handler 'css' was called.");
 		});		
 		
 	}
+
+}
+
+/**
+* add js files
+*
+*/
+function lljs(fullpath, response) {
+console.log("Request handler 'js files' was called.");
+
+	var data  = '';
+
+	if(fullpath[2] == 'llcontrol.js')
+	{
+
+		fs.readFile('./js/llcontrol.js', function(err, data) {
+			response.writeHead(200, {"Content-Type": "text/javascript"});
+			response.end(data);
+		});
+  }
 	
 }
 
 exports.start = start;
 exports.cssmain = cssmain;
+exports.lljs = lljs;
