@@ -1,9 +1,6 @@
 /*
 * check the homepage index.html webpage has been displayed
 */
-
-var casper = require("casper").create();
-
 var baseUrl = "http://localhost:8881";
 
 casper.test.comment("Scenario: A base layout of the first html page sections");
@@ -34,7 +31,7 @@ casper.then(function() {
 
 casper.run(function() {
 // need for exporting xml xunit/junit style
-  this.test.renderResults(true, 0, 'reports/test-casper.xml');
+  //this.test.renderResults(true, 0, 'reports/test-casper.xml');
   this.test.done();
-	this.exit(); 
+	//this.exit(); 
 });
