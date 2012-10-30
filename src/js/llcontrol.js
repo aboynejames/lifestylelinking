@@ -16,12 +16,9 @@ console.log('jquery comes to life');
 			case "delicious": 
 			$(".lifelens").append('<div id="tagcloud"></div>');
 			
-			$.getJSON("http://feeds.delicious.com/v2/json/tags/aboynejames/", function(json) {
-   
-				$("#tagcloud").text(json);
-			});
-			
-			
+			aboynejamestagjson = '{"Swimming": 1, "Skiing": 2, "Hill Walking": 3, "Badminton": 2, "NodeJS": 1}';
+			$("#tagcloud").text(aboynejamestagjson);
+
 			break;
 			
 		}
