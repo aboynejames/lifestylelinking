@@ -11,14 +11,29 @@ var requestHandlers = require("../src/requestHandlers.js");
 */
 function start(fullpath, response) {
   console.log("Request handler 'start' was called.");
-
+console.log(fullpath);
 	var data  = '';
+	
 
-  fs.readFile('./view/llhomepage.html', function(err, data) {
-	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write(data);
-	response.end();
-	});
+	if(fullpath[2] == 'llflow.html')
+	{
+		fs.readFile('./view/llflow.html', function(err, data) {
+		response.writeHead(200, {"Content-Type": "text/html"});
+		response.write(data);
+		response.end();
+		});		
+		
+	}
+	else 
+	{
+		fs.readFile('./view/llhomepage.html', function(err, data) {
+		response.writeHead(200, {"Content-Type": "text/html"});
+		response.write(data);
+		response.end();
+		});
+
+		
+  }
 	
 }
 

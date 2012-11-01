@@ -16,7 +16,7 @@ var util = require('util');
 
 var handle = {};
 handle["/"] = requestHandlers.start;
-handle["/start"] = requestHandlers.start;	
+handle["/view"] = requestHandlers.start;	
 handle["/css"] = requestHandlers.cssmain;
 handle["/js"] =requestHandlers.lljs;	
 	

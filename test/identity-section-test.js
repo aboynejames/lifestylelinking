@@ -14,7 +14,14 @@ casper.start(baseUrl, function() {
 casper.then(function() {
 	this.test.comment('delicious tagcloud div should be inserted');
     casper.test.assertExists('#tagcloud', 'the element exists');
+	this.click('.tagcloudwords li a');
+});
 
+
+casper.then(function() {
+	this.test.comment('lifestylelinking flow menu populated ');
+    casper.test.assertExists('.lifeflow header nav .stream-lifestyle', 'the element exists');
+		casper.test.assertExists('.lifeflow .liveflow', 'the element exists');
 });
 
 casper.run(function() {

@@ -128,7 +128,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 
 	/* identity header navigation */
 	.identity h1 {font-size: 3.571em; line-height: .6;}
-	.identity h1 a:link, #banner h1 a:visited {
+	.identity h1 a:link, .identity h1 a:visited {
 		color: #000305;
 		display: block;
 		font-weight: bold;
@@ -136,7 +136,7 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		text-decoration: none;
 		width: 427px;
 	}
-	.identity h1 a:hover, #banner h1 a:active {
+	.identity h1 a:hover, .identity h1 a:active {
 		background: none;
 		color: #C74350;
 		text-shadow: none;
@@ -163,15 +163,15 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 	.identity nav ul {list-style: none; margin: 0 auto; width: 800px;}
 	.identity nav li {float: left; display: inline; margin: 0; color:#fff}
 	
-	.identity nav a:link, #banner nav a:visited {
+	.identity nav a:link, .identity nav a:visited {
 		color: #fff;
 		display: inline-block;
 		height: 30px;
 		padding: 5px 1.5em;
 		text-decoration: none;
 	}
-	.identity nav a:hover, #banner nav a:active,
-	.identity nav .active a:link, #banner nav .active a:visited {
+	.identity nav a:hover, .identity nav a:active,
+	.identity nav .active a:link, .identity nav .active a:visited {
 		background: #C74451;
 		color: #fff;
 		text-shadow: none !important;
@@ -187,15 +187,38 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		-webkit-border-bottom-left-radius: 5px;
 	}
 
-/*  Account Nav */
+/*  LfeLens section */
 
-#accountnav {
+#opencloselens {
+	background: #F5F5F5;
+	font-size: 1.143em;
+	margin: 0 auto 2em auto;
+	padding: 0;
+	text-align: right;
+	width: 100%;
+	
+}
+
+#tagcloud {
+	background: #F5F5F5;
+	font-size: 1.143em;
+	margin: 0 auto 2em auto;
+	padding: 0;
+	text-align: center;
+	width: 800px;
+	
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#lifeflownav {
 	margin: 0 auto;
 	padding: 0.5em 0 0 0;
 }
 
-#accountnav h1 {font-size: 3.571em; line-height: .6;}
-	#accountnav h1 a:link, #accountnav h1 a:visited {
+#lifeflownav h1 {font-size: 3.571em; line-height: .6;}
+	#lifeflownav h1 a:link, #lifeflownav h1 a:visited {
 		color: #000;
 		display: block;
 		font-weight: bold;
@@ -203,17 +226,16 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		text-decoration: none;
 		width: 427px;
 	}
-	#accountnav h1 a:hover, #accountnav h1 a:active {
+	#lifeflownav h1 a:hover, #lifeflownav h1 a:active {
 		background: none;
 		color: #C74350;
 		text-shadow: none;
 	}
 	
-	#accountnav h1 strong {font-size: 0.36em; font-weight: normal;}
-	
-	/* Account Nav */
-	#accountnav nav {
-		background: #fff;
+	#lifeflownav h1 strong {font-size: 0.36em; font-weight: normal;}
+
+	#lifeflownav nav {
+		background: #FFE4E1;
 		font-size: 1.143em;
 		height: 40px;
 		line-height: 30px;
@@ -227,24 +249,24 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		-webkit-border-radius: 5px;
 	}
 	
-	#accountnav nav ul {list-style: none; margin: 0 auto; width: 800px;}
-	#accountnav nav li {float: right; display: inline; margin: 0;}
+	#lifeflownav nav ul {list-style: none; margin: 0 auto; width: 800px;}
+	#lifeflownav nav li {float: left; display: inline; margin: 0;}
 	
-	#accountnav nav a:link, #banner nav a:visited {
+	#lifeflownav nav a:link, .identity nav a:visited {
 		color: #fff;
 		display: inline-block;
 		height: 30px;
 		padding: 5px 1.5em;
 		text-decoration: none;
 	}
-	#accountnav nav a:hover, #banner nav a:active,
-	#accountnav nav .active a:link, #banner nav .active a:visited {
+	#lifeflownav nav a:hover, .identity nav a:active,
+	#lifeflownav nav .active a:link, .identity nav .active a:visited {
 		background: #C74451;
 		color: #fff;
 		text-shadow: none !important;
 	}
 	
-	#accountnav nav li:first-child a {
+	#lifeflownav nav li:first-child a {
 		border-top-left-radius: 5px;
 		-moz-border-radius-topleft: 5px;
 		-webkit-border-top-left-radius: 5px;
@@ -254,13 +276,13 @@ img.left, figure.left {float: right; margin: 0 0 2em 2em;}
 		-webkit-border-bottom-left-radius: 5px;
 	}
 	
-	#accountnav nav .menu-lifestyle
+	#lifeflownav nav .menu-lifestyle
 	{
 		
 		
 	}	
 	
-	#accountnav nav .stream-lifestyle
+	#lifeflownav nav .stream-lifestyle
 	{
 		
 		
